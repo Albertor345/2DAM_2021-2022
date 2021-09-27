@@ -12,47 +12,28 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
-/**
- * FXML Controller class
- *
- * @author Laura
- */
+
 public class FXMLWelcomeController implements Initializable {
+    private FXMLPrincipalController principal;
 
     @FXML
     private Label fxWelcomeTitle;
-    
-    @FXML
-    private AnchorPane fxWelcomePane;
 
-    // String con el nombre de usuario que le paso desde el login.
+
     private String login;
-    
-    public String getLogin() {
-        return login;
-    }
-    
-    //Acceso a la principal, y otras. (No necesario en menu, pero para botones?)
-    
-    private FXMLPrincipalController principal;
-    private FXMLLoginController loginPane;
-    
-    
 
     public void setLogin(String login) {
         this.login = login;
         fxWelcomeTitle.setText("Welcome " + login);
     }
-    
-    
-    
-    
-    /**
-     * Initializes the controller class.
-     */
+
+    public void setPrincipal(FXMLPrincipalController principal) {
+        this.principal = principal;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //fxWelcomeTitle.setText("Welcome back " + login);
+        fxWelcomeTitle.setText("Welcome back " + login);
     }    
     
 }

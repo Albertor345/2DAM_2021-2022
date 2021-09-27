@@ -6,18 +6,31 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dao.DAOItems;
+import dao.DaoItemsFiles;
 import model.Item;
 
+import javax.inject.Inject;
+
 /**
- *
  * @author dam2
  */
 public class ItemsServices {
-    
-    public ArrayList<Item> getAllItems() {
-        ArrayList<Item> item =  null;
-        return item;
+
+    DAOItems daoItems;
+
+    @Inject
+    public ItemsServices(DAOItems daoItems) {
+        this.daoItems = daoItems;
+    }
+
+    public boolean addItem(Item item) {
+        return daoItems.add(item);
+    }
+
+    public List<Item> getAllItems() {
+        return daoItems.getAll();
     }
 }

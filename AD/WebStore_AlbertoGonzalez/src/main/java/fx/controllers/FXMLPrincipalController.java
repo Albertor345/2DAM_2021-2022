@@ -9,6 +9,7 @@ import fx.controllers.purchases.*;
 import fx.controllers.reviews.*;
 import fx.controllers.customers.*;
 import fx.controllers.items.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,26 +23,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import lombok.Getter;
+import services.ItemsServices;
 
-/**
- * FXML Controller class
- *
- * @author Laura
- */
+import javax.inject.Inject;
+
+@Getter
 public class FXMLPrincipalController implements Initializable {
 
-    //Reference to the top menu to change its visibility when needed.
     @FXML
     private BorderPane fxRoot;
-
-    public void setFxRoot(BorderPane fxRoot) {
-        this.fxRoot = fxRoot;
-    }
-
     @FXML
     private MenuBar fxMenuTop;
 
-    // Get y set of the user to use it wherever we need it
     private String username;
 
     public String getUsername() {
@@ -52,59 +46,90 @@ public class FXMLPrincipalController implements Initializable {
         this.username = username;
     }
 
-    // References to other panes to load them and access their controllers
+    @Inject
+    public FXMLPrincipalController(FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, ItemsServices itemsServices) {
+        this.loginLoader = loginLoader;
+        this.welcomeLoader = welcomeLoader;
+        this.purchasesLoader = purchasesLoader;
+        this.datePurchasesLoader = datePurchasesLoader;
+        this.deleteLoader = deleteLoader;
+        this.addCustomerLoader = addCustomerLoader;
+        this.findCustomerLoader = findCustomerLoader;
+        this.deleteCustomerLoader = deleteCustomerLoader;
+        this.addReviewLoader = addReviewLoader;
+        this.findReviewLoader = findReviewLoader;
+        this.deleteReviewLoader = deleteReviewLoader;
+        this.addItemsLoader = addItemsLoader;
+        this.itemsServices = itemsServices;
+    }
+
+    private ItemsServices itemsServices;
+
+
     private AnchorPane login;
     private FXMLLoginController loginController;
+    private FXMLLoader loginLoader;
+
     private AnchorPane welcome;
     private FXMLWelcomeController welcomeController;
+    private FXMLLoader welcomeLoader;
 
     private AnchorPane purchases;
     private FXMLPurchasesController purchasesController;
+    private FXMLLoader purchasesLoader;
+
     private AnchorPane datePurchases;
     private FXMLDatePurchasesController datePurchasesController;
+    private FXMLLoader datePurchasesLoader;
+
     private AnchorPane delete;
     private FXMLDeleteController deleteController;
+    private FXMLLoader deleteLoader;
 
     private AnchorPane addCustomer;
     private FXMLAddCustomerController addCustomerController;
+    private FXMLLoader addCustomerLoader;
+
     private AnchorPane findCustomer;
     private FXMLfindCustomerController findCustomerController;
+    private FXMLLoader findCustomerLoader;
+
     private AnchorPane deleteCustomer;
     private FXMLdeleteCustomerController deleteCustomerController;
+    private FXMLLoader deleteCustomerLoader;
 
     private AnchorPane addReview;
     private FXMLAddReviewController addReviewController;
+    private FXMLLoader addReviewLoader;
+
     private AnchorPane findReview;
     private FXMLfindReviewController findReviewController;
+    private FXMLLoader findReviewLoader;
+
     private AnchorPane deleteReview;
     private FXMLdeleteReviewController deleteReviewController;
+    private FXMLLoader deleteReviewLoader;
 
-    private AnchorPane listItems;
-    private FXMLListItemsController listItemsController;
+    private AnchorPane addItems;
+    private FXMLAddItemsController addItemsController;
+    private FXMLLoader addItemsLoader;
+
 
     public void preloadLogin() {
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/FXMLLogin.fxml"));
-            login = loaderMenu.load();
-            loginController
-                    = loaderMenu.getController();
-
+            login = loginLoader.load(getClass().getResourceAsStream("/fxml/FXMLLogin.fxml"));
+            loginController = loginLoader.getController();
             loginController.setPrincipal(this);
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
+
     public void preloadWelcome() {
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/FXMLWelcome.fxml"));
-            welcome = loaderMenu.load();
-            welcomeController = loaderMenu.getController();
-
+            welcome = welcomeLoader.load(getClass().getResourceAsStream("/fxml/FXMLWelcome.fxml"));
+            welcomeController = welcomeLoader.getController();
+            welcomeController.setPrincipal(this);
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -112,37 +137,27 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadPurchases() {
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/purchases/FXMLPurchases.fxml"));
-            purchases = loaderMenu.load();
-            purchasesController = loaderMenu.getController();
-
+            purchases = purchasesLoader.load(getClass().getResourceAsStream("/fxml/purchases/FXMLPurchases.fxml"));
+            purchasesController = purchasesLoader.getController();
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void preloadDatePurchases() {
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/purchases/FXMLDatePurchases.fxml"));
-            datePurchases = loaderMenu.load();
-            datePurchasesController = loaderMenu.getController();
+            datePurchases = datePurchasesLoader.load(getClass().getResourceAsStream("/fxml/purchases/FXMLDatePurchases.fxml"));
+            datePurchasesController = datePurchasesLoader.getController();
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void preloadDelete() {
-
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/purchases/FXMLDelete.fxml"));
-            delete = loaderMenu.load();
-            deleteController = loaderMenu.getController();
-
+            delete = deleteLoader.load(getClass().getResourceAsStream("/fxml/purchases/FXMLDelete.fxml"));
+            deleteController = deleteLoader.getController();
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -150,41 +165,31 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void preloadAddCustomer() {
-
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/customers/FXMLAddCustomer.fxml"));
-            addCustomer = loaderMenu.load();
-            addCustomerController = loaderMenu.getController();
+            addCustomer = addCustomerLoader.load(getClass().getResource("/fxml/customers/FXMLAddCustomer.fxml"));
+            addCustomerController = addCustomerLoader.getController();
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+
     public void preloadFindCustomer() {
-
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/customers/FXMLfindCustomer.fxml"));
-            findCustomer = loaderMenu.load();
-            findCustomerController = loaderMenu.getController();
+            findCustomer = findCustomerLoader.load(getClass().getResource("/fxml/customers/FXMLfindCustomer.fxml"));
+            findCustomerController = findCustomerLoader.getController();
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-    public void preloadDeleteCustomer() {
 
+    public void preloadDeleteCustomer() {
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/customers/FXMLdeleteCustomer.fxml"));
-            deleteCustomer = loaderMenu.load();
-            deleteCustomerController = loaderMenu.getController();
+            deleteCustomer = deleteCustomerLoader.load(getClass().getResource("/fxml/customers/FXMLdeleteCustomer.fxml"));
+            deleteCustomerController = deleteCustomerLoader.getController();
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -193,41 +198,31 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void preloadAddReview() {
-
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/reviews/FXMLaddReview.fxml"));
-            addReview = loaderMenu.load();
-            addReviewController = loaderMenu.getController();
+            addReview = addReviewLoader.load(getClass().getResource("/fxml/reviews/FXMLaddReview.fxml"));
+            addReviewController = addReviewLoader.getController();
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+
     public void preloadFindReview() {
-
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/reviews/FXMLfindReview.fxml"));
-            findReview = loaderMenu.load();
-            findReviewController = loaderMenu.getController();
+            findReview = findReviewLoader.load(getClass().getResource("/fxml/reviews/FXMLfindReview.fxml"));
+            findReviewController = findReviewLoader.getController();
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+
     public void preloadDeleteReview() {
-
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/reviews/FXMLdeleteReview.fxml"));
-            deleteReview = loaderMenu.load();
-            deleteReviewController = loaderMenu.getController();
+            deleteReview = deleteReviewLoader.load(getClass().getResource("/fxml/reviews/FXMLdeleteReview.fxml"));
+            deleteReviewController = deleteReviewLoader.getController();
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,15 +230,12 @@ public class FXMLPrincipalController implements Initializable {
 
     }
 
-    public void preloadListItems() {
-
+    public void preloadAddItems() {
         try {
-            FXMLLoader loaderMenu = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/items/FXMLListItems.fxml"));
-            listItems = loaderMenu.load();
-            listItemsController = loaderMenu.getController();
-
+            addItems = addItemsLoader.load(getClass().getResourceAsStream("/fxml/items/FXMLAddItems.fxml"));
+            addItemsController = addItemsLoader.getController();
+            addItemsController.setPrincipal(this);
+            addItemsController.loadList(itemsServices.getAllItems());
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -254,20 +246,23 @@ public class FXMLPrincipalController implements Initializable {
         fxRoot.setCenter(login);
         fxMenuTop.setVisible(false);
     }
+
     public void chargeWelcome() {
         welcomeController.setLogin(this.getUsername());
         fxMenuTop.setVisible(true);
         fxRoot.setCenter(welcome);
     }
-    
+
     public void chargePurchases() {
         purchasesController.load();
         fxRoot.setCenter(purchases);
     }
+
     public void chargeDatePurchases() {
         datePurchasesController.loadPurchasesList();
         fxRoot.setCenter(datePurchases);
     }
+
     public void chargeDelete() {
         deleteController.loadPurchases();
         fxRoot.setCenter(delete);
@@ -277,10 +272,12 @@ public class FXMLPrincipalController implements Initializable {
         addCustomerController.loadCustomersList();
         fxRoot.setCenter(addCustomer);
     }
+
     public void chargeFindCustomer() {
 
         fxRoot.setCenter(findCustomer);
     }
+
     public void chargeDeleteCustomer() {
         deleteCustomerController.loadCustomersList();
         fxRoot.setCenter(deleteCustomer);
@@ -290,23 +287,21 @@ public class FXMLPrincipalController implements Initializable {
         addReviewController.loadCustomers();
         fxRoot.setCenter(addReview);
     }
+
     public void chargeDeleteReview() {
         deleteReviewController.loadCustomersList();
         fxRoot.setCenter(deleteReview);
     }
+
     public void chargeFindReview() {
         findReviewController.loadItems();
         fxRoot.setCenter(findReview);
     }
 
-    public void listItems(ActionEvent actionEvent) {
-        listItemsController.loadItemsList();
-        fxRoot.setCenter(listItems);
+    public void chargeAddItem() {
+        fxRoot.setCenter(addItems);
     }
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         preloadWelcome();
@@ -324,7 +319,7 @@ public class FXMLPrincipalController implements Initializable {
         preloadDeleteReview();
         preloadFindReview();
 
-        preloadListItems();
+        preloadAddItems();
 
         chargeLogin();
 

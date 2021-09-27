@@ -13,9 +13,10 @@ import java.util.List;
  *
  */
 public interface DAOItems {
+
     void update(Item item);
 
-    void add(Item item);
+    boolean add(Item item);
 
     void delete(Item item);
 

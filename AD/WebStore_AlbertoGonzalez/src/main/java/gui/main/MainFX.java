@@ -19,7 +19,7 @@ public class MainFX {
 
     public void start(@Observes @StartupScene Stage stage) {
         try {
-            Parent fxmlParent = fxmlLoader.load(getClass().getResourceAsStream("/fxml/mainPane.fxml"));
+            Parent fxmlParent = fxmlLoader.load(getClass().getResourceAsStream("/fxml/FXMLPrincipal.fxml"));
             stage.setScene(new Scene(fxmlParent, 300, 100));
             stage.setTitle("JavaFX");
             stage.show();

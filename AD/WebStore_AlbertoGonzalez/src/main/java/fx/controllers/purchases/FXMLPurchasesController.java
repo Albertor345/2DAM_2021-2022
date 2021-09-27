@@ -8,6 +8,7 @@ package fx.controllers.purchases;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -31,11 +32,10 @@ public class FXMLPurchasesController implements Initializable {
     @FXML
     private DatePicker dateBox;
 
-    
-    public void load()
-    {
+
+    public void load() {
     }
-    
+
     public void loadPurchasesList() {
     }
 

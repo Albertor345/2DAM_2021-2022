@@ -8,17 +8,17 @@
 
 
     <EditText
-        android:id="@+id/textViewUser"
+        android:id="@+id/editTextUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Nombre"
-        app:layout_constraintBottom_toTopOf="@id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@id/editTextPassword"
         app:layout_constraintEnd_toStartOf="@id/guideRight"
         app:layout_constraintStart_toEndOf="@id/guideLeft"
         app:layout_constraintTop_toBottomOf="@id/guideTop" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Password"
@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideMid"
         app:layout_constraintEnd_toStartOf="@id/guideRight"
         app:layout_constraintStart_toEndOf="@id/guideLeft"
-        app:layout_constraintTop_toBottomOf="@id/textViewUser" />
+        app:layout_constraintTop_toBottomOf="@id/editTextUser" />
 
     <Button
         android:id="@+id/loginButton"

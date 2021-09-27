@@ -52,19 +52,12 @@ public class DaoItemsFiles implements DAOItems {
             List<String> lista;
             while ((st = br.readLine()) != null) {
                 lista = Arrays.stream(st.split(" ")).collect(Collectors.toList());
-                Item item = new Item();
-                for (int i = 0; i < 4; i++) {
-                    if (i == 0) {
-                        item.setIdItem(Integer.parseInt(lista.get(0)));
-                    } else if (i == 1) {
-                        item.setName(lista.get(1));
-                    } else if (i == 2) {
-                        item.setCompany(lista.get(2));
-                    } else {
-                        item.setPrice(Double.parseDouble(lista.get(3)));
-                        items.add(item);
-                    }
-                }
+                items.add(Item.builder()
+                        .idItem(Integer.parseInt(lista.get(0)))
+                        .name(lista.get(1))
+                        .company(lista.get(2))
+                        .price(Double.parseDouble(lista.get(3)))
+                        .build());
             }
             return items;
         } catch (IOException ex) {

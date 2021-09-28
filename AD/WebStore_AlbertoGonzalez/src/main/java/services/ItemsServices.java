@@ -27,10 +27,18 @@ public class ItemsServices {
     }
 
     public boolean addItem(Item item) {
-        return daoItems.add(item);
+        if (!checkItemID(getAllItems(), item)){
+            return daoItems.add(item);
+        }else{
+            return false;
+        }
     }
 
     public List<Item> getAllItems() {
         return daoItems.getAll();
+    }
+
+    private boolean checkItemID(List<Item> allItems, Item item){
+        return allItems.stream().anyMatch(item1 -> item1.getIdItem() == item.getIdItem());
     }
 }

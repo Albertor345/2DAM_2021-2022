@@ -18,7 +18,7 @@ public class DaoItemsFiles implements DAOItems {
 
         try (FileWriter writer = new FileWriter(file, true);
              BufferedWriter bw = new BufferedWriter(writer)) {
-            String content = "\n" + item.getIdItem() + " " + item.getName() + " " + item.getCompany() + " " + item.getPrice();
+            String content = item.getIdItem() + " " + item.getName() + " " + item.getCompany() + " " + item.getPrice() + "\n";
             bw.write(content);
             return true;
         } catch (IOException ex) {

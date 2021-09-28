@@ -34,6 +34,8 @@ public class ItemsServices {
         }
     }
 
+
+
     public List<Item> getAllItems() {
         return daoItems.getAll();
     }

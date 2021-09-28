@@ -21,17 +21,20 @@ class MainActivity : AppCompatActivity() {
         button = findViewById(R.id.loginButton)
         viewUser = findViewById(R.id.editTextUser)
         viewPass = findViewById(R.id.editTextPassword)
+        println(viewPass)
         setListeners()
     }
 
     private fun setListeners() {
+
         button.setOnClickListener {
-            if (viewUser.text.equals(user) && viewPass.text.equals(password))
+            if (viewUser.text.toString() == user && viewPass.text.toString() == password)
                 Toast.makeText(this, "Bienvenido $user", Toast.LENGTH_LONG).show()
-            else
-                viewUser.setText("")
-                viewPass.setText("")
-            Toast.makeText(this, "Usuario o Password no validos", Toast.LENGTH_SHORT).show()
+             else
+                Toast.makeText(this, "Usuario o Password no validos", Toast.LENGTH_SHORT).show()
+
+            viewUser.setText("")
+            viewPass.setText("")
         }
     }
 

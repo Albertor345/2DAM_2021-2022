@@ -29,6 +29,7 @@ public class FXMLAddItemsController implements Initializable {
     @FXML
     private TextField textFieldID;
 
+
     Alert alert;
     private FXMLPrincipalController principal;
 

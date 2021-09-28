@@ -1,5 +1,6 @@
 package dao;
 
+import configuration.ConfigProperties;
 import model.Item;
 
 import java.io.*;
@@ -14,7 +15,7 @@ public class DaoItemsFiles implements DAOItems {
 
     @Override
     public boolean add(Item item) {
-        File file = new File("Data/items.txt");
+        File file = new File(ConfigProperties.getInstance().getProperty("items"));
 
         try (FileWriter writer = new FileWriter(file, true);
              BufferedWriter bw = new BufferedWriter(writer)) {
@@ -45,7 +46,7 @@ public class DaoItemsFiles implements DAOItems {
     @Override
     public List<Item> getAll() {
         List<Item> items = new ArrayList<>();
-        File file = new File("Data/items.txt");
+        File file = new File(ConfigProperties.getInstance().getProperty("items"));
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String st;

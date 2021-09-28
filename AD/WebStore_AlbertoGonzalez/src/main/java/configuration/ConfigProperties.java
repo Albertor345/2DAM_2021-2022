@@ -5,7 +5,10 @@
  */
 package configuration;
 
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -26,6 +29,20 @@ public class ConfigProperties {
 
     private ConfigProperties() {
 
+    }
+
+    public static ConfigProperties getInstance() {
+        if (configurationProperties == null) {
+            try {
+                configurationProperties = new ConfigProperties();
+                configurationProperties.properties = new Properties();
+                configurationProperties.properties.loadFromXML(new FileInputStream("propertiesFiles/settings.xml"));
+            } catch (IOException ex) {
+                Logger.getLogger(ConfigProperties.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return configurationProperties;
     }
 
 }

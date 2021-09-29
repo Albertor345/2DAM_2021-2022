@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PantallaCrudPersonas</string>
+    <string name="nameTextFieldIconContentDescription">name icon</string>
+</resources>

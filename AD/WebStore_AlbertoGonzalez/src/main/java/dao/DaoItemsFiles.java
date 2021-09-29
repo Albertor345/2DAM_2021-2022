@@ -47,8 +47,7 @@ public class DaoItemsFiles implements DAOItems {
     public List<Item> getAll() {
         List<Item> items = new ArrayList<>();
         File file = new File(ConfigProperties.getInstance().getProperty("items"));
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
+        try (BufferedReader br = new BufferedReader(new FileReader(file));){
             String st;
             List<String> lista;
             while ((st = br.readLine()) != null) {

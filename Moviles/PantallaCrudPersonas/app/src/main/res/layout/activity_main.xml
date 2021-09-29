@@ -14,6 +14,7 @@
         app:counterEnabled="true"
         android:labelFor="@+id/textFieldNameLabel"
         app:counterMaxLength="100"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@id/PersonAge"
         app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintHorizontal_chainStyle="packed"

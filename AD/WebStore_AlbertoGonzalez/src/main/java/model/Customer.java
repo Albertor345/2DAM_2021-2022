@@ -5,6 +5,11 @@
  */
 package model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -12,6 +17,10 @@ import java.util.Objects;
  *
  * @author dam2
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@Builder
 public class Customer {
 
     private int idCustomer;
@@ -20,83 +29,20 @@ public class Customer {
     private String address;
     private ArrayList<Review> reviews;
 
-    public Customer() {
-    }
-
-    public Customer(int idCustomer, String name, String phone, String address) {
-        this.idCustomer = idCustomer;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        reviews = new ArrayList();
-    }
-
-    public int getIdCustomer() {
-        return idCustomer;
-    }
-
-    public void setIdCustomer(int idCustomer) {
-        this.idCustomer = idCustomer;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public ArrayList<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(ArrayList<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void addReview(Review review) {
-        reviews.add(review);
-    }
-
-    public String toStringShort() {
-        return Integer.toString(idCustomer) + " - " + name;
-    }
-
-    public String toStringTexto() {
-        return idCustomer + "/" + name + "/" + phone + "/" + address + "/" + reviews;
-    }
-
-    public String toStringReviews() {
+   /* public String toStringReviews() {
         ArrayList<String> rev = new ArrayList();
-        
+
         if(reviews != null){
             for (int i = 0; i < reviews.size(); i++) {
                 rev.add(reviews.get(i).toStringVisual());
             }
         }
-        
-        
+
+
         return "ID: " + idCustomer + "  Name: " + name
                 + "\nPhone: " + phone + "  Address: " + address
                 + "\n\n======       Reviews done by this client:      ======\n\n" + rev;
-    }
+    }*/
 
     @Override
     public String toString() {

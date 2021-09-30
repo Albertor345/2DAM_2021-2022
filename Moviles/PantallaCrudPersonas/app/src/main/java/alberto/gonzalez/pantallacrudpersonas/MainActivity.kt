@@ -13,6 +13,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        list = mutableListOf(Persona(1, "Melvin", LocalDateTime.now()));
+        list = mutableListOf(Persona(1, "Melvin", 22));
     }
 }

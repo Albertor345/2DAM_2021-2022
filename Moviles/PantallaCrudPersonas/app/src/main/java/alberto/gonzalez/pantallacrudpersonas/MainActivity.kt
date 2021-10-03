@@ -82,24 +82,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addPerson() {
-        try {
-            val p = Persona(
-                (list.size + 1),
-                textInputName.editText?.text.toString(),
-                textInputAge.editText?.text.toString().toInt(),
-                radioGroup.checkedRadioButtonId
-            )
-            if (validatePerson(p)) {
-                list.add(p)
-                Toast.makeText(this, "Persona añadida con exito", Toast.LENGTH_SHORT).show()
-                println(p)
-                loadPerson(list[0])
-                currentIndex = 0
-                checkBox.isChecked = false
-            } else Toast.makeText(this, "Datos introducidos no validos", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-
-        }
+        val p = Persona(
+            (list.size + 1),
+            textInputName.editText?.text.toString(),
+            textInputAge.editText?.text.toString().toInt(),
+            radioGroup.checkedRadioButtonId
+        )
+        if (validatePerson(p)) {
+            list.add(p)
+            Toast.makeText(this, "Persona añadida con exito", Toast.LENGTH_SHORT).show()
+            println(p)
+            loadPerson(list[0])
+            currentIndex = 0
+            checkBox.isChecked = false
+        } else Toast.makeText(this, "Datos introducidos no validos", Toast.LENGTH_SHORT).show()
     }
 
     fun validatePerson(p: Persona): Boolean {

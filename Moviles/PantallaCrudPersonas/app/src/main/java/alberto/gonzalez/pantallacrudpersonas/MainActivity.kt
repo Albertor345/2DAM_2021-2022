@@ -7,6 +7,7 @@ import android.widget.CheckBox
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.text.isDigitsOnly
+import androidx.core.text.set
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.lang.Exception
@@ -72,8 +73,8 @@ class MainActivity : AppCompatActivity() {
     fun checkBoxListener() {
         buttonAdd.isEnabled = !buttonAdd.isEnabled
         buttonUpdate.isEnabled = !buttonUpdate.isEnabled
-        buttonPrevious.isEnabled = !buttonPrevious.isEnabled
-        buttonNext.isEnabled = !buttonNext.isEnabled
+        buttonPrevious.isEnabled = currentIndex > 0
+        buttonNext.isEnabled = currentIndex < list.size - 1
         buttonDelete.isEnabled = !buttonDelete.isEnabled
         textInputName.isEnabled = !textInputName.isEnabled
         textInputAge.isEnabled = !textInputAge.isEnabled
@@ -107,9 +108,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun delPerson() {
-        list.removeAt(currentIndex)
-        if(list.size != 0) loadPerson(list[0])
-        Toast.makeText(this, "Persona eliminada", Toast.LENGTH_SHORT).show()
+        if (list.size != 0) {
+            list.removeAt(currentIndex)
+            currentIndex = 0
+            if (list.size != 0) {
+                loadPerson(list[0])
+                buttonPrevious.isEnabled = false
+                buttonNext.isEnabled = currentIndex < list.size - 1
+            } else clear()
+            Toast.makeText(this, "Persona eliminada", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "No hay personas, añade una primero", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun updatePerson() {
@@ -132,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
     fun nextPerson() {
         currentIndex++
-        buttonNext.isEnabled = currentIndex < list.size -1
+        buttonNext.isEnabled = currentIndex < list.size - 1
         buttonPrevious.isEnabled = true
         var persona = list[currentIndex]
         loadPerson(persona)
@@ -142,6 +152,11 @@ class MainActivity : AppCompatActivity() {
         textInputName.editText?.setText(persona.name)
         textInputAge.editText?.setText(persona.age.toString())
         radioGroup.check(persona.gender)
+    }
+
+    fun clear() {
+        textInputName.editText?.setText("")
+        textInputAge.editText?.setText("")
     }
 
 }

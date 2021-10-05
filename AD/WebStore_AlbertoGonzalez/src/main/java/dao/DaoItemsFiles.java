@@ -36,19 +36,31 @@ public class DaoItemsFiles implements DAOItems {
     @Override
     public boolean delete(Item item) {
         List<Item> listItems = getAll();
-        return listItems.remove(item);
+        File file = new File(ConfigProperties.getInstance().getProperty("items"));
+        try (FileWriter writer = new FileWriter(file, false);
+             BufferedWriter bw = new BufferedWriter(writer)) {
+            bw.write("");
+            listItems.remove(item);
+            listItems.forEach(item1 -> add(item1));
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
     }
 
     @Override
     public Item get(Item item) {
-        return null;
+        List<Item> listItems = getAll();
+        return listItems.get(item.getIdItem());
     }
 
     @Override
     public List<Item> getAll() {
         List<Item> items = new ArrayList<>();
         File file = new File(ConfigProperties.getInstance().getProperty("items"));
-        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String st;
             List<String> lista;
             while ((st = br.readLine()) != null) {

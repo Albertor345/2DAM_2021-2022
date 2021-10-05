@@ -5,42 +5,57 @@
  */
 package services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dao.DAOItems;
-import dao.DaoItemsFiles;
+import dao.DAOPurchases;
 import model.Item;
+import model.Purchase;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author dam2
  */
 public class ItemsServices {
 
-    DAOItems daoItems;
+    private DAOItems daoItems;
+    private DAOPurchases daoPurchases;
 
     @Inject
-    public ItemsServices(DAOItems daoItems) {
+    public ItemsServices(DAOItems daoItems, DAOPurchases daoPurchases) {
         this.daoItems = daoItems;
+        this.daoPurchases = daoPurchases;
     }
 
     public boolean addItem(Item item) {
-        if (!checkItemID(getAllItems(), item)){
+        if (!checkItemID(getAllItems(), item)) {
             return daoItems.add(item);
-        }else{
+        } else {
             return false;
         }
     }
 
+    public boolean deleteItem(Item item) {
+        if (daoPurchases.deleteAllPurchasesFromAnItem(item)) {
+            return daoItems.delete(item);
+        }
+        return false;
+    }
 
 
     public List<Item> getAllItems() {
         return daoItems.getAll();
     }
 
-    private boolean checkItemID(List<Item> allItems, Item item){
-        return allItems.stream().anyMatch(item1 -> item1.getIdItem() == item.getIdItem());
+    private boolean checkItemID(List<Item> allItems, Item item) {
+        return allItems.stream().anyMatch(checkingItem -> checkingItem.getIdItem() == item.getIdItem());
     }
+
+    public boolean checkItemPurchases(Item item) {
+        List<Purchase> purchaseList = daoPurchases.getAll();
+        return purchaseList.stream()
+                .map(purchase -> purchase.getItemID())
+                .anyMatch(itemID -> item.getIdItem() == itemID);
+    }
+
 }

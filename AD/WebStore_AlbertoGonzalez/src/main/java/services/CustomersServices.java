@@ -5,32 +5,36 @@
  */
 package services;
 
-import java.util.ArrayList;
+import dao.DAOCustomers;
 import model.Customer;
 
-/**
- *
- * @author Laura
- */
+import javax.inject.Inject;
+import java.util.List;
+
+
 public class CustomersServices {
 
-    public ArrayList<Customer> getAllCustomers() {
-        ArrayList<Customer> custo =  null;
-        return custo;
+    DAOCustomers daoCustomers;
+
+    @Inject
+    public CustomersServices(DAOCustomers daoCustomers) {
+        this.daoCustomers = daoCustomers;
     }
 
-        public ArrayList<String> searchById(int id) {
-            ArrayList<String> st =  null;
-            return st;
+    public List<Customer> getAllCustomers() {
+        return daoCustomers.getAll();
+    }
+
+    public List<Customer> get(int id) {
+        return null;
     }
 
     public void deleteCustomer(Customer customer) {
 
     }
 
-    public Customer addCustomer(String customerId, String name, String phone, String address) {
-        Customer custo =  null;
-        return custo;
+    public boolean addCustomer(Customer customer) {
+        return false;
     }
 
 }

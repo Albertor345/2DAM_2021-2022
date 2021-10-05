@@ -5,37 +5,47 @@
  */
 package services;
 
-import java.util.ArrayList;
-
+import dao.DAOPurchases;
+import model.Item;
 import model.Purchase;
 
-/**
- *
- * @author dam2
- */
+import javax.inject.Inject;
+import java.time.LocalDate;
+import java.util.List;
+
+
 public class PurchasesServices {
 
-    public ArrayList<Purchase> getAllPurchases() {
-        ArrayList<Purchase> purch =  null;
-        return purch;
+    private DAOPurchases daoPurchases;
+
+    @Inject
+    public PurchasesServices(DAOPurchases daoPurchases) {
+        this.daoPurchases = daoPurchases;
     }
 
-    public ArrayList<Purchase> searchByDate(String date) {
-        ArrayList<Purchase> purch =  null;
-        return purch;
+    public List<Purchase> getAllPurchases() {
+        return daoPurchases.getAll();
     }
 
-    public ArrayList<Purchase> getPurchasesByClientId(int id) {
-        ArrayList<Purchase> purch =  null;
-        return purch;
+    public List<Purchase> getPurchaseByDate(LocalDate date) {
+        return null;
     }
 
-    public void deletePurchase(Purchase purchase) {
-     }
+    public List<Purchase> getPurchasesByClientId(int id) {
+        return null;
+    }
 
-    public Purchase addPurchase(String customerId, String itemId, String date) {
-        Purchase newPurchase = null;
-        return newPurchase;
+    public boolean deletePurchase(Purchase purchase) {
+        return daoPurchases.delete(purchase);
+    }
+
+    public boolean deleteAllPurchasesFromAnItem(Item item) {
+        return daoPurchases.deleteAllPurchasesFromAnItem(item);
+    }
+
+
+    public boolean addPurchase(Purchase purchase) {
+        return daoPurchases.add(purchase);
     }
 
 }

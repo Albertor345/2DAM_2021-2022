@@ -8,6 +8,8 @@ package model;
 
 import lombok.*;
 
+import java.util.Objects;
+
 @Builder
 @Getter
 @Setter
@@ -20,6 +22,19 @@ public class Item {
 
     public Item() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return idItem == item.idItem;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idItem);
     }
 
     @Override

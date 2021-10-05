@@ -5,15 +5,12 @@
  */
 package fx.controllers.purchases;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
-import services.PurchasesServices;
-import model.Purchase;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -27,12 +24,12 @@ public class FXMLDeleteController implements Initializable {
 
 
     public void loadPurchases() {
-     }
-    
-    public void deletePurchase(){
+    }
+
+    public void deletePurchase() {
 
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadPurchases();

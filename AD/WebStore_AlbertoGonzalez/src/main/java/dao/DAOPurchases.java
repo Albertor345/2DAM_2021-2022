@@ -5,6 +5,7 @@
  */
 package dao;
 
+import model.Item;
 import model.Purchase;
 
 import java.util.List;
@@ -18,9 +19,11 @@ public interface DAOPurchases {
      
     List<Purchase> getAll();
      
-    void save(Purchase t);
+    boolean add(Purchase t);
      
     void update(Purchase t);
      
-    void delete(Purchase t);
+    boolean delete(Purchase t);
+
+    boolean deleteAllPurchasesFromAnItem(Item item);
 }

@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 /**
  * @author Laura
  */
@@ -20,9 +22,11 @@ import lombok.Setter;
 public class Purchase {
 
     private int idPurchase;
-    private int idCustomer;
-    private String item;
-    private String date;
+    private int customerID;
+    private String customerName;
+    private int itemID;
+    private String itemName;
+    private LocalDate date;
 
     public Purchase() {
     }
@@ -30,7 +34,7 @@ public class Purchase {
 
     @Override
     public String toString() {
-        return "ID: " + idPurchase + "  Item: " + item + "  Date: " + date + "\n";
+        return "Purchase ID: " + idPurchase + " Customer[ ID: " + customerID + " Name: " + customerName + "] Item[ ID: " + itemID + " Name: " + itemName + "] Date: " + date + "\n";
     }
 
     @Override

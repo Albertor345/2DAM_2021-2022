@@ -11,11 +11,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:checked="false"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/checkBox"
         app:layout_constraintBottom_toTopOf="@id/guidelineTop"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
         app:layout_constraintEnd_toStartOf="@id/guidelineMiddleVertical"
-        android:text="@string/checkBox"/>
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/personName"
@@ -68,13 +68,13 @@
         <RadioButton
             android:id="@+id/radio_button_1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/radioButtonLabelGenderMale" />
 
         <RadioButton
             android:id="@+id/radio_button_2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/radioButtonLabelGenderFemale" />
     </RadioGroup>
 
@@ -84,17 +84,17 @@
         android:layout_height="wrap_content"
         android:text="@string/previous"
         app:layout_constraintEnd_toStartOf="@id/guidelineMiddleVertical"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@id/guidelineMiddle2" />
+        app:layout_constraintStart_toEndOf="@id/guidelineRight"
+        app:layout_constraintTop_toBottomOf="@id/guidelineMiddleHorizontal2" />
 
     <Button
         android:id="@+id/buttonNext"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:text="@string/next"
-        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guidelineMiddleVertical"
-        app:layout_constraintTop_toBottomOf="@id/guidelineMiddle2" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineMiddleHorizontal2" />
 
     <Button
         android:id="@+id/buttonAdd"
@@ -102,26 +102,26 @@
         android:layout_height="wrap_content"
         android:text="@string/add"
         app:layout_constraintEnd_toStartOf="@id/guidelineMiddleVertical"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@id/guidelineMiddle" />
+        app:layout_constraintStart_toEndOf="@id/guidelineRight"
+        app:layout_constraintTop_toBottomOf="@id/guidelineMiddleHorizontal" />
 
     <Button
         android:id="@+id/buttonUpdate"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:text="@string/update"
-        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guidelineMiddleVertical"
-        app:layout_constraintTop_toBottomOf="@id/guidelineMiddle" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineMiddleHorizontal" />
 
     <Button
         android:id="@+id/buttonDelete"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:text="@string/delete"
+        app:layout_constraintBottom_toTopOf="@id/guidelineMiddle"
         app:layout_constraintEnd_toStartOf="@id/guidelineMiddleVertical"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-        app:layout_constraintBottom_toTopOf="@id/guidelineBottom" />
+        app:layout_constraintStart_toEndOf="@id/guidelineRight" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineRight"
@@ -149,28 +149,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="350dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineMiddle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="400dp" />
+        app:layout_constraintGuide_begin="285dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineMiddle3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="450dp" />
+        app:layout_constraintGuide_begin="410dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineMiddleVertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="205dp" />
+        app:layout_constraintGuide_begin="550dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineBottom"
@@ -178,5 +171,26 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="670dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMiddleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMiddleHorizontal2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="71dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRadiosVertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="200dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

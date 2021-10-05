@@ -18,7 +18,7 @@ public interface DAOItems {
 
     boolean add(Item item);
 
-    void delete(Item item);
+    boolean delete(Item item);
 
     Item get(Item item);
 

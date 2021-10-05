@@ -17,8 +17,6 @@ import java.util.ResourceBundle;
 public class FXMLAddItemsController implements Initializable {
 
     @FXML
-    private Button buttonAddItem;
-    @FXML
     private TextField textFieldName;
     @FXML
     private TextField textFieldPrice;
@@ -26,8 +24,6 @@ public class FXMLAddItemsController implements Initializable {
     private ListView listViewItems;
     @FXML
     private TextField textFieldCompany;
-    @FXML
-    private TextField textFieldID;
 
 
     Alert alert;
@@ -36,10 +32,11 @@ public class FXMLAddItemsController implements Initializable {
 
     @FXML
     private void addItem(ActionEvent actionEvent) {
+        List<Item> items = principal.getItemsServices().getAllItems();
         try {
             Item item = Item.builder()
+                    .idItem(items.size())
                     .name(textFieldName.getText())
-                    .idItem(Integer.parseInt(textFieldID.getText()))
                     .company(textFieldCompany.getText())
                     .price(Double.parseDouble(textFieldPrice.getText()))
                     .build();

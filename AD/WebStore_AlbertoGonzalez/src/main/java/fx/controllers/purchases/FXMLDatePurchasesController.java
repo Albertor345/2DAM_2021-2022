@@ -25,11 +25,12 @@ public class FXMLDatePurchasesController implements Initializable {
 
     @FXML
     private DatePicker dateBox;
+
     @FXML
     private ListView purchaseList;
 
     public void loadPurchasesList() {
-            }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

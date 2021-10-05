@@ -34,8 +34,9 @@ public class DaoItemsFiles implements DAOItems {
     }
 
     @Override
-    public void delete(Item item) {
-
+    public boolean delete(Item item) {
+        List<Item> listItems = getAll();
+        return listItems.remove(item);
     }
 
     @Override

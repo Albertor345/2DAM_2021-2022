@@ -13,8 +13,6 @@
       <ListView fx:id="listViewItems" layoutX="287.0" layoutY="57.0" prefHeight="304.0" prefWidth="248.0" />
       <Label layoutX="76.0" layoutY="192.0" text="Company" />
       <TextField fx:id="textFieldCompany" layoutX="76.0" layoutY="209.0" />
-      <Label layoutX="76.0" layoutY="255.0" text="Id" />
-      <TextField fx:id="textFieldID" layoutX="76.0" layoutY="272.0" />
       <Label layoutX="286.0" layoutY="40.0" text="Items" />
    </children>
 </AnchorPane>

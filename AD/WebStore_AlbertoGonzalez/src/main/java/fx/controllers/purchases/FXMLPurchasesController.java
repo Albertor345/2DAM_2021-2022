@@ -49,7 +49,9 @@ public class FXMLPurchasesController implements Initializable {
                     .date(dateBox.getValue()).build();
 
             if (principalController.getPurchasesServices().addPurchase(purchase)) {
+                purchaseList.getItems().add(purchase);
                 alert("Success", "Purchase added successfully", Alert.AlertType.INFORMATION);
+                clear();
             } else {
                 alert("Error", "There's been an error while adding the purchase, try it later", Alert.AlertType.ERROR);
             }
@@ -88,6 +90,12 @@ public class FXMLPurchasesController implements Initializable {
         alert.setTitle(titulo);
         alert.setContentText(texto);
         alert.showAndWait();
+    }
+
+    public void clear() {
+        customerBox.getSelectionModel().clearSelection();
+        itemBox.getSelectionModel().clearSelection();
+        dateBox.setValue(null);
     }
 
     public void setPrincipal(FXMLPrincipalController principal) {

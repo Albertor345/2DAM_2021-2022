@@ -11,7 +11,7 @@ import fx.controllers.customers.FXMLfindCustomerController;
 import fx.controllers.items.FXMLAddItemsController;
 import fx.controllers.items.FXMLDeleteItemsController;
 import fx.controllers.purchases.FXMLDatePurchasesController;
-import fx.controllers.purchases.FXMLDeleteController;
+import fx.controllers.purchases.FXMLDeletePurchasesController;
 import fx.controllers.purchases.FXMLPurchasesController;
 import fx.controllers.reviews.FXMLAddReviewController;
 import fx.controllers.reviews.FXMLdeleteReviewController;
@@ -59,7 +59,7 @@ public class FXMLPrincipalController implements Initializable {
     private FXMLDatePurchasesController datePurchasesController;
     private FXMLLoader datePurchasesLoader;
     private AnchorPane deletePurchases;
-    private FXMLDeleteController deletePurchasesController;
+    private FXMLDeletePurchasesController deletePurchasesController;
     private FXMLLoader deletePurchasesLoader;
     private AnchorPane addCustomer;
     private FXMLAddCustomerController addCustomerController;
@@ -263,6 +263,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargePurchases() {
+        purchasesController.clear();
         purchasesController.load(purchasesServices.getAllPurchases(), itemsServices.getAllItems(), customersServices.getAllCustomers());
         fxRoot.setCenter(purchases);
     }
@@ -272,8 +273,8 @@ public class FXMLPrincipalController implements Initializable {
         fxRoot.setCenter(datePurchases);
     }
 
-    public void chargeDelete() {
-        deletePurchasesController.loadPurchases();
+    public void chargeDeletePurchases() {
+        deletePurchasesController.loadPurchases(purchasesServices.getAllPurchases());
         fxRoot.setCenter(deletePurchases);
     }
 
@@ -283,7 +284,6 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeFindCustomer() {
-
         fxRoot.setCenter(findCustomer);
     }
 

@@ -37,7 +37,17 @@ public class DaoPurchasesFiles implements DAOPurchases {
 
     @Override
     public boolean delete(Purchase purchase) {
-        return false;
+        List<Purchase> purchaseList = getAll();
+        Path file = Paths.get(ConfigProperties.getInstance().getProperty("purchases"));
+        try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING})) {
+            bw.write("");
+            purchaseList.remove(purchase);
+            purchaseList.forEach(purchase1 -> add(purchase1));
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     @Override
@@ -45,12 +55,12 @@ public class DaoPurchasesFiles implements DAOPurchases {
         List<Purchase> purchaseList = getAll();
         Path file = Paths.get(ConfigProperties.getInstance().getProperty("purchases"));
 
-        try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.WRITE})) {
+        try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING})) {
             bw.write("");
             purchaseList.stream()
                     .filter(purchase -> purchase.getItemID() != item.getIdItem())
                     .collect(Collectors.toList())
-                    .forEach(purchase -> add(purchase));
+                    .forEach(p -> add(p));
             return true;
         } catch (IOException ex) {
             Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, ex);

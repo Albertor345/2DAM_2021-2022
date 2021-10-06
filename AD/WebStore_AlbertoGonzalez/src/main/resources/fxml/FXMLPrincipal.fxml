@@ -34,7 +34,7 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#chargePurchases" text="Add Purchase"/>
                         <MenuItem mnemonicParsing="false" onAction="#chargeDatePurchases" text="Find by Date"/>
-                        <MenuItem mnemonicParsing="false" onAction="#chargeDelete" text="Delete Purchase"/>
+                        <MenuItem mnemonicParsing="false" onAction="#chargeDeletePurchases" text="Delete Purchase"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Reviews">

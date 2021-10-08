@@ -66,13 +66,13 @@
         app:layout_constraintTop_toBottomOf="@id/personAge">
 
         <RadioButton
-            android:id="@+id/radio_button_1"
+            android:id="@+id/radio_button_Male"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/radioButtonLabelGenderMale" />
 
         <RadioButton
-            android:id="@+id/radio_button_2"
+            android:id="@+id/radio_button_Female"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/radioButtonLabelGenderFemale" />

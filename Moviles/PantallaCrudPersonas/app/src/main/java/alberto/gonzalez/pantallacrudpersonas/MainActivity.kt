@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             (list.size + 1),
             textInputName.editText?.text.toString(),
             textInputAge.editText?.text.toString().toInt(),
-            radioGroup.checkedRadioButtonId
+            radioGroup.
         )
         if (validatePerson(p)) {
             list.add(p)

@@ -1,5 +1,6 @@
 package alberto.gonzalez.pantallacrudpersonas
 
+import alberto.gonzalez.pantallacrudpersonas.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
@@ -16,78 +17,70 @@ import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var list: MutableList<Persona>
-    private lateinit var buttonPrevious: Button
-    private lateinit var buttonNext: Button
-    private lateinit var buttonAdd: Button
-    private lateinit var buttonUpdate: Button
-    private lateinit var buttonDelete: Button
-    private lateinit var checkBox: CheckBox
-    private lateinit var textInputName: TextInputLayout
-    private lateinit var textInputAge: TextInputLayout
-    private lateinit var radioGroup: RadioGroup
+    private lateinit var activityBinding: ActivityMainBinding
     private var currentIndex: Int = 0
+    private lateinit var list: MutableList<Persona>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        buttonPrevious = this.findViewById(R.id.buttonPrevious)
-        buttonNext = this.findViewById(R.id.buttonNext)
-        buttonAdd = this.findViewById(R.id.buttonAdd)
-        buttonAdd.isEnabled = false
-        buttonDelete = this.findViewById(R.id.buttonDelete)
-        buttonUpdate = this.findViewById(R.id.buttonUpdate)
-        buttonUpdate.isEnabled = false
-        textInputName = this.findViewById(R.id.personName)
-        textInputName.isEnabled = false
-        textInputAge = this.findViewById(R.id.personAge)
-        textInputAge.isEnabled = false
-        checkBox = this.findViewById(R.id.checkbox)
-        radioGroup = this.findViewById(R.id.radioGroup)
-        radioGroup.isEnabled = false
-        list = mutableListOf()
+        activityBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(activityBinding.root)
+
+        with(activityBinding) {
+            buttonAdd.isEnabled = false
+            buttonUpdate.isEnabled = false
+            personName.isEnabled = false
+            personAge.isEnabled = false
+            radioGroup.isEnabled = false
+        }
         setListeners()
 
     }
 
     fun setListeners() {
-        buttonAdd.setOnClickListener {
-            addPerson()
-        }
-        buttonDelete.setOnClickListener {
-            delPerson()
-        }
-        buttonUpdate.setOnClickListener {
-            updatePerson()
-        }
-        buttonPrevious.setOnClickListener {
-            previousPerson()
-        }
-        buttonNext.setOnClickListener {
-            nextPerson()
-        }
-        checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            checkBoxListener()
+        with(activityBinding) {
+            buttonAdd.setOnClickListener {
+                addPerson()
+            }
+            buttonDelete.setOnClickListener {
+                delPerson()
+            }
+            buttonUpdate.setOnClickListener {
+                updatePerson(activityBinding.radioButtonMale.isSelected)
+            }
+            buttonPrevious.setOnClickListener {
+                previousPerson()
+            }
+            buttonNext.setOnClickListener {
+                nextPerson()
+            }
+            checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+                checkBoxListener()
+            }
         }
     }
 
     fun checkBoxListener() {
-        buttonAdd.isEnabled = !buttonAdd.isEnabled
-        buttonUpdate.isEnabled = !buttonUpdate.isEnabled
-        buttonPrevious.isEnabled = currentIndex > 0
-        buttonNext.isEnabled = currentIndex < list.size - 1
-        buttonDelete.isEnabled = !buttonDelete.isEnabled
-        textInputName.isEnabled = !textInputName.isEnabled
-        textInputAge.isEnabled = !textInputAge.isEnabled
-        radioGroup.isEnabled = !radioGroup.isEnabled
+        with(activityBinding) {
+            buttonAdd.isEnabled = !buttonAdd.isEnabled
+            buttonUpdate.isEnabled = !buttonUpdate.isEnabled
+            buttonPrevious.isEnabled = currentIndex > 0
+            buttonNext.isEnabled = currentIndex < list.size - 1
+            buttonDelete.isEnabled = !buttonDelete.isEnabled
+            personName.isEnabled = !personName.isEnabled
+            personAge.isEnabled = !personAge.isEnabled
+            radioGroup.isEnabled = !radioGroup.isEnabled
+        }
     }
 
     fun addPerson() {
         val p = Persona(
             (list.size + 1),
-            textInputName.editText?.text.toString(),
-            textInputAge.editText?.text.toString().toInt(),
-            radioGroup.checkedRadioButtonId
+            activityBinding.personName.editText?.text.toString(),
+            activityBinding.personAge.editText?.text.toString().toInt(),
+            if (activityBinding.radioButtonMale.isSelected)
+                activityBinding.radioButtonMale.text.toString()
+            else activityBinding.radioButtonFemale.text.toString()
         )
         if (validatePerson(p)) {
             list.add(p)
@@ -95,13 +88,15 @@ class MainActivity : AppCompatActivity() {
             println(p)
             loadPerson(list[0])
             currentIndex = 0
-            checkBox.isChecked = false
+            activityBinding.checkbox.isChecked = false
         } else Toast.makeText(this, "Datos introducidos no validos", Toast.LENGTH_SHORT).show()
     }
 
     fun validatePerson(p: Persona): Boolean {
-        return textInputAge.editText?.text.toString()
-            .isDigitsOnly() && textInputName.editText?.text.toString().isNotEmpty()
+        return activityBinding.personAge.editText?.text.toString().isDigitsOnly()
+                && activityBinding.personName.editText?.text.toString().isNotEmpty()
+                && activityBinding.personName.editText?.text.toString().isNotBlank()
+
     }
 
     fun delPerson() {
@@ -110,8 +105,8 @@ class MainActivity : AppCompatActivity() {
             currentIndex = 0
             if (list.size != 0) {
                 loadPerson(list[0])
-                buttonPrevious.isEnabled = false
-                buttonNext.isEnabled = currentIndex < list.size - 1
+                activityBinding.buttonPrevious.isEnabled = false
+                activityBinding.buttonNext.isEnabled = currentIndex < list.size - 1
             } else clear()
             Toast.makeText(this, "Persona eliminada", Toast.LENGTH_SHORT).show()
         } else {
@@ -119,36 +114,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updatePerson() {
-        var persona = list[currentIndex]
-        persona.name = textInputName.editText?.text.toString()
-        persona.age = textInputAge.editText?.text.toString().toInt()
-        persona.gender = radioGroup.checkedRadioButtonId
+    fun updatePerson(gender: Boolean) {
+        with(activityBinding) {
+            var persona = list[currentIndex]
+            persona.name = personName.editText?.text.toString()
+            persona.age = personAge.editText?.text.toString().toInt()
+            persona.gender = if (gender) radioButtonMale.text.toString()
+            else radioButtonFemale.text.toString()
+            checkbox.isEnabled = false
+            loadPerson(list[0])
+        }
         Toast.makeText(this, "Datos modificados con exito", Toast.LENGTH_SHORT).show()
-        checkBox.isEnabled = false
-        loadPerson(list[0])
     }
 
     fun previousPerson() {
         currentIndex--
-        buttonPrevious.isEnabled = currentIndex > 0
-        buttonNext.isEnabled = true
+        activityBinding.buttonPrevious.isEnabled = currentIndex > 0
+        activityBinding.buttonNext.isEnabled = true
         var persona = list[currentIndex]
         loadPerson(persona)
     }
 
     fun nextPerson() {
         currentIndex++
-        buttonNext.isEnabled = currentIndex < list.size - 1
-        buttonPrevious.isEnabled = true
+        activityBinding.buttonNext.isEnabled = currentIndex < list.size - 1
+        activityBinding.buttonPrevious.isEnabled = true
         var persona = list[currentIndex]
         loadPerson(persona)
     }
 
     fun loadPerson(persona: Persona) {
-        textInputName.editText?.setText(persona.name)
-        textInputAge.editText?.setText(persona.age.toString())
-        radioGroup.check(persona.gender)
+        with(activityBinding) {
+            personName.editText?.setText(persona.name)
+            personAge.editText?.setText(persona.age.toString())
+            if (persona.gender == "Hombre") radioGroup.check(radioButtonMale.id)
+            else radioGroup.check(radioButtonFemale.id)
+
+            radioGroup.check(persona.gender)
+        }
     }
 
     fun clear() {

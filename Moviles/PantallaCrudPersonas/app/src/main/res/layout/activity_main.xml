@@ -59,7 +59,7 @@
         android:id="@+id/radioGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:checkedButton="@id/radio_button_1"
+        android:checkedButton="@id/radio_button_Male"
         app:layout_constraintBottom_toTopOf="@id/guidelineMiddle"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
         app:layout_constraintStart_toEndOf="@id/guidelineLeft"

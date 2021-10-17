@@ -36,4 +36,10 @@
         <phone>657463746</phone>
         <address>Mi casa</address>
     </customer>
+    <customer>
+        <idCustomer>6</idCustomer>
+        <name>M</name>
+        <phone>3423</phone>
+        <address>SADS</address>
+    </customer>
 </customers>

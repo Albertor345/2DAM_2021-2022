@@ -3,7 +3,6 @@ package dao;
 import configuration.ConfigProperties;
 import model.Customer;
 import model.Customers;
-import model.Review;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -13,9 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +60,7 @@ public class DaoCustomersFiles implements DAOCustomers {
 
     @Override
     public Customers getAll() {
-        Customers customers = Customers.builder().customers(new ArrayList<>()).build();
+        Customers customers = new Customers();
         try {
             Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
             JAXBContext context = JAXBContext.newInstance(Customers.class);
@@ -71,7 +68,7 @@ public class DaoCustomersFiles implements DAOCustomers {
 
             customers = (Customers) unmarshaller.unmarshal(Files.newInputStream(file));
         } catch (JAXBException e) {
-            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+            customers.setCustomers(Collections.emptyList());
         } catch (IOException e) {
             Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
         } catch (Exception e) {

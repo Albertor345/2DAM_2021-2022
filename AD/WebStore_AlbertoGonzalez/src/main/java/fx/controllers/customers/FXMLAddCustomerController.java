@@ -42,6 +42,8 @@ public class FXMLAddCustomerController implements Initializable {
                 .address(addressBox.getText())
                 .build();
         if (principalController.getCustomersServices().addCustomer(customer)) {
+            customerList.getItems().add(customer);
+            customerList.refresh();
             alert("Success", "The customer has been added", Alert.AlertType.CONFIRMATION);
         } else {
             alert("Invalid", "There's been an error while adding the customer, try it later", Alert.AlertType.ERROR);

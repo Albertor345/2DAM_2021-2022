@@ -10,39 +10,30 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/**
- *
- * @author dam2
- */
+
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
+@XmlRootElement
 public class Customer {
 
+    @XmlAttribute
     private int idCustomer;
+    @XmlElement
     private String name;
+    @XmlElement
     private String phone;
+    @XmlElement
     private String address;
+    @XmlElement(name = "review")
     private ArrayList<Review> reviews;
-
-   /* public String toStringReviews() {
-        ArrayList<String> rev = new ArrayList();
-
-        if(reviews != null){
-            for (int i = 0; i < reviews.size(); i++) {
-                rev.add(reviews.get(i).toStringVisual());
-            }
-        }
-
-
-        return "ID: " + idCustomer + "  Name: " + name
-                + "\nPhone: " + phone + "  Address: " + address
-                + "\n\n======       Reviews done by this client:      ======\n\n" + rev;
-    }*/
 
     @Override
     public String toString() {
@@ -75,7 +66,6 @@ public class Customer {
         }
         return true;
     }
-    
-    
+
 
 }

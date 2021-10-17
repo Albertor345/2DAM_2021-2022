@@ -9,23 +9,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import services.LocalDateAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
-/**
- *
- * @author dam2
- */
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Review {
 
     private int idReview;
     private int rating;
     private String title;
     private String description;
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDate date;
     private int customerId;
     private int itemId;

@@ -1,11 +1,13 @@
 package alberto.gonzalez.pantallacrudpersonas
 
+import alberto.gonzalez.pantallacrudpersonas.databinding.PersonaBinding
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class PersonaAdapter(private val personas:List<Persona>) : RecyclerView.Adapter<PersonaAdapter.PersonaViewHolder>(){
+class PersonaAdapter(private val personas: ArrayList<Persona>) :
+    RecyclerView.Adapter<PersonaAdapter.PersonaViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonaViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,9 +22,10 @@ class PersonaAdapter(private val personas:List<Persona>) : RecyclerView.Adapter<
         return personas.size
     }
 
-    class PersonaViewHolder(private val view: View) : RecyclerView.ViewHolder(view){
-        fun load(persona: Persona){
-
+    class PersonaViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        val binding = PersonaBinding.bind(view)
+        fun load(persona: Persona) {
+            binding.textViewPersona.setText(persona.toString())
         }
     }
 }

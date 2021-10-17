@@ -9,4 +9,6 @@
     <string name="update">Update</string>
     <string name="delete">Delete</string>
     <string name="checkBox">Add/Update</string>
+    <string name="lista">Ver Lista</string>
+    <string name="mainActivityListString">lista</string>
 </resources>

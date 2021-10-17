@@ -1,5 +1,6 @@
-package alberto.gonzalez.pantallacrudpersonas
+package alberto.gonzalez.pantallacrudpersonas.ui
 
+import alberto.gonzalez.pantallacrudpersonas.domain.Persona
 import alberto.gonzalez.pantallacrudpersonas.databinding.ListActivityBinding
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,6 @@ class ListActivity : AppCompatActivity(){
     }
 
     fun loadList(){
-
         intent.getParcelableArrayListExtra<Persona>("lista")?.let {
             activityBinding.recycler.adapter = PersonaAdapter(it)
             activityBinding.recycler.layoutManager = GridLayoutManager(this, 1)

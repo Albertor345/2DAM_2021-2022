@@ -1,4 +1,4 @@
-package alberto.gonzalez.pantallacrudpersonas
+package alberto.gonzalez.pantallacrudpersonas.domain
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

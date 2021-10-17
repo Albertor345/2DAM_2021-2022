@@ -5,13 +5,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.textview.MaterialTextView
+        android:background="@color/cardview_light_background"
+
         android:id="@+id/textViewPersona"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="100dp"
+        android:textSize="18dp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/textViewPersona"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

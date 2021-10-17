@@ -1,5 +1,7 @@
-package alberto.gonzalez.pantallacrudpersonas
+package alberto.gonzalez.pantallacrudpersonas.ui
 
+import alberto.gonzalez.pantallacrudpersonas.domain.Persona
+import alberto.gonzalez.pantallacrudpersonas.R
 import alberto.gonzalez.pantallacrudpersonas.databinding.PersonaBinding
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +25,9 @@ class PersonaAdapter(private val personas: ArrayList<Persona>) :
     }
 
     class PersonaViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        val binding = PersonaBinding.bind(view)
+        private val binding = PersonaBinding.bind(view)
         fun load(persona: Persona) {
-            binding.textViewPersona.setText(persona.toString())
+            binding.textViewPersona.text = persona.toString()
         }
     }
 }

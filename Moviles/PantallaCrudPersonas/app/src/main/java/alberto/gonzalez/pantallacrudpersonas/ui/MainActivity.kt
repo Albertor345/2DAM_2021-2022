@@ -1,12 +1,14 @@
-package alberto.gonzalez.pantallacrudpersonas
+package alberto.gonzalez.pantallacrudpersonas.ui
 
+import alberto.gonzalez.pantallacrudpersonas.R
+import alberto.gonzalez.pantallacrudpersonas.data.DaoPersonas
 import alberto.gonzalez.pantallacrudpersonas.databinding.ActivityMainBinding
+import alberto.gonzalez.pantallacrudpersonas.domain.Persona
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
-import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +29,10 @@ class MainActivity : AppCompatActivity() {
             radioGroup.isEnabled = false
         }
         list = arrayListOf()
+        list.addAll(DaoPersonas().getLista())
+        loadPerson(list[0])
         setListeners()
+
 
     }
 
@@ -71,31 +76,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addPerson() {
-        try {
+        if (validatePerson()) {
             val p = Persona(
                 (list.size + 1),
                 activityBinding.personName.editText?.text.toString(),
                 activityBinding.personAge.editText?.text.toString().toInt(),
-                if (activityBinding.radioButtonMale.isSelected)
+                if (activityBinding.radioButtonMale.isChecked)
                     activityBinding.radioButtonMale.text.toString()
                 else activityBinding.radioButtonFemale.text.toString()
             )
-            if (validatePerson(p)) {
-                list.add(p)
-                Toast.makeText(this, "Persona añadida con exito", Toast.LENGTH_SHORT).show()
-                println(p)
-                loadPerson(list[0])
-                currentIndex = 0
-                activityBinding.checkbox.isChecked = false
-            } else Toast.makeText(this, "Datos introducidos no validos", Toast.LENGTH_SHORT).show()
-        } catch (ex: NumberFormatException) {
-            Timber.e("Ha hecho pum")
+
+            list.add(p)
+            Toast.makeText(this, "Persona añadida con exito", Toast.LENGTH_SHORT).show()
+            println(p)
+            loadPerson(list[0])
+            currentIndex = 0
+            activityBinding.checkbox.isChecked = false
+        } else {
+            Toast.makeText(this, "Datos introducidos no validos", Toast.LENGTH_SHORT).show()
             clear()
         }
 
     }
 
-    fun validatePerson(p: Persona): Boolean {
+    fun validatePerson(): Boolean {
         return activityBinding.personAge.editText?.text.toString().isDigitsOnly()
                 && activityBinding.personName.editText?.text.toString().isNotEmpty()
                 && activityBinding.personName.editText?.text.toString().isNotBlank()

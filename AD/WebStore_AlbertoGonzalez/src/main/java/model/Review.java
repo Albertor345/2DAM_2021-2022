@@ -5,10 +5,7 @@
  */
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import services.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,10 +14,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Review {

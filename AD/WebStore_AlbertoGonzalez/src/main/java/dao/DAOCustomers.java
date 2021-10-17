@@ -6,21 +6,20 @@
 package dao;
 
 import model.Customer;
-
-import java.util.List;
+import model.Customers;
 
 /**
  *
  */
 public interface DAOCustomers {
-     
-    Customer get(int id);
-     
-    List<Customer> getAll();
-     
-    void save(Customer t);
-     
+
+    Customer get(Customer customer);
+
+    Customers getAll();
+
+    boolean add(Customers t);
+
     void update(Customer t);
-     
-    void delete(Customer t);
+
+    boolean delete(Customer t);
 }

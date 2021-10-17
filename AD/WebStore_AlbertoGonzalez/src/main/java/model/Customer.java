@@ -5,32 +5,26 @@
  */
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Objects;
 
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Customer {
 
-    @XmlAttribute
     private int idCustomer;
-    @XmlElement
     private String name;
-    @XmlElement
     private String phone;
-    @XmlElement
     private String address;
     @XmlElement(name = "review")
     private ArrayList<Review> reviews;

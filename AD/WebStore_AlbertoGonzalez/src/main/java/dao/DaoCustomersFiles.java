@@ -1,33 +1,83 @@
 package dao;
 
+import configuration.ConfigProperties;
 import model.Customer;
+import model.Customers;
+import model.Review;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DaoCustomersFiles implements DAOCustomers {
-    private List<Customer> customerList = new ArrayList<>();
+
 
     public DaoCustomersFiles() {
-        customerList.add(Customer.builder().idCustomer(0).address("San Cipriano 20, Madrid, Spain").name("AlbertoGonzalez").phone("635318374").reviews(new ArrayList<>()).build());
-        customerList.add(Customer.builder().idCustomer(1).address("San Roman del Valle, 32, Madrid, Spain").name("FranciscoLeopoldo").phone("647837261").reviews(new ArrayList<>()).build());
-        customerList.add(Customer.builder().idCustomer(2).address("Calle Embajadores 12, Madrid, Spain").name("EsmeraldaCaño").phone("638273849").reviews(new ArrayList<>()).build());
-        customerList.add(Customer.builder().idCustomer(3).address("Calle Cabo de Tarifa 72").name("CristianGrande").phone("684930298").reviews(new ArrayList<>()).build());
     }
 
     @Override
-    public Customer get(int id) {
-        return null;
+    public boolean add(Customers customers) {
+        try {
+            Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
+            JAXBContext context = JAXBContext.newInstance(Customers.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.marshal(customers, Files.newOutputStream(file));
+            return true;
+        } catch (JAXBException e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        } catch (IOException e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        } catch (Exception e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
     }
 
     @Override
-    public List<Customer> getAll() {
-        return new ArrayList<>(customerList);
+    public Customer get(Customer customer) {
+        try {
+            Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
+            JAXBContext context = JAXBContext.newInstance(Customer.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+
+            customer = (Customer) unmarshaller.unmarshal(Files.newInputStream(file));
+        } catch (JAXBException e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        } catch (IOException e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        } catch (Exception e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return customer;
     }
 
     @Override
-    public void save(Customer t) {
+    public Customers getAll() {
+        Customers customers = Customers.builder().customers(new ArrayList<>()).build();
+        try {
+            Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
+            JAXBContext context = JAXBContext.newInstance(Customers.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
 
+            customers = (Customers) unmarshaller.unmarshal(Files.newInputStream(file));
+        } catch (JAXBException e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        } catch (IOException e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        } catch (Exception e) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return customers;
     }
 
     @Override
@@ -36,7 +86,7 @@ public class DaoCustomersFiles implements DAOCustomers {
     }
 
     @Override
-    public void delete(Customer t) {
-
+    public boolean delete(Customer t) {
+        return false;
     }
 }

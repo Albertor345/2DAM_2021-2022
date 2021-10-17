@@ -88,7 +88,6 @@ public class FXMLPrincipalController implements Initializable {
 
     @Inject
     public FXMLPrincipalController(PurchasesServices purchasesServices, CustomersServices customersServices, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, ItemsServices itemsServices, FXMLLoader deleteItemsLoader) {
-        this.customersServices = customersServices;
         this.loginLoader = loginLoader;
         this.welcomeLoader = welcomeLoader;
         this.purchasesLoader = purchasesLoader;
@@ -103,6 +102,7 @@ public class FXMLPrincipalController implements Initializable {
         this.addItemsLoader = addItemsLoader;
         this.deleteItemsLoader = deleteItemsLoader;
 
+        this.customersServices = customersServices;
         this.itemsServices = itemsServices;
         this.purchasesServices = purchasesServices;
     }
@@ -167,8 +167,9 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadAddCustomer() {
         try {
-            addCustomer = addCustomerLoader.load(getClass().getResource("/fxml/customers/FXMLAddCustomer.fxml"));
+            addCustomer = addCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLAddCustomer.fxml"));
             addCustomerController = addCustomerLoader.getController();
+            addCustomerController.setPrincipal(this);
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -178,7 +179,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadFindCustomer() {
         try {
-            findCustomer = findCustomerLoader.load(getClass().getResource("/fxml/customers/FXMLfindCustomer.fxml"));
+            findCustomer = findCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLfindCustomer.fxml"));
             findCustomerController = findCustomerLoader.getController();
 
         } catch (IOException ex) {
@@ -189,7 +190,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadDeleteCustomer() {
         try {
-            deleteCustomer = deleteCustomerLoader.load(getClass().getResource("/fxml/customers/FXMLdeleteCustomer.fxml"));
+            deleteCustomer = deleteCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLdeleteCustomer.fxml"));
             deleteCustomerController = deleteCustomerLoader.getController();
 
         } catch (IOException ex) {
@@ -200,7 +201,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadAddReview() {
         try {
-            addReview = addReviewLoader.load(getClass().getResource("/fxml/reviews/FXMLaddReview.fxml"));
+            addReview = addReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLaddReview.fxml"));
             addReviewController = addReviewLoader.getController();
 
         } catch (IOException ex) {
@@ -211,7 +212,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadFindReview() {
         try {
-            findReview = findReviewLoader.load(getClass().getResource("/fxml/reviews/FXMLfindReview.fxml"));
+            findReview = findReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLfindReview.fxml"));
             findReviewController = findReviewLoader.getController();
 
         } catch (IOException ex) {
@@ -222,7 +223,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadDeleteReview() {
         try {
-            deleteReview = deleteReviewLoader.load(getClass().getResource("/fxml/reviews/FXMLdeleteReview.fxml"));
+            deleteReview = deleteReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLdeleteReview.fxml"));
             deleteReviewController = deleteReviewLoader.getController();
 
         } catch (IOException ex) {
@@ -264,7 +265,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void chargePurchases() {
         purchasesController.clear();
-        purchasesController.load(purchasesServices.getAllPurchases(), itemsServices.getAllItems(), customersServices.getAllCustomers());
+        purchasesController.load(purchasesServices.getAllPurchases(), itemsServices.getAllItems(), customersServices.getAllCustomers().getCustomers());
         fxRoot.setCenter(purchases);
     }
 
@@ -279,7 +280,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeAddCustomer() {
-        addCustomerController.loadCustomersList();
+        addCustomerController.loadCustomersList(customersServices.getAllCustomers().getCustomers());
         fxRoot.setCenter(addCustomer);
     }
 

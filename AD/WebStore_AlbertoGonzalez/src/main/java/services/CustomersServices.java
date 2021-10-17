@@ -7,6 +7,7 @@ package services;
 
 import dao.DAOCustomers;
 import model.Customer;
+import model.Customers;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -14,14 +15,14 @@ import java.util.List;
 
 public class CustomersServices {
 
-    DAOCustomers daoCustomers;
+    private DAOCustomers daoCustomers;
 
     @Inject
     public CustomersServices(DAOCustomers daoCustomers) {
         this.daoCustomers = daoCustomers;
     }
 
-    public List<Customer> getAllCustomers() {
+    public Customers getAllCustomers() {
         return daoCustomers.getAll();
     }
 
@@ -29,12 +30,15 @@ public class CustomersServices {
         return null;
     }
 
-    public void deleteCustomer(Customer customer) {
-
+    public boolean deleteCustomer(Customer customer) {
+        return daoCustomers.delete(customer);
     }
 
     public boolean addCustomer(Customer customer) {
-        return false;
+        Customers customers = getAllCustomers();
+        customer.setIdCustomer(customers.getCustomers().size());
+        customers.getCustomers().add(customer);
+        return daoCustomers.add(customers);
     }
 
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<customers>
+    <customer>
+        <idCustomer>0</idCustomer>
+        <name>Alberto Gonzalez</name>
+        <phone>635318374</phone>
+        <address>San Cipriano 20, Madrid, Spain</address>
+    </customer>
+    <customer>
+        <idCustomer>1</idCustomer>
+        <name>Francisco Leopoldo</name>
+        <phone>647837261</phone>
+        <address>San Roman del Valle 32, Madrid, Spain</address>
+    </customer>
+    <customer>
+        <idCustomer>2</idCustomer>
+        <name>Esmeralda Caño</name>
+        <phone>638273849</phone>
+        <address>Calle Embajadores 12, Madrid, Spain</address>
+    </customer>
+    <customer>
+        <idCustomer>3</idCustomer>
+        <name>Cristian Grande</name>
+        <phone>684930298</phone>
+        <address>Calle Cabo de Tarifa 72, Madrid, Spain</address>
+    </customer>
+    <customer>
+        <idCustomer>4</idCustomer>
+        <name>Guillaume Lienart</name>
+        <phone>647382937</phone>
+        <address>Calle Abad Juan Catalan 7, Madrid, Spain</address>
+    </customer>
+    <customer>
+        <idCustomer>5</idCustomer>
+        <name>Pilar Mayorga</name>
+        <phone>657463746</phone>
+        <address>Mi casa</address>
+    </customer>
+</customers>

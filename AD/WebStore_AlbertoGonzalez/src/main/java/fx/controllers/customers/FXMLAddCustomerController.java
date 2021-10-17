@@ -5,26 +5,23 @@
  */
 package fx.controllers.customers;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import fx.controllers.FXMLPrincipalController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import model.Customer;
-import services.CustomersServices;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
- *
  */
 public class FXMLAddCustomerController implements Initializable {
 
-    @FXML
-    private TextField idBox;
     @FXML
     private TextField nameBox;
     @FXML
@@ -34,19 +31,44 @@ public class FXMLAddCustomerController implements Initializable {
     @FXML
     private ListView customerList;
 
-    public void loadCustomersList() {
-     }
+    private FXMLPrincipalController principalController;
+    private Alert alert;
 
-    public void addCustomer() {
-
+    @FXML
+    private void addCustomer() {
+        Customer customer = Customer.builder()
+                .name(nameBox.getText())
+                .phone(phoneBox.getText())
+                .address(addressBox.getText())
+                .build();
+        if (principalController.getCustomersServices().addCustomer(customer)) {
+            alert("Success", "The customer has been added", Alert.AlertType.CONFIRMATION);
+        } else {
+            alert("Invalid", "There's been an error while adding the customer, try it later", Alert.AlertType.ERROR);
+        }
     }
 
-    /**
-     * Initializes the controller class.
-     */
+    public void loadCustomersList(List<Customer> customers) {
+        if (!customerList.getItems().isEmpty()) {
+            customerList.getItems().clear();
+        }
+        customerList.getItems().addAll(customers);
+    }
+
+    private void alert(String titulo, String texto, Alert.AlertType type) {
+        alert.setAlertType(type);
+        alert.setTitle(titulo);
+        alert.setContentText(texto);
+        alert.showAndWait();
+    }
+
+    public void setPrincipal(FXMLPrincipalController principalController) {
+        this.principalController = principalController;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadCustomersList();
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
     }
 
 }

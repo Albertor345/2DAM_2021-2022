@@ -25,7 +25,6 @@
                 <Menu mnemonicParsing="false" text="Customers">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#chargeAddCustomer" text="Add Customer"/>
-                        <MenuItem mnemonicParsing="false" text="List Customers"/>
                         <MenuItem mnemonicParsing="false" onAction="#chargeFindCustomer" text="Find by ID"/>
                         <MenuItem mnemonicParsing="false" onAction="#chargeDeleteCustomer" text="Delete Customer"/>
                     </items>

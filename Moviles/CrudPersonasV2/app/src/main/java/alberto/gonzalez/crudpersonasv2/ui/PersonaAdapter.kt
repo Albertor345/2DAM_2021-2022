@@ -1,7 +1,6 @@
 package alberto.gonzalez.crudpersonasv2.ui
 
 import alberto.gonzalez.crudpersonasv2.R
-import alberto.gonzalez.crudpersonasv2.domain.Persona
 import alberto.gonzalez.crudpersonasv2.databinding.PersonaBinding
 import android.view.LayoutInflater
 import android.view.View

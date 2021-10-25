@@ -9,15 +9,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 
-class CharacterAdapter(private val characters: List<Character>) :
-    RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
+class CharacterAdapter(
+    private val characters: MutableList<Character>,
+    private val delete: (Int) -> Unit
+) : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return CharacterViewHolder(layoutInflater.inflate(R.layout.character, parent, false))
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.load(characters[position])
+        holder.load(characters[position], delete)
     }
 
     override fun getItemCount(): Int {
@@ -26,11 +29,14 @@ class CharacterAdapter(private val characters: List<Character>) :
 
     class CharacterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CharacterBinding.bind(view)
-        fun load(character: Character) {
+        fun load(character: Character, delete: (Int) -> Unit) {
             with(binding) {
                 textViewNombreCharacter.text = character.name
-                textViewDescription.text = character.description
-                imageViewThumbnail.load(character.image.path)
+                imageViewThumbnail.load(character.image.path + "." + character.image.extension)
+                buttonDelete.setOnClickListener {
+                    delete(adapterPosition)
+                }
+
             }
         }
     }

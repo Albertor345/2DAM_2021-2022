@@ -24,31 +24,36 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:padding="1dp"
-        android:textSize="10dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--<com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="fill"
+        android:textAlignment="gravity"
+        android:padding="1dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal3"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical3"
+        app:layout_constraintStart_toEndOf="@id/guidelineVertical1"
+        app:layout_constraintTop_toTopOf="@id/guidelineHorizontal1" />-->
+
     <ImageView
         android:id="@+id/imageViewThumbnail"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:padding="1dp"
+        android:contentDescription="@string/character_profile_image"
         app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal3"
-        app:layout_constraintEnd_toStartOf="@id/guidelineVertical1"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal1" />
-
-    <TextView
-        android:id="@+id/textViewDescription"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="1dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal3"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical2"
-        app:layout_constraintStart_toEndOf="@id/guidelineVertical1"
-        app:layout_constraintTop_toTopOf="@id/guidelineHorizontal1" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonDetails"
@@ -100,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.20" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontal2"

@@ -8,9 +8,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object ConfigMoshi {
-    private lateinit var moshi: Moshi
+    private var moshi: Moshi? = null
 
-    fun getInstance(): Moshi {
+    fun getInstance(): Moshi? {
         if (moshi == null) {
             moshi = Moshi.Builder()
                 .add(LocalDateTimeAdapter())

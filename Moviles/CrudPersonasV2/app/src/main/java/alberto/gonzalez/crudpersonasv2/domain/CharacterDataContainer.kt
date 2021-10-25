@@ -11,5 +11,5 @@ data class CharacterDataContainer(
     val total: Int,
     val count: Int,
     @Json(name = "results")
-    val characters: List<Character>
+    val characters: MutableList<Character>
 )

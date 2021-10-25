@@ -6,8 +6,23 @@ import java.io.InputStream
 
 class Services {
 
-    fun getListaCharacters(file: InputStream? = null): List<Character>? {
+    fun getListaCharacters(file: InputStream? = null): MutableList<Character>? {
         var dao = file?.let { Dao(it) }
         return dao?.getLista()
+    }
+
+    fun getCharacter(index: Int): Character {
+        var dao = Dao()
+        return dao.getCharacter(index)
+    }
+
+    fun addCharacter(character: Character) {
+        var dao = Dao()
+        return dao.addCharacter(character)
+    }
+
+    fun removeCharacter(character: Character){
+        var dao = Dao()
+        return dao.removeCharacter(character)
     }
 }

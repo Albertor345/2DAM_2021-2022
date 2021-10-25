@@ -11,4 +11,11 @@
     <string name="checkBox">Add/Update</string>
     <string name="lista">Ver Lista</string>
     <string name="mainActivityListString">lista</string>
+    <string name="dataFile">data.json</string>
+    <string name="fab_content_desc">addButton</string>
+    <string name="delete_alert_dialog_message">Al borrar un personaje se eliminara permanentemente de la aplicacion. ¿Deseas continuar?</string>
+    <string name="delete_alert_dialog_title">¿Estás seguro?</string>
+    <string name="delete_alert_dialog_negative_button_text">Cancelar</string>
+    <string name="delete_alert_dialog_positive_button_text">Eliminar</string>
+    <string name="character_profile_image">foto de perfil del personaje</string>
 </resources>

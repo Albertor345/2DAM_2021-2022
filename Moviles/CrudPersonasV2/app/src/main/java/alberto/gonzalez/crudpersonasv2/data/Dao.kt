@@ -1,27 +1,28 @@
 package alberto.gonzalez.crudpersonasv2.data
 
 import alberto.gonzalez.crudpersonasv2.config.ConfigMoshi
+import alberto.gonzalez.crudpersonasv2.domain.Character
 import alberto.gonzalez.crudpersonasv2.domain.CharacterDataWrapper
 import java.io.InputStream
 
-class DaoPersonas {
+class Dao {
     private val moshi = ConfigMoshi.getInstance()
 
     companion object {
-        private val list = List<Character>()
+        private lateinit var list: List<Character>
     }
 
     constructor(file: InputStream) {
         if (list.isEmpty()) {
-            loadData(file)
+            list = loadData(file)
         }
     }
 
-    private fun loadData(file: InputStream?) {
+    private fun loadData(file: InputStream): List<Character> {
         val data = moshi.adapter(CharacterDataWrapper::class.java)
-            .fromJson(file?.bufferedReader()?.readText())!!
+            .fromJson(file.bufferedReader().readText())!!
 
-        list.addAll(data.data.characters)
+        return data.data.characters
 
     }
 
@@ -31,3 +32,4 @@ class DaoPersonas {
 
 
 }
+

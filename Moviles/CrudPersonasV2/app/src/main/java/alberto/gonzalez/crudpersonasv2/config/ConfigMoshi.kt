@@ -8,10 +8,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object ConfigMoshi {
-    private lateinit var moshi : Moshi
+    private lateinit var moshi: Moshi
 
-    fun getInstance() : Moshi{
-        if (moshi  == null){
+    fun getInstance(): Moshi {
+        if (moshi == null) {
             moshi = Moshi.Builder()
                 .add(LocalDateTimeAdapter())
                 .addLast(KotlinJsonAdapterFactory())

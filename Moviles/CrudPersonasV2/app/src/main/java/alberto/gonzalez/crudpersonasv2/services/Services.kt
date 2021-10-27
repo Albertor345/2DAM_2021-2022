@@ -16,9 +16,9 @@ class Services {
         return dao.getCharacter(index)
     }
 
-    fun addCharacter(character: Character) {
+    fun addCharacter(character: Character, index: Int) {
         var dao = Dao()
-        return dao.addCharacter(character)
+        return dao.addCharacter(character, index)
     }
 
     fun removeCharacter(character: Character){

@@ -27,7 +27,7 @@ class ListActivity : AppCompatActivity() {
     private fun setListeners() {
         with(activityBinding) {
             floatingActionButton.setOnClickListener {
-                addItem(null)
+                addItem(null, 0)
             }
         }
     }
@@ -49,7 +49,7 @@ class ListActivity : AppCompatActivity() {
                     "Se ha borrado una entrada de la lista ¿Deseas recuperarla?",
                     Snackbar.LENGTH_LONG
                 ).setAction("Deshacer") {
-                    addItem(character)
+                    addItem(character, index)
                 }.show()
             }
             .setCancelable(false)
@@ -60,9 +60,9 @@ class ListActivity : AppCompatActivity() {
 
     }
 
-    fun addItem(character: Character?) {
+    fun addItem(character: Character?, index: Int) {
         character?.let {
-            services.addCharacter(character)
+            services.addCharacter(character, index)
         } ?: showDialog()
 
     }

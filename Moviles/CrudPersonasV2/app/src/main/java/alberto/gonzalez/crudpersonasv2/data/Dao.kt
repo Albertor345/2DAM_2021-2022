@@ -37,9 +37,9 @@ class Dao {
         return list[index]
     }
 
-    fun addCharacter(character: Character) {
+    fun addCharacter(character: Character, index: Int) {
         if (!list.contains(character)) {
-            list.add(character)
+            list.add(index, character)
         }
     }
 

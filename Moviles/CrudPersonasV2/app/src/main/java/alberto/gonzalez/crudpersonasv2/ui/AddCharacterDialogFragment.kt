@@ -26,8 +26,6 @@ class AddCharacterDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             toolbar.setNavigationOnClickListener { dismiss() }
-            toolbar.title = getString(R.string.add_character_dialog_toolbar_title)
-            toolbar.inflateMenu(R.menu.add_dialog_menu)
             toolbar.setNavigationOnClickListener {
                 dismiss()
             }

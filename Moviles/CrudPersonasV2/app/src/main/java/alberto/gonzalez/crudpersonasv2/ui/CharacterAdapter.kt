@@ -27,6 +27,7 @@ class CharacterAdapter(
         return characters.size
     }
 
+
     class CharacterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CharacterBinding.bind(view)
         fun load(character: Character, delete: (Int) -> Unit) {
@@ -36,7 +37,6 @@ class CharacterAdapter(
                 buttonDelete.setOnClickListener {
                     delete(adapterPosition)
                 }
-
             }
         }
     }

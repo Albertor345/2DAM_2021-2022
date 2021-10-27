@@ -2,14 +2,12 @@ package alberto.gonzalez.crudpersonasv2.ui
 
 import alberto.gonzalez.crudpersonasv2.R
 import alberto.gonzalez.crudpersonasv2.databinding.AddFragmentBinding
-import alberto.gonzalez.crudpersonasv2.databinding.ListActivityBinding
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
 
 
 class AddCharacterDialogFragment : DialogFragment() {
@@ -28,12 +26,21 @@ class AddCharacterDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             toolbar.setNavigationOnClickListener { dismiss() }
-            toolbar.setTitle("SSSSSSSSSS")
+            toolbar.title = getString(R.string.add_character_dialog_toolbar_title)
             toolbar.inflateMenu(R.menu.add_dialog_menu)
-            toolbar.setOnMenuItemClickListener { item ->
+            toolbar.setNavigationOnClickListener {
                 dismiss()
-                true
             }
+            toolbar.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_save -> {
+                       dismiss()
+                        true
+                    }
+                    else -> false
+                }
+            }
+
         }
     }
 
@@ -46,4 +53,5 @@ class AddCharacterDialogFragment : DialogFragment() {
             dialog.window?.setLayout(width, height)
         }
     }
+
 }

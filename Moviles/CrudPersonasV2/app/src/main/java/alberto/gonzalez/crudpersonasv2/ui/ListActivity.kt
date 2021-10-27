@@ -32,7 +32,7 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    fun delete(index: Int) {
+    private fun delete(index: Int) {
         MaterialAlertDialogBuilder(this)
             .setTitle(getString(R.string.delete_alert_dialog_title))
             .setMessage(getString(R.string.delete_alert_dialog_message))
@@ -46,9 +46,9 @@ class ListActivity : AppCompatActivity() {
                 Snackbar.make(
                     this,
                     activityBinding.recycler,
-                    "Se ha borrado una entrada de la lista ¿Deseas recuperarla?",
+                    getString(R.string.undo_snackbar_content_text),
                     Snackbar.LENGTH_LONG
-                ).setAction("Deshacer") {
+                ).setAction(getString(R.string.undo_snackbar_action_text)) {
                     addItem(character, index)
                 }.show()
             }
@@ -60,44 +60,23 @@ class ListActivity : AppCompatActivity() {
 
     }
 
-    fun addItem(character: Character?, index: Int) {
+    private fun addItem(character: Character?, index: Int) {
         character?.let {
             services.addCharacter(character, index)
         } ?: showDialog()
 
     }
 
-    fun loadList() {
+    private fun loadList() {
         services.getListaCharacters(assets.open(getString(R.string.dataFile)))?.let {
             activityBinding.recycler.adapter = CharacterAdapter(it, ::delete)
             activityBinding.recycler.layoutManager = GridLayoutManager(this, 1)
         }
     }
 
-    fun showDialog() {
-
-        /*val dialog = Dialog(this, android.R.style.Theme_Material_Light_Dialog)
-        dialog.setContentView(R.layout.add_fragment)
-        dialog.show()*/
-
+    private fun showDialog() {
         val addCharacterDialogFragment = AddCharacterDialogFragment()
-        addCharacterDialogFragment.show(supportFragmentManager, "addCharacterDialogFragmentDialog")
-
-        /*val fragmentAddCharacter = AddCharacterDialogFragment().display(supportFragmentManager)
-
-        // The device is using a large layout, so show the fragment as a dialog
-        fragmentAddCharacter.show(fragmentManager, "dialog")*/
-
-        // The device is smaller, so show the fragment fullscreen
-        /*val transaction = supportFragmentManager.beginTransaction()
-        // For a little polish, specify a transition animation
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        // To make it fullscreen, use the 'content' root view as the container
-        // for the fragment, which is always the root view for the activity
-        transaction
-            .add(android.R.id.content, addCharacterDialogFragment)
-            .addToBackStack(null)
-            .commit()*/
+        addCharacterDialogFragment.show(supportFragmentManager, "addCharacterDialogFragment")
     }
 }
 

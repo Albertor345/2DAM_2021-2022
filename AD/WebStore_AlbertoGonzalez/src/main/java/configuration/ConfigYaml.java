@@ -5,34 +5,31 @@
  */
 package configuration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.yaml.snakeyaml.Yaml;
 
-import javax.inject.Singleton;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
- *
  * @author Laura
  */
 @Getter
 @Setter
 @NoArgsConstructor
+@Log4j2
 public class ConfigYaml {
 
+    private static ConfigYaml config;
     private String user;
     private String pass;
-
-    private static ConfigYaml config;
-
+    private String db_user;
+    private String db_password;
+    private String db_driver;
+    private String urlDB;
 
     public static ConfigYaml getInstance() {
         if (config == null) {
@@ -40,14 +37,11 @@ public class ConfigYaml {
                 Yaml yaml = new Yaml();
                 config = yaml.loadAs(new FileInputStream("propertiesFiles/users.yml"), ConfigYaml.class);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(ConfigYaml.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(ConfigYaml.class.getName()).log(Level.SEVERE, null, ex);
+                log.error(ex.getMessage(), ex);
             }
         }
         return config;
     }
-
 
 
 }

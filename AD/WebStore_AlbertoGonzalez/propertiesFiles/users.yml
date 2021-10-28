@@ -2,3 +2,7 @@
 ---
 user: root
 pass: root
+db_user_name: root
+db_password: quevedo2dam
+db_driver: com.mysql.jdbc.Driver
+urlDB: jdbc:mysql://dam2:mysql:iesquevedo:es:3335/alberto_WebStore

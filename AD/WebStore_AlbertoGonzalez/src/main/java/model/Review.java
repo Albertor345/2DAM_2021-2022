@@ -6,7 +6,7 @@
 package model;
 
 import lombok.*;
-import services.LocalDateAdapter;
+import services.impl.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -27,14 +27,12 @@ public class Review {
     private String description;
     @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDate date;
-    private int customerId;
-    private int itemId;
-    private int purchaseId;
+    private Purchase purchase;
 
 
     @Override
     public String toString() {
-        return "No. " + idReview + "  Item: " + itemId + "  Rating: " + rating + "\nTitle: " + title + "\nComment: " + description + "\nDate: " + date + "\n____________________________________________________________\n";
+        return "No. " + idReview + "  Item: " + purchase.getItem().getName() + "  Rating: " + rating + "\nTitle: " + title + "\nComment: " + description + "\nDate: " + date + "\n____________________________________________________________\n";
     }
 
 }

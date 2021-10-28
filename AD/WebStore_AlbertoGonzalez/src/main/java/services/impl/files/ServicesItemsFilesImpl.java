@@ -3,59 +3,69 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package services;
+package services.impl.files;
 
 import dao.DAOItems;
 import dao.DAOPurchases;
+import dao.impl.files.DaoItemsFilesImpl;
+import dao.impl.files.DaoPurchasesFilesImpl;
 import model.Item;
 import model.Purchase;
+import services.ServicesItems;
 
 import javax.inject.Inject;
 import java.util.List;
 
-/**
- * @author dam2
- */
-public class ItemsServices {
+public class ServicesItemsFilesImpl implements ServicesItems {
 
     private DAOItems daoItems;
     private DAOPurchases daoPurchases;
 
     @Inject
-    public ItemsServices(DAOItems daoItems, DAOPurchases daoPurchases) {
+    public ServicesItemsFilesImpl(DaoItemsFilesImpl daoItems, DaoPurchasesFilesImpl daoPurchases) {
         this.daoItems = daoItems;
         this.daoPurchases = daoPurchases;
     }
 
-    public boolean addItem(Item item) {
-        if (!checkItemID(getAllItems(), item)) {
+    public boolean add(Item item) {
+        if (!checkItemID(getAll(), item)) {
             return daoItems.add(item);
         } else {
             return false;
         }
     }
 
-    public boolean deleteItem(Item item) {
+    public boolean delete(Item item) {
         if (daoPurchases.deleteAllPurchasesFromAnItem(item)) {
             return daoItems.delete(item);
         }
         return false;
     }
 
+    @Override
+    public boolean update(Item item) {
+        return false;
+    }
 
-    public List<Item> getAllItems() {
+    @Override
+    public Item get(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Item> getAll() {
         return daoItems.getAll();
     }
 
     private boolean checkItemID(List<Item> allItems, Item item) {
-        return allItems.stream().anyMatch(checkingItem -> checkingItem.getIdItem() == item.getIdItem());
+        return allItems.stream().anyMatch(checkingItem -> checkingItem.getId() == item.getId());
     }
 
     public boolean checkItemPurchases(Item item) {
         List<Purchase> purchaseList = daoPurchases.getAll();
         return purchaseList.stream()
-                .map(purchase -> purchase.getItemID())
-                .anyMatch(itemID -> item.getIdItem() == itemID);
+                .map(purchase -> purchase.getItem().getId())
+                .anyMatch(itemID -> item.getId() == itemID);
     }
 
 }

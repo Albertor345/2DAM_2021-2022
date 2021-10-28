@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import model.Item;
@@ -32,15 +31,15 @@ public class FXMLAddItemsController implements Initializable {
 
     @FXML
     private void addItem(ActionEvent actionEvent) {
-        List<Item> items = principal.getItemsServices().getAllItems();
+        List<Item> items = principal.getServicesItems().getAll();
         try {
             Item item = Item.builder()
-                    .idItem(items.size())
+                    .id(items.size())
                     .name(textFieldName.getText())
                     .company(textFieldCompany.getText())
                     .price(Double.parseDouble(textFieldPrice.getText()))
                     .build();
-            if (principal.getItemsServices().addItem(item)) {
+            if (principal.getServicesItems().add(item)) {
                 listViewItems.getItems().add(item);
                 listViewItems.refresh();
                 alert("Congrats", "Item added!!", Alert.AlertType.CONFIRMATION);

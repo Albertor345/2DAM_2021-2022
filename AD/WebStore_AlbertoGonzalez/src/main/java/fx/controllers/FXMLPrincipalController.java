@@ -23,9 +23,14 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import lombok.Getter;
-import services.CustomersServices;
-import services.ItemsServices;
-import services.PurchasesServices;
+import services.ServicesCustomers;
+import services.ServicesItems;
+import services.ServicesPurchases;
+import services.ServicesReviews;
+import services.impl.jdbc.ServicesCustomersJDBCImpl;
+import services.impl.jdbc.ServicesItemsJDBCImpl;
+import services.impl.jdbc.ServicesPurchasesJDBCImpl;
+import services.impl.jdbc.ServicesReviewsJDBCImpl;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -43,9 +48,11 @@ public class FXMLPrincipalController implements Initializable {
     private MenuBar fxMenuTop;
 
     private String username;
-    private ItemsServices itemsServices;
-    private PurchasesServices purchasesServices;
-    private CustomersServices customersServices;
+    private ServicesItems servicesItems;
+    private ServicesPurchases servicesPurchases;
+    private ServicesCustomers servicesCustomers;
+    private ServicesReviews servicesReviews;
+
     private AnchorPane login;
     private FXMLLoginController loginController;
     private FXMLLoader loginLoader;
@@ -87,7 +94,8 @@ public class FXMLPrincipalController implements Initializable {
     private FXMLLoader deleteItemsLoader;
 
     @Inject
-    public FXMLPrincipalController(PurchasesServices purchasesServices, CustomersServices customersServices, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, ItemsServices itemsServices, FXMLLoader deleteItemsLoader) {
+    public FXMLPrincipalController(ServicesPurchasesJDBCImpl servicesPurchases, ServicesCustomersJDBCImpl servicesCustomers, ServicesReviewsJDBCImpl servicesReviews, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, ServicesItemsJDBCImpl servicesItems, FXMLLoader deleteItemsLoader) {
+        this.servicesReviews = servicesReviews;
         this.loginLoader = loginLoader;
         this.welcomeLoader = welcomeLoader;
         this.purchasesLoader = purchasesLoader;
@@ -102,9 +110,9 @@ public class FXMLPrincipalController implements Initializable {
         this.addItemsLoader = addItemsLoader;
         this.deleteItemsLoader = deleteItemsLoader;
 
-        this.customersServices = customersServices;
-        this.itemsServices = itemsServices;
-        this.purchasesServices = purchasesServices;
+        this.servicesCustomers = servicesCustomers;
+        this.servicesItems = servicesItems;
+        this.servicesPurchases = servicesPurchases;
     }
 
     public String getUsername() {
@@ -265,7 +273,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void chargePurchases() {
         purchasesController.clear();
-        purchasesController.load(purchasesServices.getAllPurchases(), itemsServices.getAllItems(), customersServices.getAllCustomers().getCustomers());
+        purchasesController.load(servicesPurchases.getAll(), servicesItems.getAll(), servicesCustomers.getAll());
         fxRoot.setCenter(purchases);
     }
 
@@ -275,12 +283,12 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeDeletePurchases() {
-        deletePurchasesController.loadPurchases(purchasesServices.getAllPurchases());
+        deletePurchasesController.loadPurchases(servicesPurchases.getAll());
         fxRoot.setCenter(deletePurchases);
     }
 
     public void chargeAddCustomer() {
-        addCustomerController.loadCustomersList(customersServices.getAllCustomers().getCustomers());
+        addCustomerController.loadCustomersList(servicesCustomers.getAll());
         fxRoot.setCenter(addCustomer);
     }
 
@@ -309,12 +317,12 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeAddItems() {
-        addItemsController.loadList(itemsServices.getAllItems());
+        addItemsController.loadList(servicesItems.getAll());
         fxRoot.setCenter(addItems);
     }
 
     public void chargeDeleteItems() {
-        deleteItemsController.loadList(itemsServices.getAllItems());
+        deleteItemsController.loadList(servicesItems.getAll());
         fxRoot.setCenter(deleteItems);
     }
 

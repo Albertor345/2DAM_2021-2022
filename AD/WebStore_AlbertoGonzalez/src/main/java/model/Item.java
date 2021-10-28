@@ -15,7 +15,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 public class Item {
-    private int idItem;
+    private int id;
     private String name;
     private String company;
     private double price;
@@ -29,17 +29,17 @@ public class Item {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return idItem == item.idItem;
+        return id == item.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idItem);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return "ID: " + idItem + "  Name: " + name + "  Company: " + company + " Price: " + price;
+        return "ID: " + id + "  Name: " + name + "  Company: " + company + " Price: " + price;
     }
 
 }

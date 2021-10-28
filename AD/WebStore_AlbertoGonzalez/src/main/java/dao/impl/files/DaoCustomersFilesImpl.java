@@ -1,6 +1,8 @@
-package dao;
+package dao.impl.files;
 
 import configuration.ConfigProperties;
+import dao.DAOCustomers;
+import dao.DAOItems;
 import model.Customer;
 import model.Customers;
 
@@ -12,23 +14,25 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DaoCustomersFiles implements DAOCustomers {
+public class DaoCustomersFilesImpl implements DAOCustomers {
 
 
-    public DaoCustomersFiles() {
+    public DaoCustomersFilesImpl() {
     }
 
     @Override
-    public boolean add(Customers customers) {
+    public boolean add(Customer customer) {
         try {
             Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
             JAXBContext context = JAXBContext.newInstance(Customers.class);
             Marshaller marshaller = context.createMarshaller();
-            marshaller.marshal(customers, Files.newOutputStream(file));
+            marshaller.marshal(Customers.builder().customers(new ArrayList<>() {{add(customer);}}).build(), Files.newOutputStream(file));
             return true;
         } catch (JAXBException e) {
             Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
@@ -59,16 +63,16 @@ public class DaoCustomersFiles implements DAOCustomers {
     }
 
     @Override
-    public Customers getAll() {
-        Customers customers = new Customers();
+    public List<Customer> getAll() {
+        List<Customer> customers = new ArrayList<>();
         try {
             Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
             JAXBContext context = JAXBContext.newInstance(Customers.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            customers = (Customers) unmarshaller.unmarshal(Files.newInputStream(file));
+            customers = (List<Customer>) unmarshaller.unmarshal(Files.newInputStream(file));
         } catch (JAXBException e) {
-            customers.setCustomers(Collections.emptyList());
+            customers.addAll(Collections.emptyList());
         } catch (IOException e) {
             Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
         } catch (Exception e) {
@@ -78,8 +82,8 @@ public class DaoCustomersFiles implements DAOCustomers {
     }
 
     @Override
-    public void update(Customer t) {
-
+    public boolean update(Customer t) {
+        return false;
     }
 
     @Override

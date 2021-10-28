@@ -5,13 +5,15 @@
  */
 package model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -22,16 +24,16 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Customer {
 
-    private int idCustomer;
+    private int id;
     private String name;
     private String phone;
     private String address;
     @XmlElement(name = "review")
-    private ArrayList<Review> reviews;
+    private List<Review> reviews;
 
     @Override
     public String toString() {
-        return "ID: " + idCustomer + "  Name: " + name + "  Phone: " + phone + "  Address: " + address;
+        return "ID: " + id + "  Name: " + name + "  Phone: " + phone + "  Address: " + address;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class Customer {
             return false;
         }
         final Customer other = (Customer) obj;
-        if (this.idCustomer != other.idCustomer) {
+        if (this.id != other.id) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {

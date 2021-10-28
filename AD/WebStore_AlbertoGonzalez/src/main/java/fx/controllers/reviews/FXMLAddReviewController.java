@@ -6,21 +6,13 @@
 package fx.controllers.reviews;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import model.Customer;
-import model.Purchase;
-import model.Review;
-import services.CustomersServices;
-import services.PurchasesServices;
-import services.ReviewsServices;
 
 /**
  * FXML Controller class

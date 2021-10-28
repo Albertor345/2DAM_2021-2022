@@ -41,14 +41,12 @@ public class FXMLPurchasesController implements Initializable {
         Customer customer = customerBox.getSelectionModel().getSelectedItem();
         if (item != null && customer != null) {
             Purchase purchase = Purchase.builder()
-                    .idPurchase(principalController.getPurchasesServices().getAllPurchases().size())
-                    .customerID(customer.getIdCustomer())
-                    .customerName(customer.getName())
-                    .itemID(item.getIdItem())
-                    .itemName(item.getName())
+                    .idPurchase(principalController.getServicesPurchases().getAll().size())
+                    .customer(customer)
+                    .item(item)
                     .date(dateBox.getValue()).build();
 
-            if (principalController.getPurchasesServices().addPurchase(purchase)) {
+            if (principalController.getServicesPurchases().add(purchase)) {
                 purchaseList.getItems().add(purchase);
                 alert("Success", "Purchase added successfully", Alert.AlertType.INFORMATION);
                 clear();

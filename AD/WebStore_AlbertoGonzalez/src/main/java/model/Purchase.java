@@ -10,6 +10,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 
 /**
@@ -19,13 +22,13 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @Builder
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Purchase {
 
     private int idPurchase;
-    private int customerID;
-    private String customerName;
-    private int itemID;
-    private String itemName;
+    private Customer customer;
+    private Item item;
     private LocalDate date;
 
     public Purchase() {
@@ -34,7 +37,7 @@ public class Purchase {
 
     @Override
     public String toString() {
-        return "Purchase ID: " + idPurchase + " Customer[ ID: " + customerID + " Name: " + customerName + "] Item[ ID: " + itemID + " Name: " + itemName + "] Date: " + date + "\n";
+        return "Purchase ID: " + idPurchase + " Customer[ ID: " + customer.getId() + " Name: " + customer.getName() + "] Item[ ID: " + item.getId() + " Name: " + item.getName() + "] Date: " + date + "\n";
     }
 
     @Override

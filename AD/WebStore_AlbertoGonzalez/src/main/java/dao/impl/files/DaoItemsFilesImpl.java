@@ -1,6 +1,7 @@
-package dao;
+package dao.impl.files;
 
 import configuration.ConfigProperties;
+import dao.DAOItems;
 import model.Item;
 
 import java.io.*;
@@ -11,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class DaoItemsFiles implements DAOItems {
+public class DaoItemsFilesImpl implements DAOItems {
 
     @Override
     public boolean add(Item item) {
@@ -19,7 +20,7 @@ public class DaoItemsFiles implements DAOItems {
 
         try (FileWriter writer = new FileWriter(file, true);
              BufferedWriter bw = new BufferedWriter(writer)) {
-            String content = item.getIdItem() + " " + item.getName() + " " + item.getCompany() + " " + item.getPrice() + "\n";
+            String content = item.getId() + " " + item.getName() + " " + item.getCompany() + " " + item.getPrice() + "\n";
             bw.write(content);
             return true;
         } catch (IOException ex) {
@@ -53,7 +54,7 @@ public class DaoItemsFiles implements DAOItems {
     @Override
     public Item get(Item item) {
         List<Item> listItems = getAll();
-        return listItems.get(item.getIdItem());
+        return listItems.get(item.getId());
     }
 
     @Override
@@ -66,7 +67,7 @@ public class DaoItemsFiles implements DAOItems {
             while ((st = br.readLine()) != null) {
                 lista = Arrays.stream(st.split(" ")).collect(Collectors.toList());
                 items.add(Item.builder()
-                        .idItem(Integer.parseInt(lista.get(0)))
+                        .id(Integer.parseInt(lista.get(0)))
                         .name(lista.get(1))
                         .company(lista.get(2))
                         .price(Double.parseDouble(lista.get(3)))

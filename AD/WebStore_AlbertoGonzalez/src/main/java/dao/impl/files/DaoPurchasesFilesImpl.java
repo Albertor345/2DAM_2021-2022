@@ -1,6 +1,9 @@
-package dao;
+package dao.impl.files;
 
 import configuration.ConfigProperties;
+import dao.DAOItems;
+import dao.DAOPurchases;
+import model.Customer;
 import model.Item;
 import model.Purchase;
 
@@ -14,14 +17,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class DaoPurchasesFiles implements DAOPurchases {
+public class DaoPurchasesFilesImpl implements DAOPurchases {
 
     @Override
     public boolean add(Purchase purchase) {
         Path file = Paths.get(ConfigProperties.getInstance().getProperty("purchases"));
 
         try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.APPEND, StandardOpenOption.WRITE})) {
-            String content = purchase.getIdPurchase() + " " + purchase.getCustomerID() + " " + purchase.getCustomerName() + " " + purchase.getItemID() + " " + purchase.getItemName() + " " + purchase.getDate() + "\n";
+            String content = purchase.getIdPurchase() + " " + purchase.getCustomer().getId() + " " + purchase.getCustomer().getName() + " " + purchase.getItem().getId() + " " + purchase.getItem().getName() + " " + purchase.getDate() + "\n";
             bw.write(content);
             return true;
         } catch (IOException ex) {
@@ -58,7 +61,7 @@ public class DaoPurchasesFiles implements DAOPurchases {
         try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING})) {
             bw.write("");
             purchaseList.stream()
-                    .filter(purchase -> purchase.getItemID() != item.getIdItem())
+                    .filter(purchase -> purchase.getItem().getId() != item.getId())
                     .collect(Collectors.toList())
                     .forEach(p -> add(p));
             return true;
@@ -84,10 +87,14 @@ public class DaoPurchasesFiles implements DAOPurchases {
                 lista = Arrays.stream(st.split(" ")).collect(Collectors.toList());
                 purchases.add(Purchase.builder()
                         .idPurchase(Integer.parseInt(lista.get(0)))
-                        .customerID(Integer.parseInt(lista.get(1)))
-                        .customerName(lista.get(2))
-                        .itemID(Integer.parseInt(lista.get(3)))
-                        .itemName(lista.get(4))
+                        .customer(Customer.builder()
+                                .id(Integer.parseInt(lista.get(1)))
+                                .name(lista.get(2))
+                                .build())
+                        .item(Item.builder()
+                                .id(Integer.parseInt(lista.get(3)))
+                                .name(lista.get(4))
+                                .build())
                         .date(Date.valueOf(lista.get(5)).toLocalDate())
                         .build());
             }

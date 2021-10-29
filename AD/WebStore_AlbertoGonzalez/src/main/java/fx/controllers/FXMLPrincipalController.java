@@ -93,6 +93,7 @@ public class FXMLPrincipalController implements Initializable {
     private FXMLDeleteItemsController deleteItemsController;
     private FXMLLoader deleteItemsLoader;
 
+
     @Inject
     public FXMLPrincipalController(ServicesPurchasesJDBCImpl servicesPurchases, ServicesCustomersJDBCImpl servicesCustomers, ServicesReviewsJDBCImpl servicesReviews, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, ServicesItemsJDBCImpl servicesItems, FXMLLoader deleteItemsLoader) {
         this.servicesReviews = servicesReviews;

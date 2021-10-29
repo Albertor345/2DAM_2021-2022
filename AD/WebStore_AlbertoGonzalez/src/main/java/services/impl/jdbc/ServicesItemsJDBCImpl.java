@@ -8,12 +8,13 @@ package services.impl.jdbc;
 import dao.DAOItems;
 import dao.DAOPurchases;
 import dao.impl.files.DaoPurchasesFilesImpl;
-import dao.impl.jdbc.DaoItemsJDBCImpl;
 import model.Item;
 import services.ServicesItems;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
+
 
 public class ServicesItemsJDBCImpl implements ServicesItems {
 
@@ -21,7 +22,7 @@ public class ServicesItemsJDBCImpl implements ServicesItems {
     private DAOPurchases daoPurchases;
 
     @Inject
-    public ServicesItemsJDBCImpl(DaoItemsJDBCImpl daoItems, DaoPurchasesFilesImpl daoPurchases) {
+    public ServicesItemsJDBCImpl(@Named("ItemsJDBC") DAOItems daoItems, DaoPurchasesFilesImpl daoPurchases) {
         this.daoItems = daoItems;
         this.daoPurchases = daoPurchases;
     }

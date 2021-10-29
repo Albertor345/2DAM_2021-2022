@@ -7,6 +7,7 @@ import model.Item;
 import utils.Constantes;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.sql.Statement;
 import java.util.List;
 
 @Log4j2
+@Named("ItemsJDBC")
 public class DaoItemsJDBCImpl implements DAOItems {
 
     private DBConnection dbConnection;
@@ -30,8 +32,8 @@ public class DaoItemsJDBCImpl implements DAOItems {
 
     @Override
     public boolean add(Item item) {
-        try (Connection connection = dbConnection.getConnection(); PreparedStatement preparedStatement) {
-            preparedStatement = connection.prepareStatement(Constantes.INSERT_ITEM_QUERY, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.INSERT_ITEM_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setDouble(2, item.getPrice());
             preparedStatement.setString(3, item.getCompany());
@@ -44,8 +46,6 @@ public class DaoItemsJDBCImpl implements DAOItems {
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-        } finally {
-            dbConnection.closeStatement(preparedStatement);
         }
         return false;
     }

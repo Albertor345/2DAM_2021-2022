@@ -9,18 +9,19 @@ import dao.DAOCustomers;
 import dao.impl.files.DaoCustomersFilesImpl;
 import dao.impl.jdbc.DaoCustomersJDBCImpl;
 import model.Customer;
+import producers.annotations.JDBC;
 import services.ServicesCustomers;
 
 import javax.inject.Inject;
 import java.util.List;
 
-
+@JDBC
 public class ServicesCustomersJDBCImpl implements ServicesCustomers {
 
     private DAOCustomers daoCustomers;
 
     @Inject
-    public ServicesCustomersJDBCImpl(DaoCustomersJDBCImpl daoCustomers) {
+    public ServicesCustomersJDBCImpl(@JDBC DAOCustomers daoCustomers) {
         this.daoCustomers = daoCustomers;
     }
 

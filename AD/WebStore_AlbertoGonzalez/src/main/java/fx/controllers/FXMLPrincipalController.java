@@ -27,10 +27,7 @@ import services.ServicesCustomers;
 import services.ServicesItems;
 import services.ServicesPurchases;
 import services.ServicesReviews;
-import services.impl.jdbc.ServicesCustomersJDBCImpl;
-import services.impl.jdbc.ServicesItemsJDBCImpl;
-import services.impl.jdbc.ServicesPurchasesJDBCImpl;
-import services.impl.jdbc.ServicesReviewsJDBCImpl;
+import producers.annotations.JDBC;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -95,8 +92,7 @@ public class FXMLPrincipalController implements Initializable {
 
 
     @Inject
-    public FXMLPrincipalController(ServicesPurchasesJDBCImpl servicesPurchases, ServicesCustomersJDBCImpl servicesCustomers, ServicesReviewsJDBCImpl servicesReviews, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, ServicesItemsJDBCImpl servicesItems, FXMLLoader deleteItemsLoader) {
-        this.servicesReviews = servicesReviews;
+    public FXMLPrincipalController(@JDBC ServicesItems servicesItems, @JDBC ServicesPurchases servicesPurchases, @JDBC ServicesCustomers servicesCustomers, @JDBC ServicesReviews servicesReviews, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader) {
         this.loginLoader = loginLoader;
         this.welcomeLoader = welcomeLoader;
         this.purchasesLoader = purchasesLoader;
@@ -111,6 +107,7 @@ public class FXMLPrincipalController implements Initializable {
         this.addItemsLoader = addItemsLoader;
         this.deleteItemsLoader = deleteItemsLoader;
 
+        this.servicesReviews = servicesReviews;
         this.servicesCustomers = servicesCustomers;
         this.servicesItems = servicesItems;
         this.servicesPurchases = servicesPurchases;

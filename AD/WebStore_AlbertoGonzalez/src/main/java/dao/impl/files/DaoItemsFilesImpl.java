@@ -3,6 +3,7 @@ package dao.impl.files;
 import configuration.ConfigProperties;
 import dao.DAOItems;
 import model.Item;
+import producers.annotations.FILES;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
+@FILES
 public class DaoItemsFilesImpl implements DAOItems {
 
     @Override

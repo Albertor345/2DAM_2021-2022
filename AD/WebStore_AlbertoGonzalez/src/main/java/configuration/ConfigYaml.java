@@ -11,19 +11,18 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.yaml.snakeyaml.Yaml;
 
+import javax.inject.Singleton;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-/**
- * @author Laura
- */
 @Getter
 @Setter
-@NoArgsConstructor
 @Log4j2
+@Singleton
+@NoArgsConstructor
 public class ConfigYaml {
 
-    private static ConfigYaml config;
+    private static ConfigYaml config = getInstance();
     private String user;
     private String pass;
     private String db_user;
@@ -31,14 +30,13 @@ public class ConfigYaml {
     private String db_driver;
     private String urlDB;
 
+
     public static ConfigYaml getInstance() {
-        if (config == null) {
-            try {
-                Yaml yaml = new Yaml();
-                config = yaml.loadAs(new FileInputStream("propertiesFiles/users.yml"), ConfigYaml.class);
-            } catch (FileNotFoundException ex) {
-                log.error(ex.getMessage(), ex);
-            }
+        try {
+            Yaml yaml = new Yaml();
+            config = yaml.loadAs(new FileInputStream("propertiesFiles/users.yml"), ConfigYaml.class);
+        } catch (FileNotFoundException ex) {
+            log.error(ex.getMessage(), ex);
         }
         return config;
     }

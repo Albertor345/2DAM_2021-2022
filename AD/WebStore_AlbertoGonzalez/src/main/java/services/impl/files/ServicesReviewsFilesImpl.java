@@ -7,10 +7,12 @@ package services.impl.files;
 
 import model.Review;
 import services.ServicesReviews;
+import producers.annotations.FILES;
 
 import java.util.Collections;
 import java.util.List;
 
+@FILES
 public class ServicesReviewsFilesImpl implements ServicesReviews {
 
     @Override

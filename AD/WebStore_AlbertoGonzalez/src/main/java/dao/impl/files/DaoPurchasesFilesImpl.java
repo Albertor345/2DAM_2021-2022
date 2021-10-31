@@ -6,6 +6,7 @@ import dao.DAOPurchases;
 import model.Customer;
 import model.Item;
 import model.Purchase;
+import producers.annotations.FILES;
 
 import java.io.*;
 import java.nio.file.*;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
+@FILES
 public class DaoPurchasesFilesImpl implements DAOPurchases {
 
     @Override

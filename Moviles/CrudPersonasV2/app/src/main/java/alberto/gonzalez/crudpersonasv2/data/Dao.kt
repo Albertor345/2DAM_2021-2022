@@ -38,13 +38,11 @@ class Dao {
     }
 
     fun addCharacter(character: Character, index: Int) {
-        if (!list.contains(character)) {
             list.add(index, character)
-        }
     }
 
     fun removeCharacter(character: Character) {
-        if (list.contains(character)) list.remove(character)
+        list.remove(character)
 
     }
 

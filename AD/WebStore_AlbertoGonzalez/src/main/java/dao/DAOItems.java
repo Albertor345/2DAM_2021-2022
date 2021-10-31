@@ -9,9 +9,6 @@ import model.Item;
 
 import java.util.List;
 
-/**
- *
- */
 public interface DAOItems {
 
     void update(Item item);
@@ -24,3 +21,4 @@ public interface DAOItems {
 
     List<Item> getAll();
 }
+

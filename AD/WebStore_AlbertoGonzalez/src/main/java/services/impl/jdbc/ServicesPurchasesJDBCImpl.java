@@ -8,18 +8,19 @@ package services.impl.jdbc;
 import dao.DAOPurchases;
 import dao.impl.jdbc.DAOPurchasesJDBCImpl;
 import model.Purchase;
+import producers.annotations.JDBC;
 import services.ServicesPurchases;
 
 import javax.inject.Inject;
 import java.util.List;
 
-
+@JDBC
 public class ServicesPurchasesJDBCImpl implements ServicesPurchases {
 
     private DAOPurchases daoPurchases;
 
     @Inject
-    public ServicesPurchasesJDBCImpl(DAOPurchasesJDBCImpl daoPurchases) {
+    public ServicesPurchasesJDBCImpl(@JDBC DAOPurchases daoPurchases) {
         this.daoPurchases = daoPurchases;
     }
 

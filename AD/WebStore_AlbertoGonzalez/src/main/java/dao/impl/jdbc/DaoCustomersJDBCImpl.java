@@ -2,9 +2,10 @@ package dao.impl.jdbc;
 
 import dao.DAOCustomers;
 import model.Customer;
+import producers.annotations.JDBC;
 
 import java.util.List;
-
+@JDBC
 public class DaoCustomersJDBCImpl implements DAOCustomers {
 
     @Override

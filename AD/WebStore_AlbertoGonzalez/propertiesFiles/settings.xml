@@ -4,5 +4,4 @@
     <entry key="items">Data/items.txt</entry>
     <entry key="customers">Data/customers.xml</entry>
     <entry key="purchases">Data/purchases.txt</entry>
-    <entry key="type">JDBC</entry>
 </properties>

@@ -24,7 +24,7 @@ public class FXMLDeleteItemsController implements Initializable {
     private void deleteItem(ActionEvent actionEvent) {
         Item item = listViewItems.getSelectionModel().getSelectedItem();
         if (item != null) {
-            if (!principalController.getServicesItems().checkItemPurchases(item)) {
+            if (true/*!principalController.getServicesItems().checkItemPurchases(item)*/) {
                 principalController.getServicesItems().delete(item);
             } else {
                 alert.setContentText("This item has purchases related to it, do you want to continue?");

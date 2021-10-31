@@ -1,9 +1,9 @@
 package alberto.gonzalez.crudpersonasv2.ui
 
 import alberto.gonzalez.crudpersonasv2.R
+import alberto.gonzalez.crudpersonasv2.data.Dao
 import alberto.gonzalez.crudpersonasv2.databinding.ListActivityBinding
 import alberto.gonzalez.crudpersonasv2.domain.Character
-import alberto.gonzalez.crudpersonasv2.services.Services
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,13 +13,13 @@ import com.google.android.material.snackbar.Snackbar
 
 class ListActivity : AppCompatActivity() {
     private lateinit var activityBinding: ListActivityBinding
-    private lateinit var services: Services
+    private lateinit var dao: Dao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityBinding = ListActivityBinding.inflate(layoutInflater)
         setContentView(activityBinding.root)
-        services = Services()
+        dao = Dao(assets.open(getString(R.string.dataFile)))
         setListeners()
         loadList()
     }
@@ -40,8 +40,9 @@ class ListActivity : AppCompatActivity() {
                 view.dismiss()
             }
             .setPositiveButton(getString(R.string.delete_alert_dialog_positive_button_text)) { view, _ ->
-                var character = services.getCharacter(index)
-                services.removeCharacter(character)
+                var character = dao.getCharacter(index)
+                dao.removeCharacter(character)
+                activityBinding.recycler.adapter?.notifyItemRemoved(index)
                 view.dismiss()
                 Snackbar.make(
                     this,
@@ -50,6 +51,7 @@ class ListActivity : AppCompatActivity() {
                     Snackbar.LENGTH_LONG
                 ).setAction(getString(R.string.undo_snackbar_action_text)) {
                     addItem(character, index)
+                    activityBinding.recycler.adapter?.notifyItemInserted(index)
                 }.show()
             }
             .setCancelable(false)
@@ -62,22 +64,30 @@ class ListActivity : AppCompatActivity() {
 
     private fun addItem(character: Character?, index: Int) {
         character?.let {
-            services.addCharacter(character, index)
+            dao.addCharacter(character, index)
         } ?: showDialog()
 
     }
 
     private fun loadList() {
-        services.getListaCharacters(assets.open(getString(R.string.dataFile)))?.let {
+        dao.getLista().let {
             activityBinding.recycler.adapter = CharacterAdapter(it, ::delete)
             activityBinding.recycler.layoutManager = GridLayoutManager(this, 1)
         }
     }
 
     private fun showDialog() {
-        val addCharacterDialogFragment = AddCharacterDialogFragment()
-        addCharacterDialogFragment.show(supportFragmentManager, "addCharacterDialogFragment")
+         val addCharacterDialogFragment = AddCharacterDialogFragment()
+        addCharacterDialogFragment.display(supportFragmentManager)
     }
+    private fun reset() {
+        print("hola")
+    }
+
+    private fun save() {
+      print("adios")
+    }
+
 }
 
 

@@ -5,6 +5,7 @@ import dao.DAOCustomers;
 import dao.DAOItems;
 import model.Customer;
 import model.Customers;
+import producers.annotations.FILES;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@FILES
 public class DaoCustomersFilesImpl implements DAOCustomers {
 
 

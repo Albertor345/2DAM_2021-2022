@@ -2,9 +2,11 @@ package dao.impl.jdbc;
 
 import dao.DAOReviews;
 import model.Review;
+import producers.annotations.JDBC;
 
 import java.util.List;
 
+@JDBC
 public class DAOReviewsJDBCImpl implements DAOReviews {
     @Override
     public Review get(int id) {

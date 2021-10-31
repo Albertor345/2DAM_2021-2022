@@ -4,10 +4,10 @@ import dao.DAOItems;
 import dao.DBConnection;
 import lombok.extern.log4j.Log4j2;
 import model.Item;
+import producers.annotations.JDBC;
 import utils.Constantes;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +15,7 @@ import java.sql.Statement;
 import java.util.List;
 
 @Log4j2
-@Named("ItemsJDBC")
+@JDBC
 public class DaoItemsJDBCImpl implements DAOItems {
 
     private DBConnection dbConnection;

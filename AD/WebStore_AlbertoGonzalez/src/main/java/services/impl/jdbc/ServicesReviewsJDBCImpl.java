@@ -8,18 +8,20 @@ package services.impl.jdbc;
 import dao.DAOReviews;
 import dao.impl.jdbc.DAOReviewsJDBCImpl;
 import model.Review;
+import producers.annotations.JDBC;
 import services.ServicesReviews;
 
 import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
+@JDBC
 public class ServicesReviewsJDBCImpl implements ServicesReviews {
 
     DAOReviews daoReviews;
 
     @Inject
-    public ServicesReviewsJDBCImpl(DAOReviewsJDBCImpl daoReviews) {
+    public ServicesReviewsJDBCImpl(@JDBC DAOReviews daoReviews) {
         this.daoReviews = daoReviews;
     }
 

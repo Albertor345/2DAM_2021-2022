@@ -17,11 +17,6 @@ import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 
-/**
- * FXML Controller class
- *
- * @author Laura
- */
 public class FXMLLoginController implements Initializable {
 
     private FXMLPrincipalController principal;

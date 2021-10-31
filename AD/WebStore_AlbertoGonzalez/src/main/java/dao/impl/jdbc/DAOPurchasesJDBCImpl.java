@@ -3,9 +3,11 @@ package dao.impl.jdbc;
 import dao.DAOPurchases;
 import model.Item;
 import model.Purchase;
+import producers.annotations.JDBC;
 
+import javax.inject.Named;
 import java.util.List;
-
+@JDBC
 public class DAOPurchasesJDBCImpl implements DAOPurchases {
     @Override
     public Purchase get(int id) {

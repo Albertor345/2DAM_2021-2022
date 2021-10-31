@@ -24,4 +24,5 @@
     <string name="description">Description</string>
     <string name="undo_snackbar_content_text">Se ha borrado una entrada de la lista ¿Deseas recuperarla?</string>
     <string name="undo_snackbar_action_text">Deshacer</string>
+    <string name="toolbar_menu_reset">reset</string>
 </resources>

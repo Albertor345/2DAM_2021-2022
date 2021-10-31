@@ -10,19 +10,20 @@ import dao.DAOPurchases;
 import dao.impl.files.DaoPurchasesFilesImpl;
 import model.Item;
 import services.ServicesItems;
+import producers.annotations.JDBC;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 
-
+@JDBC
 public class ServicesItemsJDBCImpl implements ServicesItems {
 
     private DAOItems daoItems;
     private DAOPurchases daoPurchases;
 
     @Inject
-    public ServicesItemsJDBCImpl(@Named("ItemsJDBC") DAOItems daoItems, DaoPurchasesFilesImpl daoPurchases) {
+    public ServicesItemsJDBCImpl(@JDBC DAOItems daoItems, @JDBC DAOPurchases daoPurchases) {
         this.daoItems = daoItems;
         this.daoPurchases = daoPurchases;
     }

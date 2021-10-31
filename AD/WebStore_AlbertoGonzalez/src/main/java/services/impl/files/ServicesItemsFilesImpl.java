@@ -12,17 +12,19 @@ import dao.impl.files.DaoPurchasesFilesImpl;
 import model.Item;
 import model.Purchase;
 import services.ServicesItems;
+import producers.annotations.FILES;
 
 import javax.inject.Inject;
 import java.util.List;
 
+@FILES
 public class ServicesItemsFilesImpl implements ServicesItems {
 
     private DAOItems daoItems;
     private DAOPurchases daoPurchases;
 
     @Inject
-    public ServicesItemsFilesImpl(DaoItemsFilesImpl daoItems, DaoPurchasesFilesImpl daoPurchases) {
+    public ServicesItemsFilesImpl(@FILES DAOItems daoItems, @FILES DAOPurchases daoPurchases) {
         this.daoItems = daoItems;
         this.daoPurchases = daoPurchases;
     }

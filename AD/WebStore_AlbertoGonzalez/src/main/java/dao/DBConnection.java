@@ -23,8 +23,8 @@ public class DBConnection {
 
     @Inject
     public DBConnection(ConfigYaml configuration) {
-        this.hikariDatasource = getHikariDataSource();
         this.configuration = configuration;
+        this.hikariDatasource = getHikariDataSource();
     }
 
     private HikariDataSource getHikariDataSource() {

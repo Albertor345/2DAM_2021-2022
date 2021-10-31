@@ -25,4 +25,7 @@
     <string name="undo_snackbar_content_text">Se ha borrado una entrada de la lista ¿Deseas recuperarla?</string>
     <string name="undo_snackbar_action_text">Deshacer</string>
     <string name="toolbar_menu_reset">reset</string>
+    <string name="characterIndex">characterIndex</string>
+    <string name="search_hint">Filter by name</string>
+    <string name="select_dates_hint">Filter by date</string>
 </resources>

@@ -11,7 +11,8 @@ import coil.load
 
 class CharacterAdapter(
     private val characters: MutableList<Character>,
-    private val delete: (Int) -> Unit
+    private val delete: (Int) -> Unit,
+    private val details: (Int, View, View) -> Unit
 ) : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
@@ -20,22 +21,24 @@ class CharacterAdapter(
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.load(characters[position], delete)
+        holder.load(characters[position], delete, details)
     }
 
     override fun getItemCount(): Int {
         return characters.size
     }
 
-
     class CharacterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CharacterBinding.bind(view)
-        fun load(character: Character, delete: (Int) -> Unit) {
+        fun load(character: Character, delete: (Int) -> Unit, details: (Int, View, View) -> Unit) {
             with(binding) {
                 textViewNombreCharacter.text = character.name
                 imageViewThumbnail.load(character.image.path + "." + character.image.extension)
                 buttonDelete.setOnClickListener {
                     delete(adapterPosition)
+                }
+                buttonDetails.setOnClickListener {
+                    details(adapterPosition, imageViewThumbnail, textViewNombreCharacter)
                 }
             }
         }

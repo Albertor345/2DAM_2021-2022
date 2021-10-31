@@ -46,38 +46,36 @@ class AddCharacterDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener {
-            dismiss()
+            dismissFragment()
         }
         with(binding) {
             toolbar.title = getString(R.string.add_character_dialog_toolbar_title)
             toolbar.inflateMenu(R.menu.add_fragment_menu)
             toolbar.setOnMenuItemClickListener {
-                dismiss()
-                true
+                when (it.itemId) {
+                    R.id.action_save -> {
+                        // Handle favorite icon press
+                        true
+                    }
+                    R.id.action_reset -> {
+                        resetFragmentContent()
+                        true
+                    }
+                    else -> false
+                }
             }
         }
     }
 
-    override fun setHasOptionsMenu(hasMenu: Boolean) {
-        super.setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.add_fragment_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_save -> {
-                true
-            }
-            R.id.action_reset -> {
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    private fun resetFragmentContent() {
+        with(binding){
+            characterName.editText?.setText("")
+            characterDescription.editText?.setText("")
         }
     }
 
+    private fun dismissFragment() {
+        dismiss()
+    }
 
 }

@@ -5,7 +5,7 @@ import alberto.gonzalez.crudpersonasv2.domain.Character
 import alberto.gonzalez.crudpersonasv2.domain.CharacterDataWrapper
 import java.io.InputStream
 
-class Dao {
+class Repository {
     private val moshi = ConfigMoshi.getInstance()
 
     companion object {

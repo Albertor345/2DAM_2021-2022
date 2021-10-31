@@ -16,9 +16,12 @@
         <entry key="..\:/Educa/2dam/Alberto Gonzalez/2DAM_2021-2022/Moviles/CrudPersonasV2/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Educa/2dam/Alberto Gonzalez/2DAM_2021-2022/Moviles/CrudPersonasV2/app/src/main/res/layout/list_activity.xml" value="0.2222222222222222" />
         <entry key="..\:/GitAlberto/Moviles/CrudPersonasV2/app/src/main/res/layout/add_fragment.xml" value="0.20416666666666666" />
-        <entry key="..\:/GitAlberto/Moviles/CrudPersonasV2/app/src/main/res/layout/list_activity.xml" value="0.20416666666666666" />
+        <entry key="..\:/GitAlberto/Moviles/CrudPersonasV2/app/src/main/res/layout/character.xml" value="0.20416666666666666" />
+        <entry key="..\:/GitAlberto/Moviles/CrudPersonasV2/app/src/main/res/layout/details_activity.xml" value="0.22" />
+        <entry key="..\:/GitAlberto/Moviles/CrudPersonasV2/app/src/main/res/layout/list_activity.xml" value="0.25" />
         <entry key="..\:/GitAlberto/Moviles/CrudPersonasV2/app/src/main/res/menu/add_dialog_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/GitAlberto/Moviles/CrudPersonasV2/app/src/main/res/menu/add_fragment_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/GitAlberto/Moviles/CrudPersonasV2/app/src/main/res/menu/list_activity_menu.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

@@ -13,7 +13,7 @@ class AddCharacterDialogFragment : DialogFragment() {
 
     fun display(fragmentManager: FragmentManager): AddCharacterDialogFragment {
         val dialog = AddCharacterDialogFragment()
-        dialog.show(fragmentManager, "addCharacterDialog")
+        dialog.show(fragmentManager, "example_dialog")
         return dialog
     }
 
@@ -39,15 +39,22 @@ class AddCharacterDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = AddFragmentBinding.inflate(layoutInflater)
-        return inflater.inflate(R.layout.add_fragment, container, false)
+        binding = AddFragmentBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             dismiss()
-            true
+        }
+        with(binding) {
+            toolbar.title = getString(R.string.add_character_dialog_toolbar_title)
+            toolbar.inflateMenu(R.menu.add_fragment_menu)
+            toolbar.setOnMenuItemClickListener {
+                dismiss()
+                true
+            }
         }
     }
 
@@ -57,7 +64,7 @@ class AddCharacterDialogFragment : DialogFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.add_dialog_menu, menu)
+        inflater.inflate(R.menu.add_fragment_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

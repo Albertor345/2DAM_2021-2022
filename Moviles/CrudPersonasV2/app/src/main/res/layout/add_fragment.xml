@@ -9,14 +9,13 @@
         android:layout_height="wrap_content"
         app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:paddingStart="6dp"
             android:paddingEnd="16dp"
             app:contentInsetStartWithNavigation="0dp"
-            app:menu="@menu/add_dialog_menu"
             app:navigationIcon="@drawable/ic_close_black_24"
             app:title="@string/add_character_dialog_toolbar_title" />
 

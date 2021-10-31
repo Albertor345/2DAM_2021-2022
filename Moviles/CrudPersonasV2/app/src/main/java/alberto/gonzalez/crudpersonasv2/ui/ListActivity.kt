@@ -77,16 +77,9 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun showDialog() {
-         val addCharacterDialogFragment = AddCharacterDialogFragment()
-        addCharacterDialogFragment.display(supportFragmentManager)
-    }
-    private fun reset() {
-        print("hola")
+        AddCharacterDialogFragment().display(supportFragmentManager)
     }
 
-    private fun save() {
-      print("adios")
-    }
 
 }
 

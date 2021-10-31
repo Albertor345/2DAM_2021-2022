@@ -10,7 +10,6 @@
         android:id="@+id/action_save"
         android:title="@string/toolbar_menu_save"
         app:showAsAction="ifRoom"
-        android:onClick="save"
         android:icon="@drawable/ic_baseline_save_24"
         />
 </menu>

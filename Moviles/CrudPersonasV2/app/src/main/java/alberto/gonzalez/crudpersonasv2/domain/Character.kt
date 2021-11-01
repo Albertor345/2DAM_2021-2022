@@ -6,37 +6,26 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Character(
-    val id: Int,
-    val name: String,
-    val description: String,
-    val modified: String,
-    val resourceURI: String,
-    val urls: List<Url>,
-    @Json(name = "thumbnail")
-    val image: Image,
     @Json(name = "comics")
-    val comicsWrapper: Comics,
+    val comics: Comics,
+    @Json(name = "description")
+    val description: String,
     @Json(name = "events")
-    val eventsWrapper: Events,
+    val events: Events,
+    @Json(name = "id")
+    val id: Int,
+    @Json(name = "modified")
+    val modified: String,
+    @Json(name = "name")
+    val name: String,
+    @Json(name = "resourceURI")
+    val resourceURI: String,
     @Json(name = "series")
-    val seriesWrapper: Series,
+    val series: Series,
     @Json(name = "stories")
-    val storiesWrapper: Stories
-
-
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Character
-
-        if (id != other.id) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return id
-    }
-}
+    val stories: Stories,
+    @Json(name = "thumbnail")
+    val thumbnail: Thumbnail,
+    @Json(name = "urls")
+    val urls: List<Url>
+)

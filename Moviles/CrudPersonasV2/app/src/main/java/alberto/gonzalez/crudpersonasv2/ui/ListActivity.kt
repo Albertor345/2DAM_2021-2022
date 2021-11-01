@@ -3,7 +3,6 @@ package alberto.gonzalez.crudpersonasv2.ui
 import alberto.gonzalez.crudpersonasv2.R
 import alberto.gonzalez.crudpersonasv2.data.Repository
 import alberto.gonzalez.crudpersonasv2.databinding.ListActivityBinding
-import alberto.gonzalez.crudpersonasv2.domain.Character
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 
 class ListActivity : AppCompatActivity() {
@@ -49,8 +49,19 @@ class ListActivity : AppCompatActivity() {
             toolbar.setNavigationOnClickListener {
                 toggleBackdrop()
             }
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_reset -> {
+                        clearFilters()
+                        true
+                    }
+                    else -> false
+                }
+            }
             textviewSearch.editText?.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {}
+                override fun afterTextChanged(s: Editable) {
+                }
+
                 override fun beforeTextChanged(
                     s: CharSequence,
                     start: Int,
@@ -60,34 +71,18 @@ class ListActivity : AppCompatActivity() {
                 }
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    filter(s.toString())
+                    filterNameStartsWith(s.toString())
                 }
             })
         }
     }
 
-    /* override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-         print(event.keyCharacterMap)
-         return when (keyCode) {
-             KeyEvent.KEYCODE_D -> {
-                 moveShip(MOVE_LEFT)
-                 true
-             }
-             KeyEvent.KEYCODE_F -> {
-                 moveShip(MOVE_RIGHT)
-                 true
-             }
-             KeyEvent.KEYCODE_J -> {
-                 fireMachineGun()
-                 true
-             }
-             KeyEvent.KEYCODE_K -> {
-                 fireMissile()
-                 true
-             }
-             else -> super.onKeyUp(keyCode, event)
-         }
-     }*/
+    private fun addItem(character: java.lang.Character?, index: Int) {
+        character?.let {
+            repository.addCharacter(character, index)
+        } ?: showDialog()
+
+    }
 
     private fun delete(index: Int) {
         MaterialAlertDialogBuilder(this)
@@ -127,23 +122,14 @@ class ListActivity : AppCompatActivity() {
         ActivityCompat.startActivity(this@ListActivity, intent, activityOptions.toBundle())
     }
 
-    private fun addItem(character: Character?, index: Int) {
-        character?.let {
-            repository.addCharacter(character, index)
-        } ?: showDialog()
-
-    }
-
     private fun loadList() {
         repository.getList().let {
             binding.recycler.adapter = CharacterAdapter(it, ::delete, ::details)
             binding.recycler.layoutManager = GridLayoutManager(this, 1)
         }
-
-
     }
 
-    private fun filter(s: String) {
+    private fun filterNameStartsWith(s: String) {
         var list = repository.filterNameStartsWith(s)
         var size = repository.getList().size
         for (i in 0 until size) {
@@ -153,19 +139,44 @@ class ListActivity : AppCompatActivity() {
         list.forEach {
             addItem(it, list.indexOf(it))
             binding.recycler.adapter?.notifyItemInserted(list.indexOf(it))
-
         }
     }
 
-    private fun showDialog() {
-        AddCharacterDialogFragment().display(supportFragmentManager)
+    private fun filterDateRange(date: Date) {
+        var list = repository.filterDateRange(date)
+        var size = repository.getList().size
+        for (i in 0 until size) {
+            repository.removeCharacter(0)
+            binding.recycler.adapter?.notifyItemRemoved(0)
+        }
+        list.forEach {
+            addItem(it, list.indexOf(it))
+            binding.recycler.adapter?.notifyItemInserted(list.indexOf(it))
+        }
     }
+
+    private fun showDialog() = AddCharacterDialogFragment().display(supportFragmentManager)
+
 
     private fun toggleBackdrop() {
         if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
         } else {
-            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
+
+    private fun clearFilters() {
+        with(binding) {
+            if (textviewSearch.editText?.text!!.isNotEmpty()) {
+                textviewSearch.editText?.setText("")
+            }
+            if (textViewDateRange.editText?.text!!.isNotEmpty()) {
+                textViewDateRange.editText?.setText("")
+            }
+        }
+        if (sheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

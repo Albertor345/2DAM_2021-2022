@@ -1,9 +1,10 @@
 package alberto.gonzalez.crudpersonasv2.data
 
 import alberto.gonzalez.crudpersonasv2.config.ConfigMoshi
-import alberto.gonzalez.crudpersonasv2.domain.Character
 import alberto.gonzalez.crudpersonasv2.domain.CharacterDataWrapper
 import java.io.InputStream
+import java.time.LocalDate
+import java.util.*
 import java.util.stream.Collectors
 
 class Repository {
@@ -11,14 +12,14 @@ class Repository {
 
     companion object {
         private lateinit var list: MutableList<Character>
-        private lateinit var fullList: List<Character>
+        private lateinit var initList: List<Character>
     }
 
     constructor(file: InputStream) {
         list = mutableListOf()
         if (list.isEmpty()) {
-            fullList = loadData(file)
-            list.addAll(fullList)
+            initList = loadData(file)
+            list.addAll(initList)
         }
     }
 
@@ -28,7 +29,7 @@ class Repository {
         val data = moshi?.adapter(CharacterDataWrapper::class.java)
             ?.fromJson(file.bufferedReader().readText())!!
 
-        return data.data.characters
+        return data.characterDataContainer.characters
 
     }
 
@@ -52,13 +53,19 @@ class Repository {
     fun filterNameStartsWith(s: String): MutableList<Character> {
         return if (s.isNotEmpty() && s.isNotBlank()) {
             list.stream().filter {
-                it.name.startsWith(s)
+                it.name.lowercase().startsWith(s.lowercase())
             }.collect(Collectors.toList())
         } else {
-            fullList as MutableList<Character>
+            initList as MutableList<Character>
         }
     }
 
+    fun filterDateRange(date: Date): MutableList<Character> {
+        return list.stream().filter {
+            LocalDate.parse(it.modified).isBefore()
+        }.collect(Collectors.toList())
+            ?: initList as MutableList<Character>
+    }
 
 }
 

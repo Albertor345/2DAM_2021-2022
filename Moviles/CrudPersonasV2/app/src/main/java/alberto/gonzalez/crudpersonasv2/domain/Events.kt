@@ -6,9 +6,12 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Events(
+    @Json(name = "available")
     val available: Int,
+    @Json(name = "collectionURI")
     val collectionURI: String,
     @Json(name = "items")
-    val events: List<Event>,
+    val items: List<Event>,
+    @Json(name = "returned")
     val returned: Int
 )

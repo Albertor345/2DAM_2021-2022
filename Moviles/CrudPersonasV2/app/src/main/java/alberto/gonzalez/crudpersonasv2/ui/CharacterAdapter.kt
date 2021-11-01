@@ -2,7 +2,6 @@ package alberto.gonzalez.crudpersonasv2.ui
 
 import alberto.gonzalez.crudpersonasv2.R
 import alberto.gonzalez.crudpersonasv2.databinding.CharacterBinding
-import alberto.gonzalez.crudpersonasv2.domain.Character
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 
 class CharacterAdapter(
-    private val characters: MutableList<Character>,
+    private val characters: MutableList<java.lang.Character>,
     private val delete: (Int) -> Unit,
     private val details: (Int, View, View) -> Unit
 ) : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
@@ -30,7 +29,7 @@ class CharacterAdapter(
 
     class CharacterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = CharacterBinding.bind(view)
-        fun load(character: Character, delete: (Int) -> Unit, details: (Int, View, View) -> Unit) {
+        fun load(character: java.lang.Character, delete: (Int) -> Unit, details: (Int, View, View) -> Unit) {
             with(binding) {
                 textViewNombreCharacter.text = character.name
                 imageViewThumbnail.load(character.image.path + "." + character.image.extension)

@@ -5,6 +5,6 @@
     android:id="@+id/action_reset"
     android:title="@string/toolbar_menu_reset"
     app:showAsAction="ifRoom"
-    android:icon="@drawable/ic_baseline_filter_alt_24"/>
+    android:icon="@drawable/ic_baseline_filter_list_off_24"/>
 
 </menu>

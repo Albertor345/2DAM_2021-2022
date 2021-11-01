@@ -6,6 +6,8 @@ import alberto.gonzalez.crudpersonasv2.databinding.ListActivityBinding
 import alberto.gonzalez.crudpersonasv2.domain.Character
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -45,10 +47,47 @@ class ListActivity : AppCompatActivity() {
                 addItem(null, 0)
             }
             toolbar.setNavigationOnClickListener {
-                toggleFilters()
+                toggleBackdrop()
             }
+            textviewSearch.editText?.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    filter(s.toString())
+                }
+            })
         }
     }
+
+    /* override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+         print(event.keyCharacterMap)
+         return when (keyCode) {
+             KeyEvent.KEYCODE_D -> {
+                 moveShip(MOVE_LEFT)
+                 true
+             }
+             KeyEvent.KEYCODE_F -> {
+                 moveShip(MOVE_RIGHT)
+                 true
+             }
+             KeyEvent.KEYCODE_J -> {
+                 fireMachineGun()
+                 true
+             }
+             KeyEvent.KEYCODE_K -> {
+                 fireMissile()
+                 true
+             }
+             else -> super.onKeyUp(keyCode, event)
+         }
+     }*/
 
     private fun delete(index: Int) {
         MaterialAlertDialogBuilder(this)
@@ -58,8 +97,7 @@ class ListActivity : AppCompatActivity() {
                 view.dismiss()
             }
             .setPositiveButton(getString(R.string.delete_alert_dialog_positive_button_text)) { view, _ ->
-                var character = repository.getCharacter(index)
-                repository.removeCharacter(character)
+                repository.removeCharacter(index)
                 binding.recycler.adapter?.notifyItemRemoved(index)
                 view.dismiss()
                 Snackbar.make(
@@ -68,6 +106,7 @@ class ListActivity : AppCompatActivity() {
                     getString(R.string.undo_snackbar_content_text),
                     Snackbar.LENGTH_LONG
                 ).setAction(getString(R.string.undo_snackbar_action_text)) {
+                    var character = repository.getCharacter(index)
                     addItem(character, index)
                     binding.recycler.adapter?.notifyItemInserted(index)
                 }.show()
@@ -81,9 +120,9 @@ class ListActivity : AppCompatActivity() {
         intent.putExtra(getString(R.string.characterIndex), index)
 
         val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this@ListActivity,  // Now we provide a list of Pair items which contain the view we can transitioning
-            // from, and the name of the view it is transitioning to, in the launched activity
-            Pair(image, "imageViewThumbnail"), Pair(name, "textViewNombreCharacter")
+            this@ListActivity,
+            Pair(image, "imageViewThumbnail"),
+            Pair(name, "textViewNombreCharacter")
         )
         ActivityCompat.startActivity(this@ListActivity, intent, activityOptions.toBundle())
     }
@@ -96,7 +135,7 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun loadList() {
-        repository.getLista().let {
+        repository.getList().let {
             binding.recycler.adapter = CharacterAdapter(it, ::delete, ::details)
             binding.recycler.layoutManager = GridLayoutManager(this, 1)
         }
@@ -104,11 +143,25 @@ class ListActivity : AppCompatActivity() {
 
     }
 
+    private fun filter(s: String) {
+        var list = repository.filterNameStartsWith(s)
+        var size = repository.getList().size
+        for (i in 0 until size) {
+            repository.removeCharacter(0)
+            binding.recycler.adapter?.notifyItemRemoved(0)
+        }
+        list.forEach {
+            addItem(it, list.indexOf(it))
+            binding.recycler.adapter?.notifyItemInserted(list.indexOf(it))
+
+        }
+    }
+
     private fun showDialog() {
         AddCharacterDialogFragment().display(supportFragmentManager)
     }
 
-    private fun toggleFilters() {
+    private fun toggleBackdrop() {
         if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
         } else {

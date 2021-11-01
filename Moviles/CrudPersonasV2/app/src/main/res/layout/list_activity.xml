@@ -31,7 +31,7 @@
         app:layout_anchorGravity="bottom">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/searchTextView"
+            android:id="@+id/textviewSearch"
             style="@style/CardView.Dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/datesFilterButton"
+            android:id="@+id/textViewDateRange"
             style="@style/CardView.Dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchTextView">
+            app:layout_constraintTop_toBottomOf="@id/textviewSearch">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"

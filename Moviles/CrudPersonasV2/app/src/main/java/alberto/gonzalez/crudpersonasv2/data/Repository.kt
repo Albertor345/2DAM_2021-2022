@@ -4,18 +4,21 @@ import alberto.gonzalez.crudpersonasv2.config.ConfigMoshi
 import alberto.gonzalez.crudpersonasv2.domain.Character
 import alberto.gonzalez.crudpersonasv2.domain.CharacterDataWrapper
 import java.io.InputStream
+import java.util.stream.Collectors
 
 class Repository {
     private val moshi = ConfigMoshi.getInstance()
 
     companion object {
         private lateinit var list: MutableList<Character>
+        private lateinit var fullList: List<Character>
     }
 
     constructor(file: InputStream) {
         list = mutableListOf()
         if (list.isEmpty()) {
-            list = loadData(file)
+            fullList = loadData(file)
+            list.addAll(fullList)
         }
     }
 
@@ -29,7 +32,7 @@ class Repository {
 
     }
 
-    fun getLista(): MutableList<Character> {
+    fun getList(): MutableList<Character> {
         return list
     }
 
@@ -38,12 +41,22 @@ class Repository {
     }
 
     fun addCharacter(character: Character, index: Int) {
-            list.add(index, character)
+        list.add(index, character)
     }
 
-    fun removeCharacter(character: Character) {
-        list.remove(character)
+    fun removeCharacter(index: Int) {
+        list.removeAt(index)
 
+    }
+
+    fun filterNameStartsWith(s: String): MutableList<Character> {
+        return if (s.isNotEmpty() && s.isNotBlank()) {
+            list.stream().filter {
+                it.name.startsWith(s)
+            }.collect(Collectors.toList())
+        } else {
+            fullList as MutableList<Character>
+        }
     }
 
 

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 @FILES
 public class DaoItemsFilesImpl implements DAOItems {
 
@@ -31,8 +32,8 @@ public class DaoItemsFilesImpl implements DAOItems {
     }
 
     @Override
-    public void update(Item item) {
-
+    public boolean update(Item item) {
+        return false;
     }
 
     @Override

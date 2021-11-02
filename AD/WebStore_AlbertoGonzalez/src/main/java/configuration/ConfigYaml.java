@@ -6,23 +6,19 @@
 package configuration;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.inject.Singleton;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.util.Map;
 
 @Getter
 @Setter
 @Log4j2
 @Singleton
-@NoArgsConstructor
 public class ConfigYaml {
 
-    private static ConfigYaml config = getInstance();
     private String user;
     private String pass;
     private String db_user;
@@ -30,15 +26,19 @@ public class ConfigYaml {
     private String db_driver;
     private String urlDB;
 
-
-    public static ConfigYaml getInstance() {
+    public ConfigYaml() {
         try {
             Yaml yaml = new Yaml();
-            config = yaml.loadAs(new FileInputStream("propertiesFiles/users.yml"), ConfigYaml.class);
-        } catch (FileNotFoundException ex) {
+            Map<String, String> map = yaml.load(yaml.getClass().getResourceAsStream("/propertiesFiles/users.yaml"));
+            this.user = map.get("user");
+            this.pass = map.get("pass");
+            this.db_user = map.get("db_user");
+            this.db_password = map.get("db_password");
+            this.db_driver = map.get("db_driver");
+            this.urlDB = map.get("urlDB");
+        } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-        return config;
     }
 
 

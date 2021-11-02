@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -26,8 +27,19 @@ public class DaoItemsJDBCImpl implements DAOItems {
     }
 
     @Override
-    public void update(Item item) {
-
+    public boolean update(Item item) {
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.INSERT_ITEM_QUERY)) {
+            preparedStatement.setString(1, item.getName());
+            preparedStatement.setString(2, item.getCompany());
+            preparedStatement.setDouble(3, item.getPrice());
+            preparedStatement.setInt(4, item.getId());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return false;
     }
 
     @Override
@@ -42,7 +54,6 @@ public class DaoItemsJDBCImpl implements DAOItems {
             if (resultSet.next()) {
                 item.setId(resultSet.getInt("id_item"));
             }
-            connection.commit();
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -52,16 +63,52 @@ public class DaoItemsJDBCImpl implements DAOItems {
 
     @Override
     public boolean delete(Item item) {
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_ITEM_QUERY)) {
+            preparedStatement.setInt(1, item.getId());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
         return false;
     }
 
     @Override
     public Item get(Item item) {
-        return null;
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_ITEM_QUERY)) {
+            preparedStatement.setInt(1, item.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                item.setPrice(resultSet.getDouble("price"));
+                item.setCompany(resultSet.getString("company"));
+                item.setName(resultSet.getString("name"));
+            }
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return item;
     }
 
     @Override
     public List<Item> getAll() {
-        return null;
+        List<Item> listItems = new ArrayList<>();
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_ALL_ITEMS_QUERY)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                listItems.add(Item.builder()
+                        .id(resultSet.getInt("id_item"))
+                        .name(resultSet.getString("name"))
+                        .price(resultSet.getDouble("price"))
+                        .company(resultSet.getString("company"))
+                        .build());
+            }
+            connection.commit();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return listItems;
     }
 }

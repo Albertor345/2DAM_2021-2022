@@ -5,6 +5,7 @@
  */
 package fx.controllers;
 
+import configuration.ConfigYaml;
 import fx.controllers.customers.FXMLAddCustomerController;
 import fx.controllers.customers.FXMLdeleteCustomerController;
 import fx.controllers.customers.FXMLfindCustomerController;
@@ -50,6 +51,7 @@ public class FXMLPrincipalController implements Initializable {
     private ServicesCustomers servicesCustomers;
     private ServicesReviews servicesReviews;
 
+    private ConfigYaml configYaml;
     private AnchorPane login;
     private FXMLLoginController loginController;
     private FXMLLoader loginLoader;
@@ -92,7 +94,8 @@ public class FXMLPrincipalController implements Initializable {
 
 
     @Inject
-    public FXMLPrincipalController(@JDBC ServicesItems servicesItems, @JDBC ServicesPurchases servicesPurchases, @JDBC ServicesCustomers servicesCustomers, @JDBC ServicesReviews servicesReviews, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader) {
+    public FXMLPrincipalController(@JDBC ServicesItems servicesItems, @JDBC ServicesPurchases servicesPurchases, @JDBC ServicesCustomers servicesCustomers, @JDBC ServicesReviews servicesReviews, ConfigYaml configYaml, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader) {
+        this.configYaml = configYaml;
         this.loginLoader = loginLoader;
         this.welcomeLoader = welcomeLoader;
         this.purchasesLoader = purchasesLoader;
@@ -111,6 +114,7 @@ public class FXMLPrincipalController implements Initializable {
         this.servicesCustomers = servicesCustomers;
         this.servicesItems = servicesItems;
         this.servicesPurchases = servicesPurchases;
+
     }
 
     public String getUsername() {

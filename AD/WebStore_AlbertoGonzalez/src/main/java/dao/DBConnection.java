@@ -17,7 +17,6 @@ import java.sql.Statement;
 @Log4j2
 public class DBConnection {
 
-
     private HikariDataSource hikariDatasource;
     private ConfigYaml configuration;
 

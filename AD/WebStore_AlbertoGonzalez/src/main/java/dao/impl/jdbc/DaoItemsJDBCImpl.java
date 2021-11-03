@@ -77,13 +77,24 @@ public class DaoItemsJDBCImpl implements DAOItems {
 
     @Override
     public boolean deleteAllPurchasesFromAnItem(Item item) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_SALES_FROM_ITEM)) {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_SALES_FROM_ITEM);
+            connection.setAutoCommit(false);
             preparedStatement.setInt(1, item.getId());
+            preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement(Constantes.DELETE_ITEM_QUERY);
+            preparedStatement.setInt(1, item.getId());
+
             if (preparedStatement.executeUpdate() > 0) {
+                connection.commit();
                 return true;
             }
+            connection.commit();
         } catch (Exception ex) {
+            dbConnection.rollbackConnection(connection);
             log.error(ex.getMessage(), ex);
             return false;
         }

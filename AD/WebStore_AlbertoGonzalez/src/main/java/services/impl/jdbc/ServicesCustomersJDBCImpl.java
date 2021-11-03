@@ -29,8 +29,8 @@ public class ServicesCustomersJDBCImpl implements ServicesCustomers {
     }
 
     @Override
-    public Customer get(int id) {
-        return null;
+    public Customer get(Customer customer) {
+        return daoCustomers.get(customer);
     }
 
     @Override

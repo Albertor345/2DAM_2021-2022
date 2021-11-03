@@ -8,8 +8,8 @@ public class Constantes {
     public static final String SELECT_ITEM_QUERY = "select * from items where id_item = ?";
 
     public static final String INSERT_PURCHASE_QUERY = "insert into sales (id_item, id_customer, date) values (?,?,?)";
-    public static final String DELETE_PURCHASE_QUERY = "delete from purchases where id_sale = ?";
-    public static final String UPDATE_PURCHASE_QUERY = "update purchases set date = ? where id_sale = ?";
+    public static final String DELETE_PURCHASE_QUERY = "delete from sales where id_sale = ?";
+    public static final String UPDATE_PURCHASE_QUERY = "update sales set date = ? where id_sale = ?";
     public static final String SELECT_ALL_PURCHASES_QUERY = "select * from sales" +
             " inner join customers c on sales.id_customer = c.id_customer" +
             " inner join items i on sales.id_item = i.id_item";

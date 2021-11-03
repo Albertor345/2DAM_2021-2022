@@ -29,7 +29,7 @@ public class ServicesCustomersFilesImpl implements ServicesCustomers {
     }
 
     @Override
-    public Customer get(int id) {
+    public Customer get(Customer customer) {
         return null;
     }
 

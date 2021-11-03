@@ -30,7 +30,7 @@ public class ServicesPurchasesJDBCImpl implements ServicesPurchases {
 
     @Override
     public boolean delete(Purchase purchase) {
-        return false;
+        return daoPurchases.delete(purchase);
     }
 
     @Override

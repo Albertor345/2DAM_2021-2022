@@ -55,7 +55,7 @@ public class ServicesItemsFilesImpl implements ServicesItems {
     }
 
     @Override
-    public Item get(int id) {
+    public Item get(Item item) {
         return null;
     }
 

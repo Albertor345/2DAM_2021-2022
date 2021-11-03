@@ -23,6 +23,19 @@ public class FXMLDeletePurchasesController implements Initializable {
     @FXML
     private ListView<Purchase> purchaseBox;
 
+    @FXML
+    private void deletePurchase() {
+        Purchase purchase = purchaseBox.getSelectionModel().getSelectedItem();
+        if (purchase != null) {
+            if (principalController.getServicesPurchases().delete(purchase)) {
+                alert("Success", "Purchase deleted", Alert.AlertType.WARNING);
+                purchaseBox.getItems().remove(purchase);
+                purchaseBox.refresh();
+            } else {
+                alert("Error", "This purchase has data related to it, and therefore, cannot be deleted", Alert.AlertType.WARNING);
+            }
+        }
+    }
 
     public void loadPurchases(List<Purchase> purchaseList) {
         if (!purchaseBox.getItems().isEmpty()) {
@@ -31,8 +44,15 @@ public class FXMLDeletePurchasesController implements Initializable {
         purchaseBox.getItems().addAll(purchaseList);
     }
 
-    public void deletePurchase() {
+    public void setPrincipalController(FXMLPrincipalController principalController) {
+        this.principalController = principalController;
+    }
 
+    private void alert(String titulo, String texto, Alert.AlertType type) {
+        alert.setAlertType(type);
+        alert.setTitle(titulo);
+        alert.setContentText(texto);
+        alert.showAndWait();
     }
 
     @Override

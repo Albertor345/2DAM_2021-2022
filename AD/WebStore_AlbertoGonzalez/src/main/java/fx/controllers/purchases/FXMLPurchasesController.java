@@ -96,6 +96,7 @@ public class FXMLPurchasesController implements Initializable {
         dateBox.setValue(null);
     }
 
+
     public void setPrincipal(FXMLPrincipalController principal) {
         this.principalController = principal;
     }

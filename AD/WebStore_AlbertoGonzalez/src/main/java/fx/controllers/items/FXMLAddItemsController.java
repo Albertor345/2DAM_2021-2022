@@ -50,6 +50,7 @@ public class FXMLAddItemsController implements Initializable {
             alert("Invalid", "The id must be numeric", Alert.AlertType.WARNING);
             e.printStackTrace();
         }
+        clear();
     }
 
     public void loadList(List<Item> items) {
@@ -64,6 +65,12 @@ public class FXMLAddItemsController implements Initializable {
         alert.setTitle(titulo);
         alert.setContentText(texto);
         alert.showAndWait();
+    }
+
+    private void clear(){
+        textFieldCompany.clear();
+        textFieldName.clear();
+        textFieldPrice.clear();
     }
 
     public void setPrincipal(FXMLPrincipalController principal) {

@@ -11,6 +11,8 @@ import fx.controllers.customers.FXMLdeleteCustomerController;
 import fx.controllers.customers.FXMLfindCustomerController;
 import fx.controllers.items.FXMLAddItemsController;
 import fx.controllers.items.FXMLDeleteItemsController;
+import fx.controllers.items.FXMLFindByIDController;
+import fx.controllers.items.FXMLUpdateItemController;
 import fx.controllers.purchases.FXMLDatePurchasesController;
 import fx.controllers.purchases.FXMLDeletePurchasesController;
 import fx.controllers.purchases.FXMLPurchasesController;
@@ -24,11 +26,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import lombok.Getter;
+import producers.annotations.JDBC;
 import services.ServicesCustomers;
 import services.ServicesItems;
 import services.ServicesPurchases;
 import services.ServicesReviews;
-import producers.annotations.JDBC;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -91,10 +93,16 @@ public class FXMLPrincipalController implements Initializable {
     private AnchorPane deleteItems;
     private FXMLDeleteItemsController deleteItemsController;
     private FXMLLoader deleteItemsLoader;
+    private AnchorPane findItemsByID;
+    private FXMLFindByIDController findItemsByIDController;
+    private FXMLLoader findItemsByIDLoader;
+    private AnchorPane updateItem;
+    private FXMLUpdateItemController updateItemController;
+    private FXMLLoader updateItemLoader;
 
 
     @Inject
-    public FXMLPrincipalController(@JDBC ServicesItems servicesItems, @JDBC ServicesPurchases servicesPurchases, @JDBC ServicesCustomers servicesCustomers, @JDBC ServicesReviews servicesReviews, Config config, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader) {
+    public FXMLPrincipalController(@JDBC ServicesItems servicesItems, @JDBC ServicesPurchases servicesPurchases, @JDBC ServicesCustomers servicesCustomers, @JDBC ServicesReviews servicesReviews, Config config, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader, FXMLLoader findItemsByIDLoader, FXMLLoader updateItemLoader) {
         this.config = config;
         this.loginLoader = loginLoader;
         this.welcomeLoader = welcomeLoader;
@@ -109,6 +117,8 @@ public class FXMLPrincipalController implements Initializable {
         this.deleteReviewLoader = deleteReviewLoader;
         this.addItemsLoader = addItemsLoader;
         this.deleteItemsLoader = deleteItemsLoader;
+        this.findItemsByIDLoader = findItemsByIDLoader;
+        this.updateItemLoader = updateItemLoader;
 
         this.servicesReviews = servicesReviews;
         this.servicesCustomers = servicesCustomers;
@@ -169,6 +179,7 @@ public class FXMLPrincipalController implements Initializable {
         try {
             deletePurchases = deletePurchasesLoader.load(getClass().getResourceAsStream("/fxml/purchases/FXMLDeletePurchases.fxml"));
             deletePurchasesController = deletePurchasesLoader.getController();
+            deletePurchasesController.setPrincipalController(this);
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -202,7 +213,7 @@ public class FXMLPrincipalController implements Initializable {
         try {
             deleteCustomer = deleteCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLdeleteCustomer.fxml"));
             deleteCustomerController = deleteCustomerLoader.getController();
-
+            deleteCustomerController.setPrincipalController(this);
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -262,6 +273,26 @@ public class FXMLPrincipalController implements Initializable {
         }
     }
 
+    public void preloadFindItemsByID() {
+        try {
+            findItemsByID = findItemsByIDLoader.load(getClass().getResourceAsStream("/fxml/items/FXMLFindByID.fxml"));
+            findItemsByIDController = findItemsByIDLoader.getController();
+            findItemsByIDController.setPrincipalController(this);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preloadUpdateItem() {
+        try {
+            updateItem = updateItemLoader.load(getClass().getResourceAsStream("/fxml/items/FXMLUpdateItem.fxml"));
+            updateItemController = updateItemLoader.getController();
+            updateItemController.setPrincipalController(this);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void chargeLogin() {
         fxRoot.setCenter(login);
         fxMenuTop.setVisible(false);
@@ -299,7 +330,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeDeleteCustomer() {
-        deleteCustomerController.loadCustomersList();
+        deleteCustomerController.loadCustomersList(servicesCustomers.getAll());
         fxRoot.setCenter(deleteCustomer);
     }
 
@@ -328,6 +359,15 @@ public class FXMLPrincipalController implements Initializable {
         fxRoot.setCenter(deleteItems);
     }
 
+    public void chargeUpdateItems() {
+        updateItemController.loadItems(servicesItems.getAll());
+        fxRoot.setCenter(updateItem);
+    }
+
+    public void chargeFindItemsByID() {
+        fxRoot.setCenter(findItemsByID);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         preloadWelcome();
@@ -347,6 +387,8 @@ public class FXMLPrincipalController implements Initializable {
 
         preloadAddItems();
         preloadDeleteItems();
+        preloadFindItemsByID();
+        preloadUpdateItem();
 
         chargeLogin();
 

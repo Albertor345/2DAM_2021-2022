@@ -14,5 +14,5 @@ public interface ServicesCustomers {
 
     List<Customer> getAll();
 
-    Customer get(int id);
+    Customer get(Customer customer);
 }

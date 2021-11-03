@@ -15,7 +15,7 @@ public interface ServicesItems {
 
     List<Item> getAll();
 
-    Item get(int id);
+    Item get(Item item);
 
     boolean checkItemPurchases(Item item);
 }

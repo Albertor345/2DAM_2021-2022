@@ -7,14 +7,12 @@ package services.impl.jdbc;
 
 import dao.DAOItems;
 import dao.DAOPurchases;
-import dao.impl.files.DaoPurchasesFilesImpl;
 import model.Item;
 import model.Purchase;
-import services.ServicesItems;
 import producers.annotations.JDBC;
+import services.ServicesItems;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 
 @JDBC
@@ -44,12 +42,12 @@ public class ServicesItemsJDBCImpl implements ServicesItems {
 
     @Override
     public boolean update(Item item) {
-        return false;
+        return daoItems.update(item);
     }
 
     @Override
-    public Item get(int id) {
-        return null;
+    public Item get(Item item) {
+        return daoItems.get(item);
     }
 
     @Override

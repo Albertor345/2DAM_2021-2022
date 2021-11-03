@@ -5,9 +5,17 @@
  */
 package dao;
 
+import configuration.Config;
 import model.Item;
+import model.Purchase;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public interface DAOItems {
 
@@ -16,6 +24,8 @@ public interface DAOItems {
     boolean add(Item item);
 
     boolean delete(Item item);
+
+    boolean deleteAllPurchasesFromAnItem(Item item);
 
     Item get(Item item);
 

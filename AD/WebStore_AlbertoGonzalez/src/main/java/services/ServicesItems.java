@@ -9,9 +9,13 @@ public interface ServicesItems {
 
     boolean delete(Item item);
 
+    public boolean deleteAllPurchasesFromAnItem(Item item);
+
     boolean update(Item item);
 
     List<Item> getAll();
 
     Item get(int id);
+
+    boolean checkItemPurchases(Item item);
 }

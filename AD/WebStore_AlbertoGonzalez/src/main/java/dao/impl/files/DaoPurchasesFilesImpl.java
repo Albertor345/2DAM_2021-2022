@@ -1,6 +1,6 @@
 package dao.impl.files;
 
-import configuration.ConfigProperties;
+import configuration.Config;
 import dao.DAOItems;
 import dao.DAOPurchases;
 import model.Customer;
@@ -22,10 +22,10 @@ public class DaoPurchasesFilesImpl implements DAOPurchases {
 
     @Override
     public boolean add(Purchase purchase) {
-        Path file = Paths.get(ConfigProperties.getInstance().getProperty("purchases"));
+        Path file = Paths.get(Config.getProperties().getProperty("purchases"));
 
         try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.APPEND, StandardOpenOption.WRITE})) {
-            String content = purchase.getIdPurchase() + " " + purchase.getCustomer().getId() + " " + purchase.getCustomer().getName() + " " + purchase.getItem().getId() + " " + purchase.getItem().getName() + " " + purchase.getDate() + "\n";
+            String content = purchase.getIdPurchase() + " " + purchase.getCustomer().getIdCustomer() + " " + purchase.getCustomer().getName() + " " + purchase.getItem().getId() + " " + purchase.getItem().getName() + " " + purchase.getDate() + "\n";
             bw.write(content);
             return true;
         } catch (IOException ex) {
@@ -35,14 +35,14 @@ public class DaoPurchasesFilesImpl implements DAOPurchases {
     }
 
     @Override
-    public void update(Purchase purchase) {
-
+    public boolean update(Purchase purchase) {
+    return true;
     }
 
     @Override
     public boolean delete(Purchase purchase) {
         List<Purchase> purchaseList = getAll();
-        Path file = Paths.get(ConfigProperties.getInstance().getProperty("purchases"));
+        Path file = Paths.get(Config.getProperties().getProperty("purchases"));
         try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING})) {
             bw.write("");
             purchaseList.remove(purchase);
@@ -55,32 +55,14 @@ public class DaoPurchasesFilesImpl implements DAOPurchases {
     }
 
     @Override
-    public boolean deleteAllPurchasesFromAnItem(Item item) {
-        List<Purchase> purchaseList = getAll();
-        Path file = Paths.get(ConfigProperties.getInstance().getProperty("purchases"));
-
-        try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING})) {
-            bw.write("");
-            purchaseList.stream()
-                    .filter(purchase -> purchase.getItem().getId() != item.getId())
-                    .collect(Collectors.toList())
-                    .forEach(p -> add(p));
-            return true;
-        } catch (IOException ex) {
-            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Purchase get(int id) {
+    public Purchase get(Purchase purchase) {
         return null;
     }
 
     @Override
     public List<Purchase> getAll() {
         List<Purchase> purchases = new ArrayList<>();
-        File file = new File(ConfigProperties.getInstance().getProperty("purchases"));
+        File file = new File(Config.getProperties().getProperty("purchases"));
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String st;
             List<String> lista;
@@ -89,7 +71,7 @@ public class DaoPurchasesFilesImpl implements DAOPurchases {
                 purchases.add(Purchase.builder()
                         .idPurchase(Integer.parseInt(lista.get(0)))
                         .customer(Customer.builder()
-                                .id(Integer.parseInt(lista.get(1)))
+                                .idCustomer(Integer.parseInt(lista.get(1)))
                                 .name(lista.get(2))
                                 .build())
                         .item(Item.builder()

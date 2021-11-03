@@ -2,7 +2,7 @@ package dao;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import configuration.ConfigYaml;
+import configuration.Config;
 import lombok.extern.log4j.Log4j2;
 
 import javax.inject.Inject;
@@ -17,21 +17,21 @@ import java.sql.Statement;
 @Log4j2
 public class DBConnection {
 
-    private HikariDataSource hikariDatasource;
-    private ConfigYaml configuration;
-
     @Inject
-    public DBConnection(ConfigYaml configuration) {
+    public DBConnection(Config configuration) {
         this.configuration = configuration;
         this.hikariDatasource = getHikariDataSource();
     }
 
+    private HikariDataSource hikariDatasource;
+    private Config configuration;
+
     private HikariDataSource getHikariDataSource() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(configuration.getProperties().get("urlDB"));
-        config.setUsername(configuration.getProperties().get("db_user"));
-        config.setPassword(configuration.getProperties().get("db_password"));
-        config.setDriverClassName(configuration.getProperties().get("db_driver"));
+        config.setJdbcUrl(Config.getProperties().getProperty("urlDB"));
+        config.setUsername(Config.getProperties().getProperty("db_user"));
+        config.setPassword(Config.getProperties().getProperty("db_password"));
+        config.setDriverClassName(Config.getProperties().getProperty("db_driver"));
         config.setMaximumPoolSize(5);
 
         config.addDataSourceProperty("cachePrepStmts", "true");
@@ -48,7 +48,7 @@ public class DBConnection {
     }
 
     public Connection getConnection() throws Exception {
-        Class.forName(configuration.getProperties().get("db_driver"));
+        Class.forName(configuration.getProperties().getProperty("db_driver"));
         Connection connection;
         connection = hikariDatasource.getConnection();
 

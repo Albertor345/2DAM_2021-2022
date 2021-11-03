@@ -6,8 +6,6 @@
 package services.impl.jdbc;
 
 import dao.DAOCustomers;
-import dao.impl.files.DaoCustomersFilesImpl;
-import dao.impl.jdbc.DaoCustomersJDBCImpl;
 import model.Customer;
 import producers.annotations.JDBC;
 import services.ServicesCustomers;
@@ -48,7 +46,7 @@ public class ServicesCustomersJDBCImpl implements ServicesCustomers {
     @Override
     public boolean add(Customer customer) {
         List<Customer> customers = getAll();
-        customer.setId(customers.size());
+        customer.setIdCustomer(customers.size());
         return daoCustomers.add(customer);
     }
 

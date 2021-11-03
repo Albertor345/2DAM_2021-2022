@@ -4,4 +4,10 @@
     <entry key="items">Data/items.txt</entry>
     <entry key="customers">Data/customers.xml</entry>
     <entry key="purchases">Data/purchases.txt</entry>
+    <entry key="user">user</entry>
+    <entry key="pass">root</entry>
+    <entry key="db_user">root</entry>
+    <entry key="db_password">quevedo2dam</entry>
+    <entry key="db_driver">com.mysql.cj.jdbc.Driver</entry>
+    <entry key="urlDB">jdbc:mysql://dam2.mysql.iesquevedo.es:3335/alberto_WebStore</entry>
 </properties>

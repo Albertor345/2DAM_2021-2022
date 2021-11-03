@@ -37,7 +37,7 @@ public class Purchase {
 
     @Override
     public String toString() {
-        return "Purchase ID: " + idPurchase + " Customer[ ID: " + customer.getId() + " Name: " + customer.getName() + "] Item[ ID: " + item.getId() + " Name: " + item.getName() + "] Date: " + date + "\n";
+        return "Purchase ID: " + idPurchase + " Customer[ ID: " + customer.getIdCustomer() + " Name: " + customer.getName() + "] Item[ ID: " + item.getId() + " Name: " + item.getName() + "] Date: " + date + "\n";
     }
 
     @Override

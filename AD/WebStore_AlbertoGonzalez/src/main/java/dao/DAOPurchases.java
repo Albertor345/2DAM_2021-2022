@@ -10,20 +10,15 @@ import model.Purchase;
 
 import java.util.List;
 
-/**
- *
- */
 public interface DAOPurchases {
 
-    Purchase get(int id);
+    Purchase get(Purchase purchase);
      
     List<Purchase> getAll();
      
     boolean add(Purchase t);
      
-    void update(Purchase t);
+    boolean update(Purchase t);
      
     boolean delete(Purchase t);
-
-    boolean deleteAllPurchasesFromAnItem(Item item);
 }

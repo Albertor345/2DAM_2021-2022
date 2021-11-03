@@ -6,7 +6,6 @@
 package services.impl.files;
 
 import dao.DAOCustomers;
-import dao.impl.files.DaoCustomersFilesImpl;
 import model.Customer;
 import services.ServicesCustomers;
 import producers.annotations.FILES;
@@ -47,7 +46,7 @@ public class ServicesCustomersFilesImpl implements ServicesCustomers {
     @Override
     public boolean add(Customer customer) {
         List<Customer> customers = getAll();
-        customer.setId(customers.size());
+        customer.setIdCustomer(customers.size());
         return daoCustomers.add(customer);
     }
 

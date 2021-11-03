@@ -29,7 +29,7 @@ public class DaoItemsJDBCImpl implements DAOItems {
     @Override
     public boolean update(Item item) {
         try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.INSERT_ITEM_QUERY)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.UPDATE_ITEM_QUERY)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setString(2, item.getCompany());
             preparedStatement.setDouble(3, item.getPrice());
@@ -52,7 +52,7 @@ public class DaoItemsJDBCImpl implements DAOItems {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                item.setId(resultSet.getInt("id_item"));
+                item.setId(resultSet.getInt(1));
             }
             return true;
         } catch (Exception ex) {
@@ -65,11 +65,27 @@ public class DaoItemsJDBCImpl implements DAOItems {
     public boolean delete(Item item) {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_ITEM_QUERY)) {
+
             preparedStatement.setInt(1, item.getId());
             preparedStatement.executeUpdate();
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteAllPurchasesFromAnItem(Item item) {
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_SALES_FROM_ITEM)) {
+            preparedStatement.setInt(1, item.getId());
+            if (preparedStatement.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return false;
         }
         return false;
     }
@@ -105,7 +121,6 @@ public class DaoItemsJDBCImpl implements DAOItems {
                         .company(resultSet.getString("company"))
                         .build());
             }
-            connection.commit();
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }

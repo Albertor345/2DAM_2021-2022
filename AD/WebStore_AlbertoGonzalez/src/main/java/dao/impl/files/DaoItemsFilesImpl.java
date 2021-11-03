@@ -1,11 +1,15 @@
 package dao.impl.files;
 
-import configuration.ConfigProperties;
+import configuration.Config;
 import dao.DAOItems;
+import dao.DAOPurchases;
 import model.Item;
+import model.Purchase;
 import producers.annotations.FILES;
 
+import javax.inject.Inject;
 import java.io.*;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,10 +19,16 @@ import java.util.stream.Collectors;
 
 @FILES
 public class DaoItemsFilesImpl implements DAOItems {
+    private DAOPurchases daoPurchases;
+
+    @Inject
+    public DaoItemsFilesImpl(@FILES DAOPurchases daoPurchases) {
+        this.daoPurchases = daoPurchases;
+    }
 
     @Override
     public boolean add(Item item) {
-        File file = new File(ConfigProperties.getInstance().getProperty("items"));
+        File file = new File(Config.getProperties().getProperty("items"));
 
         try (FileWriter writer = new FileWriter(file, true);
              BufferedWriter bw = new BufferedWriter(writer)) {
@@ -39,7 +49,7 @@ public class DaoItemsFilesImpl implements DAOItems {
     @Override
     public boolean delete(Item item) {
         List<Item> listItems = getAll();
-        File file = new File(ConfigProperties.getInstance().getProperty("items"));
+        File file = new File(Config.getProperties().getProperty("items"));
         try (FileWriter writer = new FileWriter(file, false);
              BufferedWriter bw = new BufferedWriter(writer)) {
             bw.write("");
@@ -62,7 +72,7 @@ public class DaoItemsFilesImpl implements DAOItems {
     @Override
     public List<Item> getAll() {
         List<Item> items = new ArrayList<>();
-        File file = new File(ConfigProperties.getInstance().getProperty("items"));
+        File file = new File(Config.getProperties().getProperty("items"));
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String st;
             List<String> lista;
@@ -79,6 +89,24 @@ public class DaoItemsFilesImpl implements DAOItems {
         } catch (IOException ex) {
             Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, ex);
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public boolean deleteAllPurchasesFromAnItem(Item item) {
+        List<Purchase> purchaseList = daoPurchases.getAll();
+        Path file = Paths.get(Config.getProperties().getProperty("purchases"));
+
+        try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING})) {
+            bw.write("");
+            purchaseList.stream()
+                    .filter(purchase -> purchase.getItem().getId() != item.getId())
+                    .collect(Collectors.toList())
+                    .forEach(p -> daoPurchases.add(p));
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
 }

@@ -5,8 +5,6 @@
  */
 package fx.controllers;
 
-import configuration.ConfigYaml;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -14,8 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import javax.inject.Inject;
 
 public class FXMLLoginController implements Initializable {
 
@@ -29,8 +25,8 @@ public class FXMLLoginController implements Initializable {
 
 
     public void clickLogin() {
-        if (fxUser.getText().equals(principal.getConfigYaml().getProperties().get("user"))
-                && passBox.getText().equals(principal.getConfigYaml().getProperties().get("pass"))) {
+        if (fxUser.getText().equals(principal.getConfig().getProperties().get("user"))
+                && passBox.getText().equals(principal.getConfig().getProperties().get("pass"))) {
             principal.setUsername(fxUser.getText());
             principal.chargeWelcome();
         } else {

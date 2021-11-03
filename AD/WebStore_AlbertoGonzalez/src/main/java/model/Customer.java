@@ -24,7 +24,7 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Customer {
 
-    private int id;
+    private int idCustomer;
     private String name;
     private String phone;
     private String address;
@@ -33,7 +33,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "ID: " + id + "  Name: " + name + "  Phone: " + phone + "  Address: " + address;
+        return "ID: " + idCustomer + "  Name: " + name + "  Phone: " + phone + "  Address: " + address;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Customer {
             return false;
         }
         final Customer other = (Customer) obj;
-        if (this.id != other.id) {
+        if (this.idCustomer != other.idCustomer) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {

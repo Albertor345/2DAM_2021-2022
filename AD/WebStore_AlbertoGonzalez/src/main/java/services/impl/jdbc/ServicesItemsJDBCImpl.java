@@ -9,6 +9,7 @@ import dao.DAOItems;
 import dao.DAOPurchases;
 import dao.impl.files.DaoPurchasesFilesImpl;
 import model.Item;
+import model.Purchase;
 import services.ServicesItems;
 import producers.annotations.JDBC;
 
@@ -33,10 +34,12 @@ public class ServicesItemsJDBCImpl implements ServicesItems {
     }
 
     public boolean delete(Item item) {
-        if (daoPurchases.deleteAllPurchasesFromAnItem(item)) {
-            return daoItems.delete(item);
-        }
-        return false;
+        return daoItems.delete(item);
+    }
+
+    @Override
+    public boolean deleteAllPurchasesFromAnItem(Item item) {
+        return daoItems.deleteAllPurchasesFromAnItem(item);
     }
 
     @Override
@@ -52,6 +55,14 @@ public class ServicesItemsJDBCImpl implements ServicesItems {
     @Override
     public List<Item> getAll() {
         return daoItems.getAll();
+    }
+
+    @Override
+    public boolean checkItemPurchases(Item item) {
+        List<Purchase> purchaseList = daoPurchases.getAll();
+        return purchaseList.stream()
+                .map(purchase -> purchase.getItem().getId())
+                .anyMatch(itemID -> item.getId() == itemID);
     }
 
 }

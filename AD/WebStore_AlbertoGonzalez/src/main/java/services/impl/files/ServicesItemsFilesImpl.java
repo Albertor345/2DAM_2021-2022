@@ -38,10 +38,15 @@ public class ServicesItemsFilesImpl implements ServicesItems {
     }
 
     public boolean delete(Item item) {
-        if (daoPurchases.deleteAllPurchasesFromAnItem(item)) {
+        if (daoItems.deleteAllPurchasesFromAnItem(item)) {
             return daoItems.delete(item);
         }
         return false;
+    }
+
+    @Override
+    public boolean deleteAllPurchasesFromAnItem(Item item) {
+        return daoItems.deleteAllPurchasesFromAnItem(item);
     }
 
     @Override

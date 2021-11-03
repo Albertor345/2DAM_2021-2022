@@ -24,19 +24,28 @@ public class FXMLDeleteItemsController implements Initializable {
     private void deleteItem(ActionEvent actionEvent) {
         Item item = listViewItems.getSelectionModel().getSelectedItem();
         if (item != null) {
-            if (true/*!principalController.getServicesItems().checkItemPurchases(item)*/) {
+            if (!principalController.getServicesItems().checkItemPurchases(item)) {
                 principalController.getServicesItems().delete(item);
+                listViewItems.getItems().remove(item);
+                listViewItems.refresh();
             } else {
                 alert.setContentText("This item has purchases related to it, do you want to continue?");
                 Optional<ButtonType> decision = alert.showAndWait();
                 if (decision.get().equals(ButtonType.OK)) {
-                   if (principalController.getServicesItems().delete(item))
-                       alert("Success", "The item has been deleted alongside its related purchases", Alert.AlertType.INFORMATION);
+                    if (principalController.getServicesItems().deleteAllPurchasesFromAnItem(item)) {
+                        if (principalController.getServicesItems().delete(item)){
+                            listViewItems.getItems().remove(item);
+                            listViewItems.refresh();
+                            alert("Success", "The item has been deleted alongside its related purchases", Alert.AlertType.INFORMATION);
+                        }else{
+                            alert("Error", "There's been an error while deleting the item, try it again later", Alert.AlertType.ERROR);
+                        }
+                    }
                 } else {
-                   alert("Aborted", "Task aborted", Alert.AlertType.INFORMATION);
+                    alert("Aborted", "Task aborted", Alert.AlertType.INFORMATION);
                 }
             }
-        }else{
+        } else {
             alert("Warning", "Choose an item first", Alert.AlertType.WARNING);
         }
     }

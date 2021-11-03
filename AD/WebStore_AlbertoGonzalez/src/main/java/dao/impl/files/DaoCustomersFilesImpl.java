@@ -1,6 +1,6 @@
 package dao.impl.files;
 
-import configuration.ConfigProperties;
+import configuration.Config;
 import dao.DAOCustomers;
 import dao.DAOItems;
 import model.Customer;
@@ -31,15 +31,11 @@ public class DaoCustomersFilesImpl implements DAOCustomers {
     @Override
     public boolean add(Customer customer) {
         try {
-            Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
+            Path file = Paths.get(Config.getProperties().getProperty("customers"));
             JAXBContext context = JAXBContext.newInstance(Customers.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.marshal(Customers.builder().customers(new ArrayList<>() {{add(customer);}}).build(), Files.newOutputStream(file));
             return true;
-        } catch (JAXBException e) {
-            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
-        } catch (IOException e) {
-            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
         } catch (Exception e) {
             Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -49,15 +45,11 @@ public class DaoCustomersFilesImpl implements DAOCustomers {
     @Override
     public Customer get(Customer customer) {
         try {
-            Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
+            Path file = Paths.get(Config.getProperties().getProperty("customers"));
             JAXBContext context = JAXBContext.newInstance(Customer.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
             customer = (Customer) unmarshaller.unmarshal(Files.newInputStream(file));
-        } catch (JAXBException e) {
-            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
-        } catch (IOException e) {
-            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
         } catch (Exception e) {
             Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -68,15 +60,13 @@ public class DaoCustomersFilesImpl implements DAOCustomers {
     public List<Customer> getAll() {
         List<Customer> customers = new ArrayList<>();
         try {
-            Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
+            Path file = Paths.get(Config.getProperties().getProperty("customers"));
             JAXBContext context = JAXBContext.newInstance(Customers.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
             customers = (List<Customer>) unmarshaller.unmarshal(Files.newInputStream(file));
         } catch (JAXBException e) {
             customers.addAll(Collections.emptyList());
-        } catch (IOException e) {
-            Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
         } catch (Exception e) {
             Logger.getLogger(DAOItems.class.getName()).log(Level.SEVERE, null, e);
         }

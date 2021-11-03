@@ -28,6 +28,7 @@ public class ConfigProperties {
                 configurationProperties.properties.loadFromXML(new FileInputStream("propertiesFiles/settings.xml"));
             } catch (IOException ex) {
                 Logger.getLogger(ConfigProperties.class.getName()).log(Level.SEVERE, null, ex);
+
             }
         }
 

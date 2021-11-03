@@ -8,6 +8,8 @@ package configuration;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.inject.Singleton;
@@ -17,17 +19,20 @@ import java.util.Map;
 @Setter
 @Log4j2
 @Singleton
+@PropertySource("propertiesFiles/users.yaml")
+@ConfigurationProperties(prefix = "yaml")
 public class ConfigYaml {
-
-    private String user;
+    private Map<String, String> properties;
+ /*   private String user;
     private String pass;
     private String db_user;
     private String db_password;
     private String db_driver;
-    private String urlDB;
+    private String urlDB;*/
 
     public ConfigYaml() {
-        try {
+        /*try {
+
             Yaml yaml = new Yaml();
             Map<String, String> map = yaml.load(yaml.getClass().getResourceAsStream("/propertiesFiles/users.yaml"));
             this.user = map.get("user");
@@ -38,8 +43,8 @@ public class ConfigYaml {
             this.urlDB = map.get("urlDB");
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-        }
+        }*/
     }
 
-
 }
+

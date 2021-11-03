@@ -28,10 +28,10 @@ public class DBConnection {
 
     private HikariDataSource getHikariDataSource() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(configuration.getUrlDB());
-        config.setUsername(configuration.getDb_user());
-        config.setPassword(configuration.getDb_password());
-        config.setDriverClassName(configuration.getDb_driver());
+        config.setJdbcUrl(configuration.getProperties().get("urlDB"));
+        config.setUsername(configuration.getProperties().get("db_user"));
+        config.setPassword(configuration.getProperties().get("db_password"));
+        config.setDriverClassName(configuration.getProperties().get("db_driver"));
         config.setMaximumPoolSize(5);
 
         config.addDataSourceProperty("cachePrepStmts", "true");
@@ -48,7 +48,7 @@ public class DBConnection {
     }
 
     public Connection getConnection() throws Exception {
-        Class.forName(configuration.getDb_driver());
+        Class.forName(configuration.getProperties().get("db_driver"));
         Connection connection;
         connection = hikariDatasource.getConnection();
 

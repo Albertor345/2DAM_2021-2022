@@ -29,8 +29,8 @@ public class FXMLLoginController implements Initializable {
 
 
     public void clickLogin() {
-        if (fxUser.getText().equals(principal.getConfigYaml().getUser())
-                && passBox.getText().equals(principal.getConfigYaml().getPass())) {
+        if (fxUser.getText().equals(principal.getConfigYaml().getProperties().get("user"))
+                && passBox.getText().equals(principal.getConfigYaml().getProperties().get("pass"))) {
             principal.setUsername(fxUser.getText());
             principal.chargeWelcome();
         } else {

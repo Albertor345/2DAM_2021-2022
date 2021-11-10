@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">CrudPersonasV3</string>
+    <string name="ageTextFieldIconContentDescription">icon.png</string>
+    <string name="radioButtonLabelGenderMale">Hombre</string>
+    <string name="radioButtonLabelGenderFemale">Mujer</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="add">Add</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="checkBox">Add/Update</string>
+    <string name="lista">Ver Lista</string>
+    <string name="mainActivityListString">lista</string>
+    <string name="dataFile">data.json</string>
+    <string name="fab_content_desc">addButton</string>
+    <string name="delete_alert_dialog_message">Al borrar un personaje se eliminara permanentemente de la aplicacion. ¿Deseas continuar?</string>
+    <string name="delete_alert_dialog_title">¿Estás seguro?</string>
+    <string name="delete_alert_dialog_negative_button_text">Cancelar</string>
+    <string name="delete_alert_dialog_positive_button_text">Eliminar</string>
+    <string name="character_profile_image">foto de perfil del personaje</string>
+    <string name="toolbar_menu_save">save</string>
+    <string name="add_character_dialog_toolbar_title">Añadir Personaje</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="undo_snackbar_content_text">Se ha borrado una entrada de la lista ¿Deseas recuperarla?</string>
+    <string name="undo_snackbar_action_text">Deshacer</string>
+    <string name="toolbar_menu_reset">Reset filters</string>
+    <string name="characterIndex">characterIndex</string>
+    <string name="search_hint">Filter by name</string>
+    <string name="select_dates_hint">Filter by date</string>
+    <string name="dateFiltering">dateFiltering/</string>
+    <string name="datePicker">datePicker</string>
+    <string name="datePickerTitle">Select dates</string>
+    <string name="pair1ActivityOptionsTag">imageViewThumbnail</string>
+    <string name="pair2ActivityOptionsTag">textViewNombreCharacter</string>
+    <string name="moshiDateFormatterPattern">yyyy-MM-dd\'T\'HH:mm:ss-SSSS</string>
+</resources>

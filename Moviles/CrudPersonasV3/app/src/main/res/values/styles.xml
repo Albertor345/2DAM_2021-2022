@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/cardview_dark_background</item>
+        <item name="colorAccent">@color/material_on_background_emphasis_high_type</item>
+        <item name="colorPrimary">@color/design_default_color_primary</item>
+        <item name="android:colorBackground">@color/cardview_dark_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimaryDark">@color/cardview_dark_background</item>
+        <item name="colorAccent">@color/material_on_background_emphasis_high_type</item>
+        <item name="colorPrimary">@color/design_default_color_primary</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="actionMenuTextColor">@color/material_on_primary_emphasis_high_type</item>
+    </style>
+
+    <style name="AppTheme.Slide">
+        <item name="android:windowEnterAnimation">@anim/full_screen_dialog_exit_animation</item>
+        <item name="android:windowExitAnimation">@anim/full_screen_dialog_enter_animation</item>
+    </style>
+</resources>

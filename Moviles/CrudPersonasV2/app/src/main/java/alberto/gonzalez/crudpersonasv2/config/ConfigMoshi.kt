@@ -1,5 +1,6 @@
 package alberto.gonzalez.crudpersonasv2.config
 
+import alberto.gonzalez.crudpersonasv2.R
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.ToJson
@@ -32,7 +33,8 @@ object ConfigMoshi {
         }
 
         companion object {
-            private val FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss-SSSS")
+            private val FORMATTER =
+                DateTimeFormatter.ofPattern(R.string.moshiDateFormatterPattern.toString())
         }
     }
 }

@@ -28,4 +28,10 @@
     <string name="characterIndex">characterIndex</string>
     <string name="search_hint">Filter by name</string>
     <string name="select_dates_hint">Filter by date</string>
+    <string name="dateFiltering">dateFiltering/</string>
+    <string name="datePicker">datePicker</string>
+    <string name="datePickerTitle">Select dates</string>
+    <string name="pair1ActivityOptionsTag">imageViewThumbnail</string>
+    <string name="pair2ActivityOptionsTag">textViewNombreCharacter</string>
+    <string name="moshiDateFormatterPattern">yyyy-MM-dd\'T\'HH:mm:ss-SSSS</string>
 </resources>

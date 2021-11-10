@@ -13,7 +13,7 @@ data class CharacterDataContainer(
     @Json(name = "offset")
     val offset: Int,
     @Json(name = "results")
-    val characters: List<Character>,
+    val characters: MutableList<Character>,
     @Json(name = "total")
     val total: Int
 )

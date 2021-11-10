@@ -25,7 +25,7 @@ data class Character(
     @Json(name = "stories")
     val stories: Stories,
     @Json(name = "thumbnail")
-    val thumbnail: Thumbnail,
+    val image: Thumbnail,
     @Json(name = "urls")
     val urls: List<Url>
 )

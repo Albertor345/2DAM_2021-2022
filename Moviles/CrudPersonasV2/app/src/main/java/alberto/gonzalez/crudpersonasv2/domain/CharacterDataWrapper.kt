@@ -15,7 +15,7 @@ data class CharacterDataWrapper(
     @Json(name = "copyright")
     val copyright: String,
     @Json(name = "data")
-    val data: CharacterDataContainer,
+    val characterDataContainer: CharacterDataContainer,
     @Json(name = "etag")
     val etag: String,
     @Json(name = "status")

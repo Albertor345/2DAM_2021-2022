@@ -9,6 +9,6 @@ data class CharacterUI(
     val description: String,
     val modified: String,
     val image: String,
-    val comics: List<ComicUI>,
-    val series: List<SerieUI>
+    var comics: List<ComicUI>,
+    var series: List<SerieUI>
 )

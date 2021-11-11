@@ -1,4 +1,4 @@
-package com.example.crudpersonasv3.data.utils
+package com.example.crudpersonasv3.data.domain.datamappers
 
 import com.example.crudpersonasv3.data.domain.CharacterEntity
 import com.example.crudpersonasv3.data.domain.CharacterFull
@@ -9,24 +9,15 @@ import com.example.crudpersonasv3.ui.domain.ComicUI
 import com.example.crudpersonasv3.ui.domain.SerieUI
 
 fun CharacterEntity.toCharacterUI(): CharacterUI =
-    CharacterUI(id_character, name, description, modified, image)
+    CharacterUI(id, name, description, modified, image, comics = emptyList(), series = emptyList())
 
 fun ComicEntity.toComicUI(): ComicUI = ComicUI(name, resourceURI)
 
 fun SerieEntity.toSerieUI(): SerieUI = SerieUI(name, resourceURI)
 
 fun CharacterFull.toCharacterUI(): CharacterUI {
-    return CharacterUI(
-        characterWithComics.character.id_character,
-        characterWithComics.character.name,
-        characterWithComics.character.description,
-        characterWithComics.character.modified,
-        characterWithComics.character.image,
-        characterWithComics.comics.map {
-            it.toComicUI()
-        },
-        series.map {
-            it.toSerieUI()
-        }
-    )
+    val char = this.characterWithComics.character.toCharacterUI()
+    char.series = series.map { it.toSerieUI() }
+    char.comics = characterWithComics.comics.map { it.toComicUI() }
+    return char
 }

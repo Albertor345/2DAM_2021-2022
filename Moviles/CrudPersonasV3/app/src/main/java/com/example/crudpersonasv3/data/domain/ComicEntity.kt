@@ -1,7 +1,6 @@
 package com.example.crudpersonasv3.data.domain
 
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -10,13 +9,12 @@ import androidx.room.PrimaryKey
     tableName = "comics", foreignKeys = [
         ForeignKey(
             entity = CharacterEntity::class,
-            parentColumns = ["id_character"],
-            childColumns = ["id_character"]
+            parentColumns = ["id"],
+            childColumns = ["id"]
         )
     ]
 )
 data class ComicEntity(
-    @ColumnInfo(name = "id_comic")
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,

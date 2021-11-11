@@ -7,8 +7,8 @@ data class CharacterFull(
     @Embedded val characterWithComics: CharacterWithComics,
     @Relation(
         entity = CharacterEntity::class,
-        parentColumn = "id_character",
-        entityColumn = "id_comic"
+        parentColumn = "id",
+        entityColumn = "id"
     )
     val series: List<SerieEntity>
 )

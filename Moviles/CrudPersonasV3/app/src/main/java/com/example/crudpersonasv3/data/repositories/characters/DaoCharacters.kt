@@ -9,11 +9,11 @@ import com.example.crudpersonasv3.data.domain.CharacterWithComics
 @Dao
 interface DaoCharacters {
 
-    @Query(R.string.SELECT_ALL_CHARACTERS.toString())
+    @Query("SELECT * from characters")//R.string.SELECT_ALL_CHARACTERS.toString())
     suspend fun getCharacters(): MutableList<CharacterEntity>
 
     @Transaction
-    @Query(R.string.SELECT_CHARACTER.toString())
+    @Query("Select * from characters where id_character = :id")//R.string.SELECT_CHARACTER.toString())
     suspend fun getCharacterFull(id: Int): CharacterFull
 
     @Insert

@@ -5,16 +5,21 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.crudpersonasv3.R
+import com.example.crudpersonasv3.data.RoomDatabaseConfig
 import com.example.crudpersonasv3.data.repositories.characters.RepositoryCharacters
 import com.example.crudpersonasv3.databinding.MainActivityBinding
 import com.example.crudpersonasv3.ui.detailsActivity.DetailsActivity
-import com.example.crudpersonasv3.ui.domain.CharacterUI
+import com.example.crudpersonasv3.usecases.characters.DeleteCharacter
+import com.example.crudpersonasv3.usecases.characters.GetCharacters
+import com.example.crudpersonasv3.usecases.characters.InsertCharacter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,13 +34,15 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory(
-            GetPersonas(PersonaRepository(PersonaRoomDatabase.getDatabase(this).personaDao())),
-            InsertPersona(PersonaRepository(PersonaRoomDatabase.getDatabase(this).personaDao())),
-            InsertPersonaWithCosas(
-                PersonaRepository(
-                    PersonaRoomDatabase.getDatabase(this).personaDao()
-                )),
-            GetPersonasDes(PersonaRepository(PersonaRoomDatabase.getDatabase(this).personaDao())),
+            GetCharacters(
+                RepositoryCharacters(RoomDatabaseConfig.getDatabase(this).daoCharacters())
+            ),
+            InsertCharacter(
+                RepositoryCharacters(RoomDatabaseConfig.getDatabase(this).daoCharacters())
+            ),
+            DeleteCharacter(
+                RepositoryCharacters(RoomDatabaseConfig.getDatabase(this).daoCharacters())
+            )
         )
     }
 
@@ -46,6 +53,17 @@ class MainActivity : AppCompatActivity() {
         init()
         setListeners()
         loadList()
+        observers()
+    }
+
+    private fun observers() {
+        viewModel.characters.observe(this, {
+            adapter.submitList(it)
+        })
+        viewModel.error.observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+
+        })
     }
 
     private fun init() {
@@ -58,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     private fun setListeners() {
         with(binding) {
             floatingActionButton.setOnClickListener {
-                addItem(null, 0)
+                showDialog()
             }
             toolbar.setNavigationOnClickListener {
                 toggleBackdrop()
@@ -98,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.undo_snackbar_content_text),
                     Snackbar.LENGTH_LONG
                 ).setAction(getString(R.string.undo_snackbar_action_text)) {
+
                     addItem(character, index)
                     binding.recycler.adapter?.notifyItemInserted(index)
                 }.show()
@@ -119,8 +138,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadList() {
+        viewModel.get
         repository.getList().let {
-            binding.recycler.adapter = CharacterAdapter(it, ::delete, ::details)
+            binding.recycler.adapter = CharacterAdapter(::delete, ::details)
             adapter = binding.recycler.adapter as CharacterAdapter
             binding.recycler.layoutManager = GridLayoutManager(this, 1)
         }

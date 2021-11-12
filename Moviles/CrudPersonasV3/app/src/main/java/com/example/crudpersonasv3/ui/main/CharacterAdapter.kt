@@ -34,7 +34,7 @@ class CharacterAdapter(
     }
 
     override fun getItemCount(): Int {
-        return characters.size
+        return currentList.size
     }
 
     override fun getFilter(): Filter {
@@ -48,13 +48,13 @@ class CharacterAdapter(
                 } else {
                     val searchStr = constraint.toString().lowercase()
                     var results = if (!searchStr.contains(R.string.dateFiltering.toString())) {
-                        characters.stream().filter {
+                        currentList.stream().filter {
                             it.name.lowercase().startsWith(searchStr)
                         }.collect(Collectors.toList())
                     } else {
                         searchStr.let {
                             it.split("/")[1].let {
-                                characters.stream().filter { char ->
+                                currentList.stream().filter { char ->
                                     LocalDate.parse(char.modified).isBefore(LocalDate.parse(it))
                                 }.collect(Collectors.toList())
                             }
@@ -67,8 +67,7 @@ class CharacterAdapter(
             }
 
             override fun publishResults(constraint: CharSequence, results: FilterResults) {
-                characters = results.values as MutableList<CharacterUI>
-                notifyDataSetChanged()
+                submitList(results.values as List<CharacterUI>)
             }
         }
     }

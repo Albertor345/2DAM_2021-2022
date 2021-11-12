@@ -19,11 +19,17 @@ class MainViewModel(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
+    fun removeCharacter(index: Int): Int{
+        viewModelScope.launch {
+            deleteCharacter.repositoryCharacters.deleteCharacter(index)
+        }
+    }
 
     private fun addItem(character: CharacterUI?, index: Int) {
         viewModelScope.launch {
-            insertCharacters.in
+
         }
+
         character?.let {
             repository.addCharacter(character, index)
         } ?: showDialog()

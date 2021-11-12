@@ -9,10 +9,10 @@ fun CharacterUI.toCharacterEntity(): CharacterEntity =
     CharacterEntity(id, name, description, modified, image)
 
 fun ComicUI.toComicEntity(): ComicEntity =
-    ComicEntity(id = -1, name, resourceURI, id_character = -1)
+    ComicEntity(idComic = -1, name, resourceURI, idCharacter = -1)
 
 fun SerieUI.toSerieEntity(): SerieEntity =
-    SerieEntity(id = -1, name, resourceURI, id_character = -1)
+    SerieEntity(idSerie = -1, name, resourceURI, id_character = -1)
 
 fun CharacterUI.toCharacterFull(): CharacterFull {
     val charWithComics = CharacterWithComics(this.toCharacterEntity(), comics.map { it.toComicEntity() })

@@ -9,7 +9,7 @@ import com.example.crudpersonasv3.ui.domain.ComicUI
 import com.example.crudpersonasv3.ui.domain.SerieUI
 
 fun CharacterEntity.toCharacterUI(): CharacterUI =
-    CharacterUI(id, name, description, modified, image, comics = emptyList(), series = emptyList())
+    CharacterUI(id_character, name, description, modified, image, comics = emptyList(), series = emptyList())
 
 fun ComicEntity.toComicUI(): ComicUI = ComicUI(name, resourceURI)
 

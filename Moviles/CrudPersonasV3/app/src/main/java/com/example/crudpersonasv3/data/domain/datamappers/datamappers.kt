@@ -11,9 +11,9 @@ import com.example.crudpersonasv3.ui.domain.SerieUI
 fun CharacterEntity.toCharacterUI(): CharacterUI =
     CharacterUI(id_character, name, description, modified, image, comics = emptyList(), series = emptyList())
 
-fun ComicEntity.toComicUI(): ComicUI = ComicUI(name, resourceURI)
+fun ComicEntity.toComicUI(): ComicUI = ComicUI(id_comic, name)
 
-fun SerieEntity.toSerieUI(): SerieUI = SerieUI(name, resourceURI)
+fun SerieEntity.toSerieUI(): SerieUI = SerieUI(id_serie, name)
 
 fun CharacterFull.toCharacterUI(): CharacterUI {
     val char = this.characterWithComics.character.toCharacterUI()

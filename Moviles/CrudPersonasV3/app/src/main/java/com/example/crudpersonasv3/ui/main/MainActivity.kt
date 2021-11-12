@@ -17,6 +17,7 @@ import com.example.crudpersonasv3.data.RoomDatabaseConfig
 import com.example.crudpersonasv3.data.repositories.characters.RepositoryCharacters
 import com.example.crudpersonasv3.databinding.MainActivityBinding
 import com.example.crudpersonasv3.ui.detailsActivity.DetailsActivity
+import com.example.crudpersonasv3.ui.domain.CharacterUI
 import com.example.crudpersonasv3.usecases.characters.DeleteCharacter
 import com.example.crudpersonasv3.usecases.characters.GetCharacters
 import com.example.crudpersonasv3.usecases.characters.InsertCharacter
@@ -116,13 +117,18 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.undo_snackbar_content_text),
                     Snackbar.LENGTH_LONG
                 ).setAction(getString(R.string.undo_snackbar_action_text)) {
-
-                    addItem(character, index)
+                    addItem(character)
                     binding.recycler.adapter?.notifyItemInserted(index)
                 }.show()
             }
             .setCancelable(false)
             .create().show()
+    }
+
+    private fun addItem(character: CharacterUI) {
+        character.let {
+            viewModel.addCharacter(character)
+        } ?: showDialog()
     }
 
     fun details(index: Int, image: View, name: View) {

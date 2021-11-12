@@ -13,30 +13,32 @@ class MainViewModel(
     private val deleteCharacter: DeleteCharacter
 ) : ViewModel() {
 
-    private val _characters = MutableLiveData<List<CharacterUI>>()
-    val characters: LiveData<List<CharacterUI>> get() = _characters
+
+
+    private val _characters = MutableLiveData<MutableList<CharacterUI>>()
+    val characters: LiveData<List<CharacterUI>> get() = _characters as LiveData<List<CharacterUI>>
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
-    fun removeCharacter(index: Int): Int{
+    fun deleteCharacter(id: Int){
         viewModelScope.launch {
-            deleteCharacter.repositoryCharacters.deleteCharacter(index)
+            deleteCharacter.invoke(id)
+            _characters.value?.remove(CharacterUI(id))
         }
     }
 
-    private fun addItem(character: CharacterUI?, index: Int) {
+    fun addCharacter(character: CharacterUI?) {
         viewModelScope.launch {
 
         }
 
-        character?.let {
-            repository.addCharacter(character, index)
-        } ?: showDialog()
-
     }
+
 
 }
+
+
 
 class MainViewModelFactory(
     private val getCharacters: GetCharacters,

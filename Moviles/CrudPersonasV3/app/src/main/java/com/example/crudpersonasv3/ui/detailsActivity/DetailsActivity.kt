@@ -19,11 +19,11 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DetailsActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        repository = RepositoryCharacters()
+        //repository = RepositoryCharacters()
 
-        character =
+        /*character =
             repository.getCharacter(intent.getIntExtra(getString(R.string.characterIndex), 0))
-        loadCharacter(character)
+        loadCharacter(character)*/
     }
 
     private fun loadCharacter(character: CharacterUI) {

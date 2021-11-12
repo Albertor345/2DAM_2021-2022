@@ -4,7 +4,7 @@ import com.example.crudpersonasv3.data.repositories.characters.RepositoryCharact
 import com.example.crudpersonasv3.ui.domain.CharacterUI
 import com.example.crudpersonasv3.ui.domain.datamappers.toCharacterEntity
 
-class InsertCharacter(val repositoryCharacters: RepositoryCharacters) {
+class InsertCharacter(private val repositoryCharacters: RepositoryCharacters) {
     suspend fun invoke(character: CharacterUI) =
         repositoryCharacters.insertCharacter(character.toCharacterEntity())
 }

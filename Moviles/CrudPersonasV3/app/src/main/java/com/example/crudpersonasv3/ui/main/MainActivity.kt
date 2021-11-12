@@ -107,8 +107,8 @@ class MainActivity : AppCompatActivity() {
                 view.dismiss()
             }
             .setPositiveButton(getString(R.string.delete_alert_dialog_positive_button_text)) { view, _ ->
-                var character = repository.getCharacter(index)
-                repository.removeCharacter(index)
+                val character = adapter.currentList[index]
+                viewModel.deleteCharacter(character.id)
                 binding.recycler.adapter?.notifyItemRemoved(index)
                 view.dismiss()
                 Snackbar.make(
@@ -126,12 +126,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addItem(character: CharacterUI) {
-        character.let {
-            viewModel.addCharacter(character)
-        } ?: showDialog()
+        viewModel.addCharacter(character)
     }
 
-    fun details(index: Int, image: View, name: View) {
+    private fun details(index: Int, image: View, name: View) {
         val intent = Intent(this@MainActivity, DetailsActivity::class.java)
         intent.putExtra(getString(R.string.characterIndex), index)
 
@@ -144,13 +142,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadList() {
-        viewModel.get
-        repository.getList().let {
-            binding.recycler.adapter = CharacterAdapter(::delete, ::details)
-            adapter = binding.recycler.adapter as CharacterAdapter
-            binding.recycler.layoutManager = GridLayoutManager(this, 1)
-        }
+        binding.recycler.adapter = CharacterAdapter(::delete, ::details)
+        adapter = binding.recycler.adapter as CharacterAdapter
+        binding.recycler.layoutManager = GridLayoutManager(this, 1)
+        viewModel.getCharacters()
     }
+
 
     private fun showDialog() = AddCharacterDialogFragment().display(supportFragmentManager)
 
@@ -201,34 +198,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createDatePicker(): View.OnFocusChangeListener {
-        return object : View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                if (hasFocus) {
-                    val picker = MaterialDatePicker.Builder.datePicker()
-                        .setTitleText(getString(R.string.datePickerTitle))
-                        .build()
-                    picker.addOnPositiveButtonClickListener {
-                        filterByDate(R.string.datePicker.toString() + picker.selection.toString())
-                    }
-                    picker.addOnNegativeButtonClickListener {
-                        binding.textViewDateRange.clearFocus()
-                        toggleBackdrop()
-                    }
-                    picker.addOnCancelListener {
-                        binding.textViewDateRange.clearFocus()
-                        toggleBackdrop()
-                    }
-                    picker.addOnDismissListener {
-                        binding.textViewDateRange.clearFocus()
-                        toggleBackdrop()
-                    }
-                    picker.show(supportFragmentManager, getString(R.string.datePicker))
-
+        return View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val picker = MaterialDatePicker.Builder.datePicker()
+                    .setTitleText(getString(R.string.datePickerTitle))
+                    .build()
+                picker.addOnPositiveButtonClickListener {
+                    filterByDate(R.string.datePicker.toString() + picker.selection.toString())
                 }
+                picker.addOnNegativeButtonClickListener {
+                    binding.textViewDateRange.clearFocus()
+                    toggleBackdrop()
+                }
+                picker.addOnCancelListener {
+                    binding.textViewDateRange.clearFocus()
+                    toggleBackdrop()
+                }
+                picker.addOnDismissListener {
+                    binding.textViewDateRange.clearFocus()
+                    toggleBackdrop()
+                }
+                picker.show(supportFragmentManager, getString(R.string.datePicker))
+
             }
         }
     }
+
+
 }
+
 
 
 

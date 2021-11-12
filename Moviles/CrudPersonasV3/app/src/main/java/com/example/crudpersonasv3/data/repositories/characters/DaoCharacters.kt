@@ -10,7 +10,7 @@ import com.example.crudpersonasv3.data.domain.CharacterWithComics
 interface DaoCharacters {
 
     @Query(R.string.SELECT_ALL_CHARACTERS.toString())
-    suspend fun getCharacters(): List<CharacterEntity>
+    suspend fun getCharacters(): MutableList<CharacterEntity>
 
     @Transaction
     @Query(R.string.SELECT_CHARACTER.toString())

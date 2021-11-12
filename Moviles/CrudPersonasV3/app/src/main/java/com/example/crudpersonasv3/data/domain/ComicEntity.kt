@@ -5,9 +5,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "comics")
 data class ComicEntity(
     @PrimaryKey(autoGenerate = true)
     val id_comic: Int,
-    val name: String,
+    val name: String
 )

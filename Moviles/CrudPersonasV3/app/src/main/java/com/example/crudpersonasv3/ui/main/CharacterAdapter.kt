@@ -16,8 +16,9 @@ import java.time.LocalDate
 import java.util.stream.Collectors
 
 class CharacterAdapter(
-    private val delete: (Int) -> Unit,
-    private val details: (Int, View, View) -> Unit
+    private val delete: (CharacterUI) -> Unit,
+    private val details: (CharacterUI, View, View) -> Unit,
+    private val update: (CharacterUI) -> Unit
 ) : ListAdapter<CharacterUI, CharacterAdapter.CharacterViewHolder>(DiffCallback()), Filterable {
     val originalData: MutableList<CharacterUI> = currentList
 
@@ -30,7 +31,7 @@ class CharacterAdapter(
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) = with(holder) {
         val item = getItem(position)
-        bind(item, delete, details)
+        bind(item, delete, details, update)
     }
 
     override fun getItemCount(): Int {
@@ -77,17 +78,21 @@ class CharacterAdapter(
 
         fun bind(
             character: CharacterUI,
-            delete: (Int) -> Unit,
-            details: (Int, View, View) -> Unit
+            delete: (CharacterUI) -> Unit,
+            details: (CharacterUI, View, View) -> Unit,
+            update: (CharacterUI) -> Unit
         ) {
             with(binding) {
                 textViewNombreCharacter.text = character.name
                 imageViewThumbnail.load(character.image)
                 buttonDelete.setOnClickListener {
-                    delete(adapterPosition)
+                    delete(character)
                 }
                 buttonDetails.setOnClickListener {
-                    details(adapterPosition, imageViewThumbnail, textViewNombreCharacter)
+                    details(character, imageViewThumbnail, textViewNombreCharacter)
+                }
+                buttonUpdate.setOnClickListener {
+                    update(character)
                 }
             }
         }

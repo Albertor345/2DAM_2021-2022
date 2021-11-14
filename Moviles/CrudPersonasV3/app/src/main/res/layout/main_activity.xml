@@ -17,8 +17,6 @@
             android:paddingStart="6dp"
             android:paddingEnd="16dp"
             app:navigationIcon="@drawable/ic_baseline_filter_alt_24" />
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,7 +7,7 @@ import androidx.room.Relation
 data class CharacterFull(
     @Embedded val characterWithComics: CharacterWithComics,
     @Relation(
-        entity = CharacterEntity::class,
+       /* entity = CharacterEntity::class,*/
         parentColumn = "id_character",
         entityColumn = "id_serie",
         associateBy = Junction(CharacterSeriesCrossReference::class)

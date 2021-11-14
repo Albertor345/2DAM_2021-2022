@@ -4,7 +4,7 @@ import androidx.room.Entity
 
 @Entity(tableName = "characters")
 data class CharacterUI(
-    val id: Int,
+    var id: Long,
     val name: String,
     val description: String,
     val modified: String,
@@ -26,6 +26,6 @@ data class CharacterUI(
     }
 
     override fun hashCode(): Int {
-        return id
+        return id.hashCode()
     }
 }

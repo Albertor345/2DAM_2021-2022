@@ -16,11 +16,11 @@ interface DaoCharacters {
     @Query("Select * from characters where id_character = :id")
     suspend fun getCharacterFull(id: Int): CharacterFull
 
-    @Insert
-    suspend fun insertCharacter(character: CharacterEntity): Int
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertCharacter(character: CharacterEntity): Long
 
     @Delete
-    suspend fun deleteCharacter(id: Int): Int
+    suspend fun deleteCharacter(character: CharacterEntity): Int
 
 
 

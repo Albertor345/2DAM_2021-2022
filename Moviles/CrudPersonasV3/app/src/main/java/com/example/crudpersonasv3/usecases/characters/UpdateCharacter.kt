@@ -1,5 +1,7 @@
 package com.example.crudpersonasv3.usecases.characters
 
-class UpdateCharacter {
+import javax.inject.Inject
+
+class UpdateCharacter @Inject constructor() {
 
 }

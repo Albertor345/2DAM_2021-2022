@@ -12,8 +12,8 @@ import androidx.room.ForeignKey
         ),
         ForeignKey(
             entity = SerieEntity::class,
-            parentColumns = ["id_comic"],
-            childColumns = ["id_comic"]
+            parentColumns = ["id_serie"],
+            childColumns = ["id_serie"]
         )
     ]
 )

@@ -6,17 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.crudpersonasv3.R
-import com.example.crudpersonasv3.data.domain.CharacterEntity
-import com.example.crudpersonasv3.data.domain.ComicEntity
-import com.example.crudpersonasv3.data.domain.SerieEntity
+import com.example.crudpersonasv3.data.domain.*
 import com.example.crudpersonasv3.data.repositories.characters.DaoCharacters
 import com.example.crudpersonasv3.data.repositories.comics.daoComics
 import com.example.crudpersonasv3.data.repositories.series.daoSeries
 import com.example.crudpersonasv3.data.utils.Converters
 
 @Database(
-    entities = [CharacterEntity::class, ComicEntity::class, SerieEntity::class],
-    version = 6,
+    entities = [CharacterEntity::class, ComicEntity::class, SerieEntity::class, CharacterSeriesCrossReference::class, CharacterComicsCrossReference::class],
+    version = 13,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -37,8 +35,8 @@ abstract class RoomDatabaseConfig : RoomDatabase() {
                     RoomDatabaseConfig::class.java,
                     "item_database"
                 )
-                    .createFromAsset(R.string.DB_PRELOAD_DATA_LOCATION.toString())
-                    .fallbackToDestructiveMigrationFrom(4)
+                    /*.createFromAsset("database/db.db")*/
+                    .fallbackToDestructiveMigrationFrom(12)
                     .build()
                 INSTANCE = instance
                 instance

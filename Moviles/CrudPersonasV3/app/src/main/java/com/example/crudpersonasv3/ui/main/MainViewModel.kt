@@ -27,8 +27,8 @@ class MainViewModel @Inject constructor(
 
     fun deleteCharacter(character: CharacterUI) {
         viewModelScope.launch {
-            deleteCharacter.invoke(character)
-            _characters.value?.remove(character)
+            if (deleteCharacter.invoke(character) > 0)
+                _characters.value?.remove(character)
         }
     }
 

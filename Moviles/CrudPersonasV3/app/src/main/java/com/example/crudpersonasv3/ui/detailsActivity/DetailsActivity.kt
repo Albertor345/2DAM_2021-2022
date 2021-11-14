@@ -16,8 +16,6 @@ class DetailsActivity @Inject constructor(getCharacters: GetCharacters) : AppCom
 
 
     private lateinit var binding: DetailsActivityBinding
-    private lateinit var character: CharacterUI
-
     private val viewModel: DetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

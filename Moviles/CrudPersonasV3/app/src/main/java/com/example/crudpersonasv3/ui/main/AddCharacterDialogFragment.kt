@@ -117,7 +117,7 @@ class AddCharacterDialogFragment(val getCharacters: () -> Unit) : DialogFragment
                         description,
                         modified = selectedDate ?: LocalDate.now()
                             .format(DateTimeFormatter.ofPattern("dd MM yyyy")),
-                        getString(R.string.image_not_found_location),
+                        getString(R.string.image),
                         emptyList(),
                         emptyList()
                     )

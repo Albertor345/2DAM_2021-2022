@@ -41,6 +41,6 @@
     <string name="SELECT_CHARACTER">Select * from characters where id = :id</string>
     <string name="DB_PRELOAD_DATA_LOCATION">database/db.db</string>
     <string name="toolbar_menu_reset_add_character">Clear fields</string>
-    <string name="image_not_found_location">images/image_not_found.png</string>
+    <string name="image">https://cdn-icons-png.flaticon.com/512/149/149071.png</string>
 
 </resources>

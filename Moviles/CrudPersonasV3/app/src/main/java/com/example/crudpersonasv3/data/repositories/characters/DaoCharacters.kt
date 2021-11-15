@@ -14,7 +14,7 @@ interface DaoCharacters {
 
     @Transaction
     @Query("Select * from characters where id_character = :id")
-    suspend fun getCharacterFull(id: Int): CharacterFull
+    suspend fun getCharacterFull(id: Long): CharacterFull
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCharacter(character: CharacterEntity): Long

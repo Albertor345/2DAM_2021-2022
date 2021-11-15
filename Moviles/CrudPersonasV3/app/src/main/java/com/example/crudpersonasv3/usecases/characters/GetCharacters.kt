@@ -8,6 +8,6 @@ class GetCharacters @Inject constructor(private val repositoryCharacters: Reposi
 
     suspend fun getCharacters() = repositoryCharacters.getCharacters().map { it.toCharacterUI() }.toMutableList()
 
-    suspend fun getCharacterFull(id: Int) =
+    suspend fun getCharacterFull(id: Long) =
         repositoryCharacters.getCharacterFull(id).toCharacterUI()
 }

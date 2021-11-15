@@ -21,6 +21,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -39,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         init()
         setListeners()
         loadList()
+        Timber.e("onStart")
     }
+
 
     private fun observers() {
         viewModel.characters.observe(this, {
@@ -110,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun details(character: CharacterUI, image: View, name: View) {
         val intent = Intent(this@MainActivity, DetailsActivity::class.java)
-        intent.putExtra(getString(R.string.characterId), character.id)
+        intent.putExtra("characterID", character.id)
 
         val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
             this@MainActivity,
@@ -131,7 +134,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.getCharacters()
     }
 
-    private fun showDialog() = AddCharacterDialogFragment().display(supportFragmentManager)
+    private fun showDialog() {
+        AddCharacterDialogFragment(::getCharacters).display(supportFragmentManager)
+    }
+
+    private fun getCharacters() {
+        viewModel.getCharacters()
+    }
 
     private fun toggleBackdrop() {
         if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {

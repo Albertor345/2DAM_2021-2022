@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "characters")
 data class CharacterEntity(
     @PrimaryKey(autoGenerate = true)
-    val id_character: Long,
+    val id_character: Long?,
     val name: String,
     val description: String,
     val modified: String,

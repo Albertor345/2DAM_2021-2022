@@ -12,8 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailsActivity @Inject constructor(getCharacters: GetCharacters) : AppCompatActivity() {
-
+class DetailsActivity: AppCompatActivity() {
 
     private lateinit var binding: DetailsActivityBinding
     private val viewModel: DetailsViewModel by viewModels()
@@ -22,7 +21,7 @@ class DetailsActivity @Inject constructor(getCharacters: GetCharacters) : AppCom
         super.onCreate(savedInstanceState)
         binding = DetailsActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getCharacter(intent.getIntExtra(getString(R.string.characterId), 0))
+        getCharacter(intent.getLongExtra("characterID", -1))
         observers()
     }
 
@@ -32,7 +31,7 @@ class DetailsActivity @Inject constructor(getCharacters: GetCharacters) : AppCom
         }
     }
 
-    private fun getCharacter(id: Int) {
+    private fun getCharacter(id: Long) {
         viewModel.getCharacter(id)
     }
 

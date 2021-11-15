@@ -10,7 +10,7 @@ class RepositoryCharacters @Inject constructor(private val daoCharacters: DaoCha
 
     suspend fun getCharacters() = daoCharacters.getCharacters()
 
-    suspend fun getCharacterFull(id: Int) = daoCharacters.getCharacterFull(id)
+    suspend fun getCharacterFull(id: Long) = daoCharacters.getCharacterFull(id)
 
     suspend fun deleteCharacter(character: CharacterEntity) =
         daoCharacters.deleteCharacter(character)

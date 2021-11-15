@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -12,16 +13,21 @@ import com.example.crudpersonasv3.databinding.AddFragmentBinding
 import com.example.crudpersonasv3.ui.domain.CharacterUI
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
-class AddCharacterDialogFragment : DialogFragment() {
+class AddCharacterDialogFragment(val getCharacters: () -> Unit) : DialogFragment() {
     private lateinit var binding: AddFragmentBinding
 
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var selectedDate: String
+    private var selectedDate: String? = null
 
-    fun display(fragmentManager: FragmentManager): AddCharacterDialogFragment {
-        val dialog = AddCharacterDialogFragment()
+
+    fun display(
+        fragmentManager: FragmentManager,
+    ): AddCharacterDialogFragment {
+        val dialog = AddCharacterDialogFragment(getCharacters)
         dialog.show(fragmentManager, "example_dialog")
         return dialog
     }
@@ -35,7 +41,8 @@ class AddCharacterDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+        savedInstanceState: Bundle?
+    ): View {
         binding = AddFragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -62,12 +69,10 @@ class AddCharacterDialogFragment : DialogFragment() {
     }
 
 
-
-
     private fun setListeners() {
         with(binding) {
             binding.toolbar.setNavigationOnClickListener {
-                dismissFragment()
+                dismiss()
             }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -96,36 +101,52 @@ class AddCharacterDialogFragment : DialogFragment() {
             selectedDate = picker.selection.toString()
         }
 
-        picker.showNow(parentFragmentManager, getString(R.string.datePicker))
+        picker.show(parentFragmentManager, getString(R.string.datePicker))
 
     }
 
     private fun saveCharacter() {
         with(binding) {
-            viewModel.addCharacter(
-                CharacterUI(
-                    id = -1,
-                    characterName.editText?.text.toString(),
-                    characterDescription.editText?.text.toString(),
-                    selectedDate,
-                    getString(R.string.image_not_found_location),
-                    emptyList(),
-                    emptyList()
+            val name = characterName.editText?.text.toString()
+            val description = characterDescription.editText?.text.toString()
+            if (!name.isNullOrEmpty() && !description.isNullOrEmpty()) {
+                viewModel.addCharacter(
+                    CharacterUI(
+                        null,
+                        name,
+                        description,
+                        modified = selectedDate ?: LocalDate.now()
+                            .format(DateTimeFormatter.ofPattern("dd MM yyyy")),
+                        getString(R.string.image_not_found_location),
+                        emptyList(),
+                        emptyList()
+                    )
                 )
-            )
+                dismiss()
+                getCharacters()
+            } else {
+                characterName.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        activity,
+                        R.anim.shake_animation
+                    )
+                )
+                characterDescription.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        activity,
+                        R.anim.shake_animation
+                    )
+                )
+            }
         }
-        dismissFragment()
     }
 
     private fun resetFragmentContent() {
         with(binding) {
             characterName.editText?.setText("")
             characterDescription.editText?.setText("")
+            selectedDate = null
         }
-    }
-
-    private fun dismissFragment() {
-        dismiss()
     }
 
 }

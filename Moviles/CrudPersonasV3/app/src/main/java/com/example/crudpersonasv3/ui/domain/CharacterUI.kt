@@ -4,7 +4,7 @@ import androidx.room.Entity
 
 @Entity(tableName = "characters")
 data class CharacterUI(
-    var id: Long,
+    var id: Long?,
     val name: String,
     val description: String,
     val modified: String,

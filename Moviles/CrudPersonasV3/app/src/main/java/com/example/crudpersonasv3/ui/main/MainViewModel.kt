@@ -19,30 +19,43 @@ class MainViewModel @Inject constructor(
     private val deleteCharacter: DeleteCharacter
 ) : ViewModel() {
 
-    private val _characters = MutableLiveData<MutableList<CharacterUI>>()
-    val characters: LiveData<List<CharacterUI>> get() = _characters as LiveData<List<CharacterUI>>
+
+    private val _characters = MutableLiveData<List<CharacterUI>>()
+    val characters: LiveData<List<CharacterUI>> get() = _characters
+
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
     fun deleteCharacter(character: CharacterUI) {
-        viewModelScope.launch {
-            if (deleteCharacter.invoke(character) > 0)
-                _characters.value?.remove(character)
+        try {
+            viewModelScope.launch {
+                deleteCharacter.invoke(character)
+                getCharacters()
+            }
+        } catch (ex: Exception) {
+            _error.value = ex.toString()
         }
     }
 
     fun addCharacter(character: CharacterUI) {
-        viewModelScope.launch {
-            character.id = insertCharacters.invoke(character)
-            _characters.value?.add(character)
+        try {
+            viewModelScope.launch {
+                character.id = insertCharacters.invoke(character)
+                getCharacters()
+            }
+        } catch (ex: Exception) {
+            _error.value = ex.toString()
         }
     }
 
     fun getCharacters() {
-        viewModelScope.launch {
-            _characters.value = getCharacters.getCharacters()
+        try {
+            viewModelScope.launch {
+                _characters.value = getCharacters.getCharacters()
+            }
+        } catch (ex: Exception) {
+            _error.value = ex.toString()
         }
     }
-
 }

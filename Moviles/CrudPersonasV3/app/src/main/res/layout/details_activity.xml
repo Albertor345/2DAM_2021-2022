@@ -7,6 +7,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -25,14 +26,14 @@
             android:id="@+id/textview_description"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@drawable/details_description_border"
             android:padding="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imageview_header"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/details_description_border"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textview_title"
@@ -54,7 +55,7 @@
             android:id="@+id/comics"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/buttonAddComic"
             app:layout_constraintEnd_toStartOf="@id/series"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textview_title" />
@@ -64,18 +65,21 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:backgroundTint="@color/cardview_light_background"
             app:icon="@drawable/ic_baseline_menu_book_24"
             app:iconGravity="textEnd"
             app:iconSize="40dp"
-            app:layout_constraintTop_toTopOf="@id/comics"
-            app:layout_constraintEnd_toEndOf="@id/comics" />
+            app:layout_constraintTop_toBottomOf="@id/comics"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buttonAddSerie"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/series"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/buttonAddSerie"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/comics"
             app:layout_constraintTop_toBottomOf="@id/textview_title" />
@@ -89,8 +93,10 @@
             app:icon="@drawable/ic_baseline_menu_book_24"
             app:iconGravity="textEnd"
             app:iconSize="40dp"
-            app:layout_constraintTop_toTopOf="@id/series"
-            app:layout_constraintEnd_toEndOf="@id/series"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonAddComic"
+            app:layout_constraintTop_toBottomOf="@id/series"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_vertical_1"

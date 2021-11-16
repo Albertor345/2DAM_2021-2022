@@ -21,7 +21,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -40,7 +39,18 @@ class MainActivity : AppCompatActivity() {
         init()
         setListeners()
         loadList()
-        Timber.e("onStart")
+
+        /*viewModel.addCharacter(
+            CharacterUI(
+                null,
+                "Alberto",
+                "Yo",
+                "",
+                resources.getString(R.string.image),
+                emptyList(),
+                emptyList()
+            )
+        )*/
     }
 
 
@@ -113,7 +123,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun details(character: CharacterUI, image: View, name: View) {
         val intent = Intent(this@MainActivity, DetailsActivity::class.java)
-        intent.putExtra("characterID", character.id)
+        intent.putExtra(resources.getString(R.string.details_activity_characterID), character.id)
 
         val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
             this@MainActivity,

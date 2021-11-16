@@ -4,20 +4,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey
 
 @Entity(
-    tableName = "character_serie", primaryKeys = ["id_character", "id_serie"], foreignKeys = [
-        ForeignKey(
-            entity = CharacterEntity::class,
-            parentColumns = ["id_character"],
-            childColumns = ["id_character"]
-        ),
-        ForeignKey(
-            entity = SerieEntity::class,
-            parentColumns = ["id_serie"],
-            childColumns = ["id_serie"]
-        )
-    ]
-)
+    tableName = "character_serie", primaryKeys = ["id_character", "id_serie"])
 data class CharacterSeriesCrossReference(
-    val id_character: Int,
-    val id_serie: Int
+    val id_character: Long,
+    val id_serie: Long
 )

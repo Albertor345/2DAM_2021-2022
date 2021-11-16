@@ -8,7 +8,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -22,12 +21,20 @@ object RoomModule {
         /*@Named("assetDB") ruta: String*/
     ) =
         Room.databaseBuilder(context, RoomDatabaseConfig::class.java, "database")
-            .fallbackToDestructiveMigrationFrom(4)
+            .fallbackToDestructiveMigrationFrom(16)
             /*.createFromAsset(ruta)*/
             .build()
 
     @Provides
     fun providesDaoCharacters(articlesDatabase: RoomDatabaseConfig) =
         articlesDatabase.daoCharacters()
+
+    @Provides
+    fun providesDaoComics(articlesDatabase: RoomDatabaseConfig) =
+        articlesDatabase.daoComics()
+
+    @Provides
+    fun providesDaoSeries(articlesDatabase: RoomDatabaseConfig) =
+        articlesDatabase.daoSeries()
 
 }

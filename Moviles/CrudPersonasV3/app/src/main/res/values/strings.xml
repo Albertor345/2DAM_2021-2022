@@ -42,5 +42,12 @@
     <string name="DB_PRELOAD_DATA_LOCATION">database/db.db</string>
     <string name="toolbar_menu_reset_add_character">Clear fields</string>
     <string name="image">https://cdn-icons-png.flaticon.com/512/149/149071.png</string>
+    <string name="cancel">Cancel</string>
+    <string name="accept">Confirm</string>
+    <string name="add_serie_title">Add Serie</string>
+    <string name="add_serie_message">Introduce el nombre de la serie</string>
+    <string name="add_comic_title">Add Comic</string>
+    <string name="add_comic_message">Introduce el nombre del comic</string>
+    <string name="details_activity_characterID">characterID</string>
 
 </resources>

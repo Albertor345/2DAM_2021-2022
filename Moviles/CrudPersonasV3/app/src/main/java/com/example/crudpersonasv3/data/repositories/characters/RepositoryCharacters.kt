@@ -1,6 +1,7 @@
 package com.example.crudpersonasv3.data.repositories.characters
 
 import com.example.crudpersonasv3.data.domain.CharacterEntity
+import com.example.crudpersonasv3.data.domain.CharacterFull
 import javax.inject.Inject
 
 class RepositoryCharacters @Inject constructor(private val daoCharacters: DaoCharacters) {
@@ -13,7 +14,7 @@ class RepositoryCharacters @Inject constructor(private val daoCharacters: DaoCha
     suspend fun getCharacterFull(id: Long) = daoCharacters.getCharacterFull(id)
 
     suspend fun deleteCharacter(character: CharacterEntity) =
-        daoCharacters.deleteCharacter(character)
+        daoCharacters.deleteCharacterFull(character)
 
 }
 

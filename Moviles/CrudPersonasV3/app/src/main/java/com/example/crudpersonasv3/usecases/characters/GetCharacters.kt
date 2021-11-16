@@ -6,7 +6,8 @@ import javax.inject.Inject
 
 class GetCharacters @Inject constructor(private val repositoryCharacters: RepositoryCharacters) {
 
-    suspend fun getCharacters() = repositoryCharacters.getCharacters().map { it.toCharacterUI() }.toMutableList()
+    suspend fun getCharacters() =
+        repositoryCharacters.getCharacters().map { it.toCharacterUI() }.toMutableList()
 
     suspend fun getCharacterFull(id: Long) =
         repositoryCharacters.getCharacterFull(id).toCharacterUI()

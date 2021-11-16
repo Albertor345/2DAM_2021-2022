@@ -10,9 +10,9 @@ import com.example.crudpersonasv3.R
 import com.example.crudpersonasv3.databinding.ComicBinding
 import com.example.crudpersonasv3.ui.domain.ComicUI
 
-class ComicAdapter(
+class ComicsAdapter(
     private val delete: (ComicUI) -> Unit
-) : ListAdapter<ComicUI, ComicAdapter.ComicViewHolder>(DiffCallback()) {
+) : ListAdapter<ComicUI, ComicsAdapter.ComicViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

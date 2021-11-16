@@ -10,9 +10,9 @@ import com.example.crudpersonasv3.R
 import com.example.crudpersonasv3.databinding.SerieBinding
 import com.example.crudpersonasv3.ui.domain.SerieUI
 
-class SerieAdapter(
+class SeriesAdapter(
     private val delete: (SerieUI) -> Unit
-) : ListAdapter<SerieUI, SerieAdapter.SerieViewHolder>(DiffCallback()) {
+) : ListAdapter<SerieUI, SeriesAdapter.SerieViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

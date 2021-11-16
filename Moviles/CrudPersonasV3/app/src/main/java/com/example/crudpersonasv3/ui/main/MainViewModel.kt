@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Transaction
 import com.example.crudpersonasv3.ui.domain.CharacterUI
 import com.example.crudpersonasv3.usecases.characters.DeleteCharacter
 import com.example.crudpersonasv3.usecases.characters.GetCharacters
 import com.example.crudpersonasv3.usecases.characters.InsertCharacter
+import com.example.crudpersonasv3.usecases.comics.DeleteComic
+import com.example.crudpersonasv3.usecases.series.DeleteSerie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,7 +55,8 @@ class MainViewModel @Inject constructor(
     fun getCharacters() {
         try {
             viewModelScope.launch {
-                _characters.value = getCharacters.getCharacters()
+                val list = getCharacters.getCharacters()
+                _characters.value = list
             }
         } catch (ex: Exception) {
             _error.value = ex.toString()

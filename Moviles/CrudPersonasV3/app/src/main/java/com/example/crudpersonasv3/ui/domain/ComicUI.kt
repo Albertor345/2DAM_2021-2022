@@ -2,6 +2,6 @@ package com.example.crudpersonasv3.ui.domain
 
 
 data class ComicUI(
-    val id: Int,
+    var id: Long?,
     val name: String
 )

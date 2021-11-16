@@ -5,12 +5,28 @@ import androidx.room.Junction
 import androidx.room.Relation
 
 data class CharacterFull(
-    @Embedded val characterWithComics: CharacterWithComics,
+    @Embedded val character: CharacterEntity,
     @Relation(
-       /* entity = CharacterEntity::class,*/
         parentColumn = "id_character",
+        entity = SerieEntity::class,
         entityColumn = "id_serie",
-        associateBy = Junction(CharacterSeriesCrossReference::class)
+        associateBy = Junction(
+            value = CharacterSeriesCrossReference::class,
+            parentColumn = "id_character",
+            entityColumn = "id_serie"
+        )
     )
-    val series: List<SerieEntity>
+    val series: List<SerieEntity>,
+    @Relation(
+        parentColumn = "id_character",
+        entity = ComicEntity::class,
+        entityColumn = "id_comic",
+        associateBy = Junction(
+            value = CharacterComicsCrossReference::class,
+            parentColumn = "id_character",
+            entityColumn = "id_comic"
+        )
+    )
+    val comics: List<ComicEntity>
+
 )

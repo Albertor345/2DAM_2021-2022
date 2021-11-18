@@ -6,6 +6,7 @@
 package dao;
 
 import model.Customer;
+import model.User;
 
 import java.util.List;
 
@@ -23,4 +24,5 @@ public interface DAOCustomers {
     boolean update(Customer t);
 
     boolean delete(Customer t);
+
 }

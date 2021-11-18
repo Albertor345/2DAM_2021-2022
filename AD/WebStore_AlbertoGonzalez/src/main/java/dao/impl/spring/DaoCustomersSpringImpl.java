@@ -5,71 +5,68 @@ import dao.DBConnection;
 import lombok.extern.log4j.Log4j2;
 import model.Customer;
 import model.User;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import producers.annotations.JDBC;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import producers.annotations.SPRING;
 import utils.Constantes;
 
 import javax.inject.Inject;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
-@JDBC
+@SPRING
 public class DaoCustomersSpringImpl implements DAOCustomers {
     private final DBConnection dbConnection;
-    private JdbcTemplate jtm;
 
     @Inject
     public DaoCustomersSpringImpl(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
-        jtm = new JdbcTemplate(dbConnection.getDataSource());
     }
 
-    public boolean login(User user) {
+    public User login(User user) {
         try {
-            NamedParameterJdbcTemplate njtm = new NamedParameterJdbcTemplate(jtm.getDataSource());
-            preparedStatement.setInt(1, customer.getIdCustomer());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(user);
+            user = template.queryForObject(Constantes.QUERY_LOGIN, namedParameters, BeanPropertyRowMapper.newInstance(User.class));
 
-            if (resultSet.next()) {
-                customer.setName(resultSet.getString("name"));
-                customer.setAddress(resultSet.getString("address"));
-                customer.setPhone(resultSet.getString("phone"));
-            }
-
-            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
-            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(usuario);
-            usuario = jdbcTemplate.queryForObject(Constantes.QUERY_LOGIN, namedParameters, BeanPropertyRowMapper.newInstance(User.class));
-
-
-        } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
-        return customer;
+        return user;
+    }
+
+    public int checkUserStatus(User user) {
+        try {
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(user);
+            int isAdmin = template.queryForObject(Constantes.QUERY_CHECK_USER_IS_CUSTOMER, namedParameters, Integer.class);
+
+            return isAdmin != 0 ? 1 : 0;
+        } catch (EmptyResultDataAccessException e) {
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     @Override
     public Customer get(Customer customer) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_CUSTOMER_QUERY)) {
-            preparedStatement.setInt(1, customer.getIdCustomer());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                customer.setName(resultSet.getString("name"));
-                customer.setAddress(resultSet.getString("address"));
-                customer.setPhone(resultSet.getString("phone"));
-            }
-
-            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
-            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(usuario);
-            usuario = jdbcTemplate.queryForObject(Constantes.QUERY_LOGIN, namedParameters, BeanPropertyRowMapper.newInstance(User.class));
-
-
+        try {
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(customer);
+            customer = template.queryForObject(Constantes.SELECT_CUSTOMER_QUERY, namedParameters, BeanPropertyRowMapper.newInstance(Customer.class));
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
@@ -78,33 +75,25 @@ public class DaoCustomersSpringImpl implements DAOCustomers {
 
     @Override
     public List<Customer> getAll() {
-        List<Customer> customers = new ArrayList<>();
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_ALL_CUSTOMERS_QUERY)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                customers.add(Customer.builder()
-                        .idCustomer(resultSet.getInt("id_customer"))
-                        .name(resultSet.getString("name"))
-                        .phone(resultSet.getString("phone"))
-                        .address(resultSet.getString("address"))
-                        .build());
-            }
+        try {
+            JdbcTemplate template = new JdbcTemplate(dbConnection.getDataSource());
+            return new ArrayList<>(template.query(Constantes.SELECT_ALL_CUSTOMERS_QUERY, BeanPropertyRowMapper.newInstance(Customer.class)));
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
+            return Collections.emptyList();
         }
-        return customers;
     }
 
     @Override
     public boolean add(Customer customer) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.INSERT_CUSTOMER_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                customer.setIdCustomer(resultSet.getInt("id_customer"));
-            }
+        try {
+
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(customer);
+
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(Constantes.INSERT_CUSTOMER_QUERY, namedParameters, keyHolder);
+            customer.setIdCustomer(keyHolder.getKey().intValue());
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);

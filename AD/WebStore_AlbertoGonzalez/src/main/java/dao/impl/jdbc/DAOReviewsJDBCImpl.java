@@ -14,7 +14,7 @@ public class DAOReviewsJDBCImpl implements DAOReviews {
     }
 
     @Override
-    public List<Review> getAll() {
+    public List<Review> getAll(boolean isAdmin) {
         return null;
     }
 

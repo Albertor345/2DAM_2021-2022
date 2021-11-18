@@ -7,6 +7,7 @@ import model.Customer;
 import model.Item;
 import model.Purchase;
 import producers.annotations.JDBC;
+import producers.annotations.SPRING;
 import utils.Constantes;
 
 import javax.inject.Inject;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-@JDBC
+@SPRING
 public class DAOPurchasesSpringImpl implements DAOPurchases {
     private final DBConnection dbConnection;
 

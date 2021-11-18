@@ -9,24 +9,24 @@ import configuration.Config;
 import fx.controllers.customers.FXMLAddCustomerController;
 import fx.controllers.customers.FXMLdeleteCustomerController;
 import fx.controllers.customers.FXMLfindCustomerController;
-import fx.controllers.items.FXMLAddItemsController;
-import fx.controllers.items.FXMLDeleteItemsController;
-import fx.controllers.items.FXMLFindByIDController;
-import fx.controllers.items.FXMLUpdateItemController;
+import fx.controllers.items.*;
 import fx.controllers.purchases.FXMLDatePurchasesController;
 import fx.controllers.purchases.FXMLDeletePurchasesController;
 import fx.controllers.purchases.FXMLPurchasesController;
 import fx.controllers.reviews.FXMLAddReviewController;
 import fx.controllers.reviews.FXMLdeleteReviewController;
 import fx.controllers.reviews.FXMLfindReviewController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import lombok.Getter;
-import producers.annotations.JDBC;
+import producers.annotations.SPRING;
 import services.ServicesCustomers;
 import services.ServicesItems;
 import services.ServicesPurchases;
@@ -42,6 +42,22 @@ import java.util.logging.Logger;
 @Getter
 public class FXMLPrincipalController implements Initializable {
 
+    @FXML
+    private MenuItem topMenuDeleteCustomers;
+    @FXML
+    private Menu topMenuCustomers;
+    @FXML
+    private MenuItem topMenuAddItem;
+    @FXML
+    private MenuItem topMenuFindItemByID;
+    @FXML
+    private MenuItem topMenuDeleteItems;
+    @FXML
+    private MenuItem topMenuUpdateItems;
+    @FXML
+    private MenuItem topMenuFindByDate;
+    @FXML
+    private MenuItem topMenuDeletePurchases;
     @FXML
     private BorderPane fxRoot;
     @FXML
@@ -102,9 +118,13 @@ public class FXMLPrincipalController implements Initializable {
     private FXMLUpdateItemController updateItemController;
     private FXMLLoader updateItemLoader;
 
+    private AnchorPane itemsList;
+    private FXMLItemsList itemsListController;
+    private FXMLLoader itemsListLoader;
+
 
     @Inject
-    public FXMLPrincipalController(@JDBC ServicesItems servicesItems, @JDBC ServicesPurchases servicesPurchases, @JDBC ServicesCustomers servicesCustomers, @JDBC ServicesReviews servicesReviews, Config config, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader, FXMLLoader findItemsByIDLoader, FXMLLoader updateItemLoader) {
+    public FXMLPrincipalController(@SPRING ServicesItems servicesItems, @SPRING ServicesPurchases servicesPurchases, @SPRING ServicesCustomers servicesCustomers, @SPRING ServicesReviews servicesReviews, Config config, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader, FXMLLoader findItemsByIDLoader, FXMLLoader updateItemLoader, FXMLLoader itemsListLoader) {
         this.config = config;
         this.loginLoader = loginLoader;
         this.welcomeLoader = welcomeLoader;
@@ -121,6 +141,7 @@ public class FXMLPrincipalController implements Initializable {
         this.deleteItemsLoader = deleteItemsLoader;
         this.findItemsByIDLoader = findItemsByIDLoader;
         this.updateItemLoader = updateItemLoader;
+        this.itemsListLoader = itemsListLoader;
 
         this.servicesReviews = servicesReviews;
         this.servicesCustomers = servicesCustomers;
@@ -259,6 +280,16 @@ public class FXMLPrincipalController implements Initializable {
 
     }
 
+    public void preloadItemsList() {
+        try {
+            itemsList = itemsListLoader.load(getClass().getResourceAsStream("/fxml/items/FXMLItemsList.fxml"));
+            itemsListController = itemsListLoader.getController();
+            itemsListController.setPrincipal(this);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void preloadAddItems() {
         try {
             addItems = addItemsLoader.load(getClass().getResourceAsStream("/fxml/items/FXMLAddItems.fxml"));
@@ -299,9 +330,33 @@ public class FXMLPrincipalController implements Initializable {
         }
     }
 
+    public void hideMenus() {
+        resetTopMenu();
+        if (!isAdmin()) {
+            topMenuAddItem.setVisible(false);
+            topMenuCustomers.setVisible(false);
+            topMenuDeleteItems.setVisible(false);
+            topMenuCustomers.setVisible(false);
+            topMenuFindItemByID.setVisible(false);
+            topMenuUpdateItems.setVisible(false);
+            topMenuDeletePurchases.setVisible(false);
+            topMenuFindByDate.setVisible(false);
+        }
+    }
+
+    public void resetTopMenu() {
+        fxMenuTop.getMenus().forEach(it -> {
+            if (!it.getItems().isEmpty()) {
+                it.getItems().forEach(item -> item.setVisible(true));
+            }
+            it.setVisible(true);
+        });
+    }
+
     public void chargeLogin() {
-        fxRoot.setCenter(login);
         fxMenuTop.setVisible(false);
+        loginController.clear();
+        fxRoot.setCenter(login);
     }
 
     public void chargeWelcome() {
@@ -355,6 +410,11 @@ public class FXMLPrincipalController implements Initializable {
         fxRoot.setCenter(findReview);
     }
 
+    public void chargeListItems(ActionEvent actionEvent) {
+        itemsListController.loadList(servicesItems.getAll());
+        fxRoot.setCenter(itemsList);
+    }
+
     public void chargeAddItems() {
         addItemsController.loadList(servicesItems.getAll());
         fxRoot.setCenter(addItems);
@@ -392,6 +452,7 @@ public class FXMLPrincipalController implements Initializable {
         preloadFindReview();
 
         preloadAddItems();
+        preloadItemsList();
         preloadDeleteItems();
         preloadFindItemsByID();
         preloadUpdateItem();

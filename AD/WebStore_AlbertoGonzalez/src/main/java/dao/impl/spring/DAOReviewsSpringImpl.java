@@ -3,10 +3,11 @@ package dao.impl.spring;
 import dao.DAOReviews;
 import model.Review;
 import producers.annotations.JDBC;
+import producers.annotations.SPRING;
 
 import java.util.List;
 
-@JDBC
+@SPRING
 public class DAOReviewsSpringImpl implements DAOReviews {
     @Override
     public Review get(int id) {
@@ -14,7 +15,7 @@ public class DAOReviewsSpringImpl implements DAOReviews {
     }
 
     @Override
-    public List<Review> getAll() {
+    public List<Review> getAll(boolean isAdmin) {
         return null;
     }
 

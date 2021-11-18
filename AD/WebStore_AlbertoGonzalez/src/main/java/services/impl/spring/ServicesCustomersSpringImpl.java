@@ -6,8 +6,9 @@
 package services.impl.spring;
 
 import dao.DAOCustomers;
+import dao.impl.spring.DaoCustomersSpringImpl;
 import model.Customer;
-import producers.annotations.JDBC;
+import model.User;
 import producers.annotations.SPRING;
 import services.ServicesCustomers;
 
@@ -29,6 +30,14 @@ public class ServicesCustomersSpringImpl implements ServicesCustomers {
         return daoCustomers.getAll();
     }
 
+    public User login(User user) {
+        return ((DaoCustomersSpringImpl) daoCustomers).login(user);
+    }
+
+    public int checkUserStatus(User user) {
+        return ((DaoCustomersSpringImpl) daoCustomers).checkUserStatus(user);
+    }
+
     @Override
     public Customer get(Customer customer) {
         return daoCustomers.get(customer);
@@ -41,7 +50,7 @@ public class ServicesCustomersSpringImpl implements ServicesCustomers {
 
     @Override
     public boolean update(Customer customer) {
-        return false;
+        return daoCustomers.update(customer);
     }
 
     @Override
@@ -50,5 +59,4 @@ public class ServicesCustomersSpringImpl implements ServicesCustomers {
         customer.setIdCustomer(customers.size());
         return daoCustomers.add(customer);
     }
-
 }

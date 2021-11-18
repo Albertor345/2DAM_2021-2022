@@ -16,7 +16,7 @@ public interface DAOReviews {
 
     Review get(int id);
      
-    List<Review> getAll();
+    List<Review> getAll(boolean isAdmin);
      
     void save(Review t);
      

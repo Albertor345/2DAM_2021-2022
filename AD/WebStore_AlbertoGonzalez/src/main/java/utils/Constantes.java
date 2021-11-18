@@ -17,7 +17,7 @@ public class Constantes {
             " inner join items i on sales.id_item = i.id_item" +
             " inner join customers c on sales.id_customer = c.id_customer where id_sale = ?";
 
-    public static final String INSERT_CUSTOMER_QUERY = "insert into customers (name, phone, address) values (?,?,?)";
+    public static final String INSERT_CUSTOMER_QUERY = "insert into customers (name, phone, address) values (:name,:phone,:address)";
     public static final String DELETE_CUSTOMER_QUERY = "delete from customers where id_customer = ?";
     public static final String UPDATE_CUSTOMER_QUERY = "update customers set name = ?, phone = ?, address = ? where id_customer = ?";
     public static final String SELECT_ALL_CUSTOMERS_QUERY = "select * from customers";
@@ -36,7 +36,10 @@ public class Constantes {
 
     public static final String DELETE_SALES_FROM_ITEM = "delete from sales where id_item = ?";
 
-    public static final String QUERY_LOGIN = "select * from users " +
-            "left join customers on id = id_customer " +
-            "where users.name = :name and password = :password ";
+    public static final String QUERY_CHECK_USER_IS_CUSTOMER = "select count(id_customer) as 'hasUser' from customers " +
+            "where id_customer in (select id from users where name = :name and password = :password) " +
+            "group by id_customer";
+
+    public static final String QUERY_LOGIN = "select * from users where name = :name and password = :password";
+
 }

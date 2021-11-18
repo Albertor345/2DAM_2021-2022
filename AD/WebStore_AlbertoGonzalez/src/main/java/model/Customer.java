@@ -30,6 +30,7 @@ public class Customer {
     private String address;
     @XmlElement(name = "review")
     private List<Review> reviews;
+    private User user;
 
     @Override
     public String toString() {

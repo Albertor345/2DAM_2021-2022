@@ -5,13 +5,15 @@
  */
 package fx.controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.User;
+import services.impl.spring.ServicesCustomersSpringImpl;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class FXMLLoginController implements Initializable {
 
@@ -25,14 +27,38 @@ public class FXMLLoginController implements Initializable {
 
 
     public void clickLogin() {
-        principal.getServicesCustomers().
-        if () {
-            principal.setUsername(fxUser.getText());
-            principal.setAdmin(true);
-            principal.chargeWelcome();
+        User user = ((ServicesCustomersSpringImpl) principal.getServicesCustomers()).login(
+                User.builder()
+                        .name(fxUser.getText())
+                        .password(passBox.getText())
+                        .build()
+        );
+        if (user.getId() != 0) {
+            int isAdmin = ((ServicesCustomersSpringImpl) principal.getServicesCustomers()).checkUserStatus(user);
+            principal.setUsername(user.getName());
+            switch (isAdmin) {
+                case 0:
+                    principal.setAdmin(true);
+                    principal.chargeWelcome();
+                    break;
+                case 1:
+                    principal.setAdmin(false);
+                    principal.chargeWelcome();
+                    break;
+                case -1:
+                    errorBox.setText("There's been a problem in the database, try it again later");
+                    break;
+            }
+            principal.hideMenus();
         } else {
             errorBox.setText("User or password is wrong");
         }
+    }
+
+    public void clear() {
+        fxUser.clear();
+        passBox.clear();
+        errorBox.setText("");
     }
 
     public void setPrincipal(FXMLPrincipalController principal) {

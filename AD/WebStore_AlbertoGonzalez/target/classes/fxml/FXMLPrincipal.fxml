@@ -15,13 +15,14 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Items">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#chargeAddItems" text="Add Item"/>
-                        <MenuItem mnemonicParsing="false" text="Find by ID" onAction="#chargeFindItemsByID"/>
-                        <MenuItem mnemonicParsing="false" onAction="#chargeDeleteItems" text="Delete Item"/>
-                        <MenuItem mnemonicParsing="false" text="Update Item" onAction="#chargeUpdateItems"/>
+                        <MenuItem mnemonicParsing="false" onAction="#chargeListItems" text="List items"/>
+                        <MenuItem mnemonicParsing="false" onAction="#chargeAddItems" text="Add Item" fx:id="topMenuAddItem"/>
+                        <MenuItem mnemonicParsing="false" text="Find by ID" onAction="#chargeFindItemsByID" fx:id="topMenuFindItemByID"/>
+                        <MenuItem mnemonicParsing="false" onAction="#chargeDeleteItems" text="Delete Item" fx:id="topMenuDeleteItems"/>
+                        <MenuItem mnemonicParsing="false" text="Update Item" onAction="#chargeUpdateItems" fx:id="topMenuUpdateItems"/>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Customers">
+                <Menu mnemonicParsing="false" text="Customers" fx:id="topMenuCustomers">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#chargeAddCustomer" text="Add Customer"/>
                         <MenuItem mnemonicParsing="false" onAction="#chargeFindCustomer" text="Find by ID"/>
@@ -31,8 +32,8 @@
                 <Menu mnemonicParsing="false" text="Purchases">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#chargePurchases" text="Add Purchase"/>
-                        <MenuItem mnemonicParsing="false" onAction="#chargeDatePurchases" text="Find by Date"/>
-                        <MenuItem mnemonicParsing="false" onAction="#chargeDeletePurchases" text="Delete Purchase"/>
+                        <MenuItem mnemonicParsing="false" onAction="#chargeDatePurchases" text="Find by Date" fx:id="topMenuFindByDate"/>
+                        <MenuItem mnemonicParsing="false" onAction="#chargeDeletePurchases" text="Delete Purchase" fx:id="topMenuDeletePurchases"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Reviews">

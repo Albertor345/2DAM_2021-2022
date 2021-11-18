@@ -5,6 +5,7 @@ import dao.DBConnection;
 import lombok.extern.log4j.Log4j2;
 import model.Item;
 import producers.annotations.JDBC;
+import producers.annotations.SPRING;
 import utils.Constantes;
 
 import javax.inject.Inject;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-@JDBC
+@SPRING
 public class DaoItemsSpringImpl implements DAOItems {
 
     private DBConnection dbConnection;

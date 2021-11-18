@@ -36,4 +36,5 @@ public class Constantes {
 
     public static final String DELETE_SALES_FROM_ITEM = "delete from sales where id_item = ?";
 
+    public static final String QUERY_LOGIN = "select * from usuarios u inner join costumers c in ";
 }

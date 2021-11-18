@@ -25,9 +25,10 @@ public class FXMLLoginController implements Initializable {
 
 
     public void clickLogin() {
-        if (fxUser.getText().equals(principal.getConfig().getProperties().get("user"))
-                && passBox.getText().equals(principal.getConfig().getProperties().get("pass"))) {
+        principal.getServicesCustomers().
+        if () {
             principal.setUsername(fxUser.getText());
+            principal.setAdmin(true);
             principal.chargeWelcome();
         } else {
             errorBox.setText("User or password is wrong");

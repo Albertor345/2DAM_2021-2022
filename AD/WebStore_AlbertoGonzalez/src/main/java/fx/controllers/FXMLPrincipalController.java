@@ -48,6 +48,8 @@ public class FXMLPrincipalController implements Initializable {
     private MenuBar fxMenuTop;
 
     private String username;
+    private boolean admin;
+
     private ServicesItems servicesItems;
     private ServicesPurchases servicesPurchases;
     private ServicesCustomers servicesCustomers;
@@ -133,6 +135,10 @@ public class FXMLPrincipalController implements Initializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public void preloadLogin() {

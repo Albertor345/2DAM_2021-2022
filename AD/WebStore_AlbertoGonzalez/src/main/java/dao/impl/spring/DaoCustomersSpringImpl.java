@@ -4,6 +4,8 @@ import dao.DAOCustomers;
 import dao.DBConnection;
 import lombok.extern.log4j.Log4j2;
 import model.Customer;
+import model.User;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -28,6 +30,29 @@ public class DaoCustomersSpringImpl implements DAOCustomers {
         jtm = new JdbcTemplate(dbConnection.getDataSource());
     }
 
+    public boolean login(User user) {
+        try {
+            NamedParameterJdbcTemplate njtm = new NamedParameterJdbcTemplate(jtm.getDataSource());
+            preparedStatement.setInt(1, customer.getIdCustomer());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                customer.setName(resultSet.getString("name"));
+                customer.setAddress(resultSet.getString("address"));
+                customer.setPhone(resultSet.getString("phone"));
+            }
+
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(usuario);
+            usuario = jdbcTemplate.queryForObject(Constantes.QUERY_LOGIN, namedParameters, BeanPropertyRowMapper.newInstance(User.class));
+
+
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return customer;
+    }
+
     @Override
     public Customer get(Customer customer) {
         try (Connection connection = dbConnection.getConnection();
@@ -42,7 +67,7 @@ public class DaoCustomersSpringImpl implements DAOCustomers {
 
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
             SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(usuario);
-            usuario = jdbcTemplate.queryForObject(Constantes.QUERY_LOGIN, namedParameters, BeanPropertyRowMapper.newInstance(UsuarioServer.class));
+            usuario = jdbcTemplate.queryForObject(Constantes.QUERY_LOGIN, namedParameters, BeanPropertyRowMapper.newInstance(User.class));
 
 
         } catch (Exception ex) {

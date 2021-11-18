@@ -36,5 +36,7 @@ public class Constantes {
 
     public static final String DELETE_SALES_FROM_ITEM = "delete from sales where id_item = ?";
 
-    public static final String QUERY_LOGIN = "select * from usuarios u inner join costumers c in ";
+    public static final String QUERY_LOGIN = "select * from users " +
+            "left join customers on id = id_customer " +
+            "where users.name = :name and password = :password ";
 }

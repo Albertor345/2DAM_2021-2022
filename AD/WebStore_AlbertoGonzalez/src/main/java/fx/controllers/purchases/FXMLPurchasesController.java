@@ -41,7 +41,7 @@ public class FXMLPurchasesController implements Initializable {
         Customer customer = customerBox.getSelectionModel().getSelectedItem();
         if (item != null && customer != null) {
             Purchase purchase = Purchase.builder()
-                    .idPurchase(principalController.getServicesPurchases().getAll().size())
+                    .id(principalController.getServicesPurchases().getAll().size())
                     .customer(customer)
                     .item(item)
                     .date(dateBox.getValue()).build();

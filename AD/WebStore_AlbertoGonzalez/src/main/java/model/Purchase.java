@@ -26,7 +26,7 @@ import java.time.LocalDate;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Purchase {
 
-    private int idPurchase;
+    private int id;
     private Customer customer;
     private Item item;
     private LocalDate date;
@@ -37,13 +37,13 @@ public class Purchase {
 
     @Override
     public String toString() {
-        return "Purchase ID: " + idPurchase + " Customer[ ID: " + customer.getIdCustomer() + " Name: " + customer.getName() + "] Item[ ID: " + item.getId() + " Name: " + item.getName() + "] Date: " + date + "\n";
+        return "Purchase ID: " + id + " Customer[ ID: " + customer.getId() + " Name: " + customer.getName() + "] Item[ ID: " + item.getId() + " Name: " + item.getName() + "] Date: " + date + "\n";
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + this.idPurchase;
+        hash = 59 * hash + this.id;
         return hash;
     }
 
@@ -59,7 +59,7 @@ public class Purchase {
             return false;
         }
         final Purchase other = (Purchase) obj;
-        if (this.idPurchase != other.idPurchase) {
+        if (this.id != other.id) {
             return false;
         }
         return true;

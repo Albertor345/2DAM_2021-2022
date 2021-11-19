@@ -46,7 +46,7 @@ public class ServicesCustomersFilesImpl implements ServicesCustomers {
     @Override
     public boolean add(Customer customer) {
         List<Customer> customers = getAll();
-        customer.setIdCustomer(customers.size());
+        customer.setId(customers.size());
         return daoCustomers.add(customer);
     }
 

@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import model.Customer;
 import model.Item;
 import model.Purchase;
-import producers.annotations.JDBC;
 import producers.annotations.SPRING;
 import utils.Constantes;
 
@@ -29,13 +28,13 @@ public class DAOPurchasesSpringImpl implements DAOPurchases {
     public Purchase get(Purchase purchase) {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_PURCHASE_QUERY)) {
-            preparedStatement.setInt(1, purchase.getIdPurchase());
+            preparedStatement.setInt(1, purchase.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Purchase.builder()
-                        .idPurchase(resultSet.getInt("id_sale"))
+                        .id(resultSet.getInt("id_sale"))
                         .customer(Customer.builder()
-                                .idCustomer(resultSet.getInt("sales.id_customer"))
+                                .id(resultSet.getInt("sales.id_customer"))
                                 .name(resultSet.getString("c.name"))
                                 .phone(resultSet.getString("phone"))
                                 .address(resultSet.getString("address"))
@@ -63,9 +62,9 @@ public class DAOPurchasesSpringImpl implements DAOPurchases {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 purchaseList.add(Purchase.builder()
-                        .idPurchase(resultSet.getInt("id_sale"))
+                        .id(resultSet.getInt("id_sale"))
                         .customer(Customer.builder()
-                                .idCustomer(resultSet.getInt("sales.id_customer"))
+                                .id(resultSet.getInt("sales.id_customer"))
                                 .name(resultSet.getString("c.name"))
                                 .phone(resultSet.getString("phone"))
                                 .address(resultSet.getString("address"))
@@ -90,12 +89,12 @@ public class DAOPurchasesSpringImpl implements DAOPurchases {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(Constantes.INSERT_PURCHASE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, purchase.getItem().getId());
-            preparedStatement.setInt(2, purchase.getCustomer().getIdCustomer());
+            preparedStatement.setInt(2, purchase.getCustomer().getId());
             preparedStatement.setDate(3, Date.valueOf(purchase.getDate()));
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                purchase.setIdPurchase(resultSet.getInt(1));
+                purchase.setId(resultSet.getInt(1));
             }
             return true;
         } catch (Exception ex) {
@@ -109,7 +108,7 @@ public class DAOPurchasesSpringImpl implements DAOPurchases {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(Constantes.UPDATE_PURCHASE_QUERY)) {
             preparedStatement.setDate(1, Date.valueOf(purchase.getDate()));
-            preparedStatement.setInt(2, purchase.getIdPurchase());
+            preparedStatement.setInt(2, purchase.getId());
             if (preparedStatement.executeUpdate() > 0) {
                 return true;
             }
@@ -124,7 +123,7 @@ public class DAOPurchasesSpringImpl implements DAOPurchases {
     public boolean delete(Purchase purchase) {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_PURCHASE_QUERY)) {
-            preparedStatement.setInt(1, purchase.getIdPurchase());
+            preparedStatement.setInt(1, purchase.getId());
             if (preparedStatement.executeUpdate() > 0) {
                 return true;
             }

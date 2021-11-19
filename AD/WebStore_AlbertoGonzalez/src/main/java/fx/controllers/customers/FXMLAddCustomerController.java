@@ -44,10 +44,12 @@ public class FXMLAddCustomerController implements Initializable {
         if (principalController.getServicesCustomers().add(customer)) {
             customerList.getItems().add(customer);
             customerList.refresh();
+
             alert("Success", "The customer has been added", Alert.AlertType.CONFIRMATION);
         } else {
             alert("Invalid", "There's been an error while adding the customer, try it later", Alert.AlertType.ERROR);
         }
+        clear();
     }
 
     public void loadCustomersList(List<Customer> customers) {
@@ -55,6 +57,12 @@ public class FXMLAddCustomerController implements Initializable {
             customerList.getItems().clear();
         }
         customerList.getItems().addAll(customers);
+    }
+
+    private void clear(){
+        nameBox.clear();
+        addressBox.clear();
+        phoneBox.clear();
     }
 
     private void alert(String titulo, String texto, Alert.AlertType type) {

@@ -5,7 +5,6 @@ import dao.DBConnection;
 import lombok.extern.log4j.Log4j2;
 import model.Customer;
 import model.User;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -23,9 +22,6 @@ import producers.annotations.SPRING;
 import utils.Constantes;
 
 import javax.inject.Inject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,6 +69,8 @@ public class DaoCustomersSpringImpl implements DAOCustomers {
             NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
             SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(customer);
             customer = template.queryForObject(Constantes.SELECT_CUSTOMER_QUERY, namedParameters, BeanPropertyRowMapper.newInstance(Customer.class));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
@@ -102,7 +100,7 @@ public class DaoCustomersSpringImpl implements DAOCustomers {
             KeyHolder keyHolder = new GeneratedKeyHolder();
 
             jdbcTemplate.update(Constantes.INSERT_USER_QUERY, namedParameters, keyHolder);
-            customer.setIdCustomer(keyHolder.getKey().intValue());
+            customer.setId(keyHolder.getKey().intValue());
 
             namedParameters = new BeanPropertySqlParameterSource(customer);
             jdbcTemplate.update(Constantes.INSERT_CUSTOMER_QUERY, namedParameters);

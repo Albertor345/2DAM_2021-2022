@@ -26,7 +26,7 @@ public class DaoCustomersJDBCImpl implements DAOCustomers {
     public Customer get(Customer customer) {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_CUSTOMER_QUERY)) {
-            preparedStatement.setInt(1, customer.getIdCustomer());
+            preparedStatement.setInt(1, customer.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 customer.setName(resultSet.getString("name"));
@@ -47,7 +47,7 @@ public class DaoCustomersJDBCImpl implements DAOCustomers {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 customers.add(Customer.builder()
-                        .idCustomer(resultSet.getInt("id_customer"))
+                        .id(resultSet.getInt("id_customer"))
                         .name(resultSet.getString("name"))
                         .phone(resultSet.getString("phone"))
                         .address(resultSet.getString("address"))
@@ -66,7 +66,7 @@ public class DaoCustomersJDBCImpl implements DAOCustomers {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                customer.setIdCustomer(resultSet.getInt("id_customer"));
+                customer.setId(resultSet.getInt("id_customer"));
             }
             return true;
         } catch (Exception ex) {
@@ -82,7 +82,7 @@ public class DaoCustomersJDBCImpl implements DAOCustomers {
             preparedStatement.setString(1, customer.getName());
             preparedStatement.setString(2, customer.getPhone());
             preparedStatement.setString(3, customer.getAddress());
-            preparedStatement.setInt(4, customer.getIdCustomer());
+            preparedStatement.setInt(4, customer.getId());
             if (preparedStatement.executeUpdate() > 0) {
                 return true;
             }
@@ -97,7 +97,7 @@ public class DaoCustomersJDBCImpl implements DAOCustomers {
     public boolean delete(Customer customer) {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_CUSTOMER_QUERY)) {
-            preparedStatement.setInt(1, customer.getIdCustomer());
+            preparedStatement.setInt(1, customer.getId());
             if (preparedStatement.executeUpdate() > 0) {
                 return true;
             }

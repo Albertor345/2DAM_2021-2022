@@ -387,6 +387,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeFindCustomer() {
+        findCustomerController.setPrincipalController(this);
         fxRoot.setCenter(findCustomer);
     }
 
@@ -431,6 +432,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeFindItemsByID() {
+        findItemsByIDController.setPrincipalController(this);
         fxRoot.setCenter(findItemsByID);
     }
 

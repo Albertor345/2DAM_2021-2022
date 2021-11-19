@@ -25,7 +25,7 @@ public class DaoPurchasesFilesImpl implements DAOPurchases {
         Path file = Paths.get(Config.getProperties().getProperty("purchases"));
 
         try (BufferedWriter bw = Files.newBufferedWriter(file, new OpenOption[]{StandardOpenOption.APPEND, StandardOpenOption.WRITE})) {
-            String content = purchase.getIdPurchase() + " " + purchase.getCustomer().getIdCustomer() + " " + purchase.getCustomer().getName() + " " + purchase.getItem().getId() + " " + purchase.getItem().getName() + " " + purchase.getDate() + "\n";
+            String content = purchase.getId() + " " + purchase.getCustomer().getId() + " " + purchase.getCustomer().getName() + " " + purchase.getItem().getId() + " " + purchase.getItem().getName() + " " + purchase.getDate() + "\n";
             bw.write(content);
             return true;
         } catch (IOException ex) {
@@ -69,9 +69,9 @@ public class DaoPurchasesFilesImpl implements DAOPurchases {
             while ((st = br.readLine()) != null) {
                 lista = Arrays.stream(st.split(" ")).collect(Collectors.toList());
                 purchases.add(Purchase.builder()
-                        .idPurchase(Integer.parseInt(lista.get(0)))
+                        .id(Integer.parseInt(lista.get(0)))
                         .customer(Customer.builder()
-                                .idCustomer(Integer.parseInt(lista.get(1)))
+                                .id(Integer.parseInt(lista.get(1)))
                                 .name(lista.get(2))
                                 .build())
                         .item(Item.builder()

@@ -3,7 +3,20 @@ package dao.impl.spring;
 import dao.DAOItems;
 import dao.DBConnection;
 import lombok.extern.log4j.Log4j2;
+import model.Customer;
 import model.Item;
+import model.User;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import producers.annotations.JDBC;
 import producers.annotations.SPRING;
 import utils.Constantes;
@@ -14,6 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -29,13 +43,11 @@ public class DaoItemsSpringImpl implements DAOItems {
 
     @Override
     public boolean update(Item item) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.UPDATE_ITEM_QUERY)) {
-            preparedStatement.setString(1, item.getName());
-            preparedStatement.setString(2, item.getCompany());
-            preparedStatement.setDouble(3, item.getPrice());
-            preparedStatement.setInt(4, item.getId());
-            preparedStatement.executeUpdate();
+        try {
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(item);
+            template.update(Constantes.UPDATE_ITEM_QUERY, namedParameters);
+
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -45,16 +57,14 @@ public class DaoItemsSpringImpl implements DAOItems {
 
     @Override
     public boolean add(Item item) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.INSERT_ITEM_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, item.getName());
-            preparedStatement.setDouble(2, item.getPrice());
-            preparedStatement.setString(3, item.getCompany());
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                item.setId(resultSet.getInt(1));
-            }
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(item);
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+
+            jdbcTemplate.update(Constantes.INSERT_ITEM_QUERY, namedParameters, keyHolder);
+            item.setId(keyHolder.getKey().intValue());
+
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -64,11 +74,11 @@ public class DaoItemsSpringImpl implements DAOItems {
 
     @Override
     public boolean delete(Item item) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_ITEM_QUERY)) {
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(item);
+            jdbcTemplate.update(Constantes.DELETE_ITEM_QUERY, namedParameters);
 
-            preparedStatement.setInt(1, item.getId());
-            preparedStatement.executeUpdate();
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -78,41 +88,33 @@ public class DaoItemsSpringImpl implements DAOItems {
 
     @Override
     public boolean deleteAllPurchasesFromAnItem(Item item) {
-        Connection connection = null;
+        TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dbConnection.getDataSource());
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
+
         try {
-            connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_SALES_FROM_ITEM);
-            connection.setAutoCommit(false);
-            preparedStatement.setInt(1, item.getId());
-            preparedStatement.executeUpdate();
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(transactionManager.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(item);
+            jdbcTemplate.update(Constantes.DELETE_SALES_FROM_ITEM, namedParameters);
 
-            preparedStatement = connection.prepareStatement(Constantes.DELETE_ITEM_QUERY);
-            preparedStatement.setInt(1, item.getId());
+            jdbcTemplate.update(Constantes.DELETE_ITEM_QUERY, namedParameters);
 
-            if (preparedStatement.executeUpdate() > 0) {
-                connection.commit();
-                return true;
-            }
-            connection.commit();
+            transactionManager.commit(transactionStatus);
+            return true;
         } catch (Exception ex) {
-            dbConnection.rollbackConnection(connection);
+            transactionManager.rollback(transactionStatus);
             log.error(ex.getMessage(), ex);
             return false;
         }
-        return false;
     }
 
     @Override
     public Item get(Item item) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_ITEM_QUERY)) {
-            preparedStatement.setInt(1, item.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                item.setPrice(resultSet.getDouble("price"));
-                item.setCompany(resultSet.getString("company"));
-                item.setName(resultSet.getString("name"));
-            }
+        try {
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(item);
+            item = template.queryForObject(Constantes.SELECT_ITEM_QUERY, namedParameters, BeanPropertyRowMapper.newInstance(Item.class));
+
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
@@ -121,21 +123,12 @@ public class DaoItemsSpringImpl implements DAOItems {
 
     @Override
     public List<Item> getAll() {
-        List<Item> listItems = new ArrayList<>();
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_ALL_ITEMS_QUERY)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                listItems.add(Item.builder()
-                        .id(resultSet.getInt("id_item"))
-                        .name(resultSet.getString("name"))
-                        .price(resultSet.getDouble("price"))
-                        .company(resultSet.getString("company"))
-                        .build());
-            }
+        try {
+            JdbcTemplate template = new JdbcTemplate(dbConnection.getDataSource());
+            return new ArrayList<>(template.query(Constantes.SELECT_ALL_ITEMS_QUERY, BeanPropertyRowMapper.newInstance(Item.class)));
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
+            return Collections.emptyList();
         }
-        return listItems;
     }
 }

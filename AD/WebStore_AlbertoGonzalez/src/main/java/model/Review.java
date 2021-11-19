@@ -21,7 +21,7 @@ import java.time.LocalDate;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Review {
 
-    private int idReview;
+    private int id;
     private int rating;
     private String title;
     private String description;
@@ -32,7 +32,7 @@ public class Review {
 
     @Override
     public String toString() {
-        return "No. " + idReview + "  Item: " + purchase.getItem().getName() + "  Rating: " + rating + "\nTitle: " + title + "\nComment: " + description + "\nDate: " + date + "\n____________________________________________________________\n";
+        return "No. " + id + "  Item: " + purchase.getItem().getName() + "  Rating: " + rating + "\nTitle: " + title + "\nComment: " + description + "\nDate: " + date + "\n____________________________________________________________\n";
     }
 
 }

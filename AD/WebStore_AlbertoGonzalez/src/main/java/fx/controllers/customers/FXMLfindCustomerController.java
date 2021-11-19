@@ -29,7 +29,7 @@ public class FXMLfindCustomerController implements Initializable {
         try {
             if (!textFieldID.getText().isEmpty()) {
                 Customer customer = principalController.getServicesCustomers().get(Customer.builder()
-                        .idCustomer(Integer.parseInt(textFieldID.getText()))
+                        .id(Integer.parseInt(textFieldID.getText()))
                         .build());
                 if (customer != null) {
                     customerList.getItems().clear();

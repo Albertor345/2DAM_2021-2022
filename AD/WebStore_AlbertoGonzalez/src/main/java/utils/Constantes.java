@@ -17,8 +17,11 @@ public class Constantes {
             " inner join items i on sales.id_item = i.id_item" +
             " inner join customers c on sales.id_customer = c.id_customer where id_sale = ?";
 
-    public static final String INSERT_CUSTOMER_QUERY = "insert into customers (name, phone, address) values (:name,:phone,:address)";
-    public static final String DELETE_CUSTOMER_QUERY = "delete from customers where id_customer = ?";
+    public static final String INSERT_CUSTOMER_QUERY = "insert into customers (id_customer, name, phone, address) values (:idCustomer, :name,:phone,:address)";
+    public static final String INSERT_USER_QUERY = "insert into users (name, password) values (:name,:password)";
+
+    public static final String DELETE_CUSTOMER_QUERY = "delete from customers where id_customer = :idCustomer";
+    public static final String DELETE_USER_QUERY = "delete from users where id = :idCustomer";
     public static final String UPDATE_CUSTOMER_QUERY = "update customers set name = ?, phone = ?, address = ? where id_customer = ?";
     public static final String SELECT_ALL_CUSTOMERS_QUERY = "select * from customers";
     public static final String SELECT_CUSTOMER_QUERY = "select * from customers where id_customer = ?";

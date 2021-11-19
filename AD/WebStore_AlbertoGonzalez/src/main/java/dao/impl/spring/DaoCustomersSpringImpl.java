@@ -5,14 +5,20 @@ import dao.DBConnection;
 import lombok.extern.log4j.Log4j2;
 import model.Customer;
 import model.User;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import producers.annotations.SPRING;
 import utils.Constantes;
 
@@ -86,14 +92,37 @@ public class DaoCustomersSpringImpl implements DAOCustomers {
 
     @Override
     public boolean add(Customer customer) {
-        try {
+        TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dbConnection.getDataSource());
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
 
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(transactionManager.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(User.builder().name(customer.getName()).password(customer.getName()).build());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+
+            jdbcTemplate.update(Constantes.INSERT_USER_QUERY, namedParameters, keyHolder);
+            customer.setIdCustomer(keyHolder.getKey().intValue());
+
+            namedParameters = new BeanPropertySqlParameterSource(customer);
+            jdbcTemplate.update(Constantes.INSERT_CUSTOMER_QUERY, namedParameters);
+
+            transactionManager.commit(transactionStatus);
+            return true;
+        } catch (Exception ex) {
+            transactionManager.rollback(transactionStatus);
+            log.error(ex.getMessage(), ex);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update(Customer customer) {
+        try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
             SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(customer);
+            jdbcTemplate.update(Constantes.UPDATE_CUSTOMER_QUERY, namedParameters);
 
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            jdbcTemplate.update(Constantes.INSERT_CUSTOMER_QUERY, namedParameters, keyHolder);
-            customer.setIdCustomer(keyHolder.getKey().intValue());
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -102,34 +131,24 @@ public class DaoCustomersSpringImpl implements DAOCustomers {
     }
 
     @Override
-    public boolean update(Customer customer) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.UPDATE_CUSTOMER_QUERY)) {
-            preparedStatement.setString(1, customer.getName());
-            preparedStatement.setString(2, customer.getPhone());
-            preparedStatement.setString(3, customer.getAddress());
-            preparedStatement.setInt(4, customer.getIdCustomer());
-            if (preparedStatement.executeUpdate() > 0) {
-                return true;
-            }
-        } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
-            return false;
-        }
-        return false;
-    }
-
-    @Override
     public boolean delete(Customer customer) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_CUSTOMER_QUERY)) {
-            preparedStatement.setInt(1, customer.getIdCustomer());
-            if (preparedStatement.executeUpdate() > 0) {
-                return true;
-            }
-        } catch (SQLIntegrityConstraintViolationException ex) {
-            return false;
+        TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dbConnection.getDataSource());
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
+
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(transactionManager.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(customer);
+            jdbcTemplate.update(Constantes.DELETE_CUSTOMER_QUERY, namedParameters);
+
+            jdbcTemplate.update(Constantes.DELETE_USER_QUERY, namedParameters);
+
+            transactionManager.commit(transactionStatus);
+            return true;
+        } catch (DataIntegrityViolationException ex) {
+            transactionManager.rollback(transactionStatus);
         } catch (Exception ex) {
+            transactionManager.rollback(transactionStatus);
             log.error(ex.getMessage(), ex);
         }
         return false;

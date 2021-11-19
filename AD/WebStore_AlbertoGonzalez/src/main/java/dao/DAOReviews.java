@@ -14,13 +14,13 @@ import java.util.List;
  */
 public interface DAOReviews {
 
-    Review get(int id);
+    Review get(Review review);
      
     List<Review> getAll(boolean isAdmin);
      
-    void save(Review t);
+    Review add(Review t);
      
-    void update(Review t);
+    boolean update(Review t);
      
-    void delete(Review t);
+    boolean delete(Review t);
 }

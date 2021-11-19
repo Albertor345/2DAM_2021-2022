@@ -26,11 +26,11 @@ public class ServicesReviewsJDBCImpl implements ServicesReviews {
     }
 
     @Override
-    public boolean add(Review review) {
-        return false;
+    public Review add(Review review) {
+        return null;
     }
 
-    public List<Review> getAll() {
+    public List<Review> getAll(boolean isAdmin) {
         return Collections.emptyList();
     }
 
@@ -38,7 +38,7 @@ public class ServicesReviewsJDBCImpl implements ServicesReviews {
         return false;
     }
 
-    public Review get(int id) {
+    public Review get(Review review) {
         return null;
     }
 

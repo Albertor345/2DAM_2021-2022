@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
-
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +24,7 @@ public class Review {
     private int id;
     private int rating;
     private String title;
-    private String description;
+    private String review;
     @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDate date;
     private Purchase purchase;
@@ -32,7 +32,7 @@ public class Review {
 
     @Override
     public String toString() {
-        return "No. " + id + "  Item: " + purchase.getItem().getName() + "  Rating: " + rating + "\nTitle: " + title + "\nComment: " + description + "\nDate: " + date + "\n____________________________________________________________\n";
+        return "No. " + id + "  Item: " + purchase.getItem().getName() + "  Rating: " + rating + "\nTitle: " + title + "\nComment: " + review + "\nDate: " + date + "\n____________________________________________________________\n";
     }
 
 }

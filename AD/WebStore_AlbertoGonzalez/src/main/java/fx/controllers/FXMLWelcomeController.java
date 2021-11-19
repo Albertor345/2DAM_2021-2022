@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import model.User;
 
 
 public class FXMLWelcomeController implements Initializable {
@@ -19,11 +20,10 @@ public class FXMLWelcomeController implements Initializable {
     @FXML
     private Label fxWelcomeTitle;
 
-
     private String login;
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setLogin(User user) {
+        this.login = user.getName();
         fxWelcomeTitle.setText("Welcome " + login);
     }
 

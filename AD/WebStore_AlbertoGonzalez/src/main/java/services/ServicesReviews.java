@@ -1,19 +1,17 @@
 package services;
 
-import model.Customer;
 import model.Review;
 
-import java.util.Collections;
 import java.util.List;
 
 public interface ServicesReviews {
-    boolean add(Review review);
+    Review add(Review review);
 
-    List<Review> getAll();
+    List<Review> getAll(boolean isAdmin);
 
     boolean delete(Review review);
 
-    Review get(int id);
+    Review get(Review review);
 
     boolean update(Review review);
 }

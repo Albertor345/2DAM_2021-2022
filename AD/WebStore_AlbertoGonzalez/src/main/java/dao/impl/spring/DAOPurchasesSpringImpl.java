@@ -6,12 +6,20 @@ import lombok.extern.log4j.Log4j2;
 import model.Customer;
 import model.Item;
 import model.Purchase;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import producers.annotations.SPRING;
 import utils.Constantes;
 
 import javax.inject.Inject;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -26,28 +34,11 @@ public class DAOPurchasesSpringImpl implements DAOPurchases {
 
     @Override
     public Purchase get(Purchase purchase) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_PURCHASE_QUERY)) {
-            preparedStatement.setInt(1, purchase.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Purchase.builder()
-                        .id(resultSet.getInt("id_sale"))
-                        .customer(Customer.builder()
-                                .id(resultSet.getInt("sales.id_customer"))
-                                .name(resultSet.getString("c.name"))
-                                .phone(resultSet.getString("phone"))
-                                .address(resultSet.getString("address"))
-                                .build())
-                        .item(Item.builder()
-                                .id(resultSet.getInt("sales.id_item"))
-                                .name(resultSet.getString("i.name"))
-                                .company(resultSet.getString("company"))
-                                .price(resultSet.getDouble("price"))
-                                .build())
-                        .date(resultSet.getDate("date").toLocalDate())
-                        .build();
-            }
+        try {
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(purchase);
+            purchase = template.queryForObject(Constantes.SELECT_PURCHASE_QUERY, namedParameters, new PurchaseMapper());
+
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
@@ -56,46 +47,25 @@ public class DAOPurchasesSpringImpl implements DAOPurchases {
 
     @Override
     public List<Purchase> getAll() {
-        List<Purchase> purchaseList = new ArrayList<>();
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.SELECT_ALL_PURCHASES_QUERY)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                purchaseList.add(Purchase.builder()
-                        .id(resultSet.getInt("id_sale"))
-                        .customer(Customer.builder()
-                                .id(resultSet.getInt("sales.id_customer"))
-                                .name(resultSet.getString("c.name"))
-                                .phone(resultSet.getString("phone"))
-                                .address(resultSet.getString("address"))
-                                .build())
-                        .item(Item.builder()
-                                .id(resultSet.getInt("sales.id_item"))
-                                .name(resultSet.getString("i.name"))
-                                .company(resultSet.getString("company"))
-                                .price(resultSet.getDouble("price"))
-                                .build())
-                        .date(resultSet.getDate("date").toLocalDate())
-                        .build());
-            }
+        try {
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            return new ArrayList<>(template.query(Constantes.SELECT_ALL_PURCHASES_QUERY, new PurchaseMapper()));
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
+            return Collections.emptyList();
         }
-        return purchaseList;
     }
 
     @Override
     public boolean add(Purchase purchase) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.INSERT_PURCHASE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setInt(1, purchase.getItem().getId());
-            preparedStatement.setInt(2, purchase.getCustomer().getId());
-            preparedStatement.setDate(3, Date.valueOf(purchase.getDate()));
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                purchase.setId(resultSet.getInt(1));
-            }
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(purchase);
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+
+            jdbcTemplate.update(Constantes.INSERT_PURCHASE_QUERY, namedParameters, keyHolder);
+            purchase.setId(keyHolder.getKey().intValue());
+
             return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -105,32 +75,52 @@ public class DAOPurchasesSpringImpl implements DAOPurchases {
 
     @Override
     public boolean update(Purchase purchase) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.UPDATE_PURCHASE_QUERY)) {
-            preparedStatement.setDate(1, Date.valueOf(purchase.getDate()));
-            preparedStatement.setInt(2, purchase.getId());
-            if (preparedStatement.executeUpdate() > 0) {
-                return true;
-            }
+        try {
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(purchase);
+            template.update(Constantes.UPDATE_PURCHASE_QUERY, namedParameters);
+
+            return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
             return false;
         }
-        return false;
     }
 
     @Override
     public boolean delete(Purchase purchase) {
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(Constantes.DELETE_PURCHASE_QUERY)) {
-            preparedStatement.setInt(1, purchase.getId());
-            if (preparedStatement.executeUpdate() > 0) {
-                return true;
-            }
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(purchase);
+            jdbcTemplate.update(Constantes.DELETE_PURCHASE_QUERY, namedParameters);
+
+            return true;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
             return false;
         }
-        return false;
+    }
+
+    public static final class PurchaseMapper implements RowMapper<Purchase> {
+
+        @Override
+        public Purchase mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return Purchase.builder()
+                    .id(rs.getInt("id"))
+                    .customer(Customer.builder()
+                            .id(rs.getInt("sales.id"))
+                            .name(rs.getString("c.name"))
+                            .phone(rs.getString("phone"))
+                            .address(rs.getString("address"))
+                            .build())
+                    .item(Item.builder()
+                            .id(rs.getInt("sales.id"))
+                            .name(rs.getString("i.name"))
+                            .company(rs.getString("company"))
+                            .price(rs.getDouble("price"))
+                            .build())
+                    .date(rs.getDate("date").toLocalDate())
+                    .build();
+        }
     }
 }

@@ -7,6 +7,7 @@ package services.impl.jdbc;
 
 import dao.DAOReviews;
 import dao.impl.jdbc.DAOReviewsJDBCImpl;
+import model.Item;
 import model.Review;
 import producers.annotations.JDBC;
 import services.ServicesReviews;
@@ -27,6 +28,11 @@ public class ServicesReviewsJDBCImpl implements ServicesReviews {
 
     @Override
     public Review add(Review review) {
+        return null;
+    }
+
+    @Override
+    public List<Review> getReviewsByItem(Item item) {
         return null;
     }
 

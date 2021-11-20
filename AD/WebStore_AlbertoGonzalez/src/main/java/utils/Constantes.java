@@ -39,6 +39,12 @@ public class Constantes {
             "inner join customers c on s.id_customer = c.id " +
             "inner join items i on s.id_item = i.id where id = :id";
 
+    public static final String SELECT_REVIEWS_FROM_ITEM = "select * " +
+            "from reviews inner join sales s on reviews.id_sales = s.id " +
+            "inner join items i on s.id_item = i.id " +
+            "inner join customers c on s.id_customer = c.id " +
+            "where i.id = :id";
+
     /*-----------------------------------------------------------------------------------------------------------------------------------------*/
 
     public static final String DELETE_SALES_FROM_ITEM = "delete from sales where id_item = :id";

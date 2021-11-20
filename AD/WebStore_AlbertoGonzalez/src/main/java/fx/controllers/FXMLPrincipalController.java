@@ -264,6 +264,7 @@ public class FXMLPrincipalController implements Initializable {
         try {
             findReview = findReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLfindReview.fxml"));
             findReviewController = findReviewLoader.getController();
+            findReviewController.setPrincipalController(this);
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -400,7 +401,6 @@ public class FXMLPrincipalController implements Initializable {
 
     public void chargeAddReview() {
         addReviewController.loadCustomers(servicesCustomers.getAll());
-        addReviewController.loadPurchases(servicesPurchases.getAll());
         fxRoot.setCenter(addReview);
     }
 
@@ -410,7 +410,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeFindReview() {
-        findReviewController.loadItems();
+        findReviewController.loadItems(servicesItems.getAll());
         fxRoot.setCenter(findReview);
     }
 

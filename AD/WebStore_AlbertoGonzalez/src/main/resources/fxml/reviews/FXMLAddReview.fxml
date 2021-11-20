@@ -10,7 +10,7 @@
             xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fx.controllers.reviews.FXMLAddReviewController">
     <children>
-        <ListView fx:id="clientBox" layoutX="29.0" layoutY="88.0" onMouseClicked="#loadPurchasesFromCustomer"
+        <ListView fx:id="customerList" layoutX="29.0" layoutY="88.0" onMouseClicked="#loadPurchasesFromCustomer"
                   prefHeight="280.0" prefWidth="165.0"/>
         <Button layoutX="399.0" layoutY="342.0" mnemonicParsing="false" onAction="#addReview" prefHeight="25.0"
                 prefWidth="181.0" text="Send review"/>
@@ -23,7 +23,7 @@
             </font>
         </Label>
         <TextArea fx:id="textBox" layoutX="399.0" layoutY="188.0" prefHeight="155.0" prefWidth="181.0"/>
-        <ListView fx:id="purchaseBox" layoutX="210.0" layoutY="88.0" prefHeight="280.0" prefWidth="165.0"/>
+        <ListView fx:id="purchaseList" layoutX="210.0" layoutY="88.0" prefHeight="280.0" prefWidth="165.0"/>
         <Label layoutX="210.0" layoutY="67.0" text="2) Select a purchase (*)"/>
         <Label layoutX="195.0" layoutY="202.0" text="+">
             <font>

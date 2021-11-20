@@ -59,6 +59,18 @@ public class DAOReviewsSpringImpl implements DAOReviews {
     }
 
     @Override
+    public List<Review> getReviewsByItem(Item item) {
+        try {
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
+            SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(item);
+            return new ArrayList<>(template.query(Constantes.SELECT_REVIEWS_FROM_ITEM, namedParameters, new ReviewRowMapper()));
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
     public Review add(Review review) {
         NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dbConnection.getDataSource());
         SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(review);
@@ -101,13 +113,13 @@ public class DAOReviewsSpringImpl implements DAOReviews {
                     .purchase(Purchase.builder()
                             .id(rs.getInt("id"))
                             .customer(Customer.builder()
-                                    .id(rs.getInt("sales.id"))
+                                    .id(rs.getInt("c.id"))
                                     .name(rs.getString("c.name"))
                                     .phone(rs.getString("phone"))
                                     .address(rs.getString("address"))
                                     .build())
                             .item(Item.builder()
-                                    .id(rs.getInt("sales.id"))
+                                    .id(rs.getInt("i.id"))
                                     .name(rs.getString("i.name"))
                                     .company(rs.getString("company"))
                                     .price(rs.getDouble("price"))

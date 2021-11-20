@@ -1,6 +1,7 @@
 package dao.impl.jdbc;
 
 import dao.DAOReviews;
+import model.Item;
 import model.Review;
 import producers.annotations.JDBC;
 
@@ -15,6 +16,11 @@ public class DAOReviewsJDBCImpl implements DAOReviews {
 
     @Override
     public List<Review> getAll(boolean isAdmin) {
+        return null;
+    }
+
+    @Override
+    public List<Review> getReviewsByItem(Item item) {
         return null;
     }
 

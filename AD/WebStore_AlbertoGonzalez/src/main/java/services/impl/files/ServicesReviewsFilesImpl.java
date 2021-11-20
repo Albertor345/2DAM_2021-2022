@@ -5,6 +5,7 @@
  */
 package services.impl.files;
 
+import model.Item;
 import model.Review;
 import services.ServicesReviews;
 import producers.annotations.FILES;
@@ -17,6 +18,11 @@ public class ServicesReviewsFilesImpl implements ServicesReviews {
 
     @Override
     public Review add(Review review) {
+        return null;
+    }
+
+    @Override
+    public List<Review> getReviewsByItem(Item item) {
         return null;
     }
 

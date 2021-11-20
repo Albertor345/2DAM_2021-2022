@@ -6,6 +6,7 @@
 package services.impl.spring;
 
 import dao.DAOReviews;
+import model.Item;
 import model.Review;
 import producers.annotations.SPRING;
 import services.ServicesReviews;
@@ -26,6 +27,11 @@ public class ServicesReviewsSpringImpl implements ServicesReviews {
     @Override
     public Review add(Review review) {
         return daoReviews.add(review);
+    }
+
+    @Override
+    public List<Review> getReviewsByItem(Item item) {
+        return daoReviews.getReviewsByItem(item);
     }
 
     public List<Review> getAll(boolean isAdmin) {

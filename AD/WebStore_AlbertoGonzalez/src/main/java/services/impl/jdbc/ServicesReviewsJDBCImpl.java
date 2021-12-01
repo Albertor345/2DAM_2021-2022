@@ -7,6 +7,7 @@ package services.impl.jdbc;
 
 import dao.DAOReviews;
 import dao.impl.jdbc.DAOReviewsJDBCImpl;
+import model.Item;
 import model.Review;
 import producers.annotations.JDBC;
 import services.ServicesReviews;
@@ -26,11 +27,16 @@ public class ServicesReviewsJDBCImpl implements ServicesReviews {
     }
 
     @Override
-    public boolean add(Review review) {
-        return false;
+    public Review add(Review review) {
+        return null;
     }
 
-    public List<Review> getAll() {
+    @Override
+    public List<Review> getReviewsByItem(Item item) {
+        return null;
+    }
+
+    public List<Review> getAll(boolean isAdmin) {
         return Collections.emptyList();
     }
 
@@ -38,7 +44,7 @@ public class ServicesReviewsJDBCImpl implements ServicesReviews {
         return false;
     }
 
-    public Review get(int id) {
+    public Review get(Review review) {
         return null;
     }
 

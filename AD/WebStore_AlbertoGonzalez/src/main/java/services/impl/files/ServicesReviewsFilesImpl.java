@@ -5,6 +5,7 @@
  */
 package services.impl.files;
 
+import model.Item;
 import model.Review;
 import services.ServicesReviews;
 import producers.annotations.FILES;
@@ -16,11 +17,16 @@ import java.util.List;
 public class ServicesReviewsFilesImpl implements ServicesReviews {
 
     @Override
-    public boolean add(Review review) {
-        return false;
+    public Review add(Review review) {
+        return null;
     }
 
-    public List<Review> getAll() {
+    @Override
+    public List<Review> getReviewsByItem(Item item) {
+        return null;
+    }
+
+    public List<Review> getAll(boolean isAdmin) {
         return Collections.emptyList();
     }
 
@@ -28,7 +34,7 @@ public class ServicesReviewsFilesImpl implements ServicesReviews {
         return false;
     }
 
-    public Review get(int id) {
+    public Review get(Review review) {
         return null;
     }
 

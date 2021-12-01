@@ -20,6 +20,7 @@ import model.Purchase;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 
 public class FXMLPurchasesController implements Initializable {
@@ -57,9 +58,18 @@ public class FXMLPurchasesController implements Initializable {
     }
 
     public void load(List<Purchase> purchases, List<Item> items, List<Customer> customers) {
-        loadCustomersList(customers);
+        if (principalController.isAdmin()) {
+            loadCustomersList(customers);
+            loadPurchasesList(purchases);
+        } else {
+            loadCustomersList(customers.stream()
+                    .filter(customer -> customer.getId() == principalController.getUser().getId())
+                    .collect(Collectors.toList()));
+            loadPurchasesList(purchases.stream()
+                    .filter(purchase -> purchase.getCustomer().getId() == principalController.getUser().getId())
+                    .collect(Collectors.toList()));
+        }
         loadItemsList(items);
-        loadPurchasesList(purchases);
     }
 
     public void loadPurchasesList(List<Purchase> purchases) {

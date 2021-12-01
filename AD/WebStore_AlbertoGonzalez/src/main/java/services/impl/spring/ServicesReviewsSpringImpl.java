@@ -6,13 +6,12 @@
 package services.impl.spring;
 
 import dao.DAOReviews;
+import model.Item;
 import model.Review;
-import producers.annotations.JDBC;
 import producers.annotations.SPRING;
 import services.ServicesReviews;
 
 import javax.inject.Inject;
-import java.util.Collections;
 import java.util.List;
 
 @SPRING
@@ -26,23 +25,28 @@ public class ServicesReviewsSpringImpl implements ServicesReviews {
     }
 
     @Override
-    public boolean add(Review review) {
-        return false;
+    public Review add(Review review) {
+        return daoReviews.add(review);
     }
 
-    public List<Review> getAll() {
-        return Collections.emptyList();
+    @Override
+    public List<Review> getReviewsByItem(Item item) {
+        return daoReviews.getReviewsByItem(item);
+    }
+
+    public List<Review> getAll(boolean isAdmin) {
+        return daoReviews.getAll(isAdmin);
     }
 
     public boolean delete(Review review) {
-        return false;
+        return daoReviews.delete(review);
     }
 
-    public Review get(int id) {
-        return null;
+    public Review get(Review review) {
+        return daoReviews.get(review);
     }
 
     public boolean update(Review review) {
-        return false;
+        return daoReviews.update(review);
     }
 }

@@ -7,9 +7,9 @@ public class Constantes {
     public static final String SELECT_ALL_ITEMS_QUERY = "select * from items";
     public static final String SELECT_ITEM_QUERY = "select * from items where id = :id";
 
-    public static final String INSERT_PURCHASE_QUERY = "insert into sales (id_item, id_customer, date) values (?,?,?)";
-    public static final String DELETE_PURCHASE_QUERY = "delete from sales where id = ?";
-    public static final String UPDATE_PURCHASE_QUERY = "update sales set date = ? where id = ?";
+    public static final String INSERT_PURCHASE_QUERY = "insert into sales (id_item, id_customer, date) values (:item.id, :customer.id, :date)";
+    public static final String DELETE_PURCHASE_QUERY = "delete from sales where id = :id";
+    public static final String UPDATE_PURCHASE_QUERY = "update sales set date = :date where id = :id";
     public static final String SELECT_ALL_PURCHASES_QUERY = "select * from sales" +
             " inner join customers c on sales.id_customer = c.id" +
             " inner join items i on sales.id_item = i.id";
@@ -26,14 +26,24 @@ public class Constantes {
     public static final String SELECT_ALL_CUSTOMERS_QUERY = "select * from customers";
     public static final String SELECT_CUSTOMER_QUERY = "select * from customers where id = :id";
 
-    public static final String INSERT_REVIEW_QUERY = "insert into reviews (rating, title, review, date) values (?,?,?,?)";
-    public static final String DELETE_REVIEW_QUERY = "delete from reviews where id = ?";
-    public static final String UPDATE_REVIEW_QUERY = "update reviews set rating = ?, title = ?, review = ?, date = ? where id = ?";
-    public static final String SELECT_ALL_REVIEWS_QUERY = "select * from reviews" +
+    public static final String INSERT_REVIEW_QUERY = "insert into reviews (id_sales, rating, title, review, date) values (:purchase.id, :rating,:title,:review,:date)";
+    public static final String DELETE_REVIEW_QUERY = "delete from reviews where id = :id";
+    public static final String UPDATE_REVIEW_QUERY = "update reviews set rating = :rating, title = :title, review = :review, date = :date where id = :id";
+
+    public static final String SELECT_ALL_REVIEWS_QUERY = "select * from reviews " +
             " inner join sales s on reviews.id_sales = s.id" +
             " inner join customers c on s.id_customer = c.id" +
             " inner join items i on s.id_item = i.id";
-    public static final String SELECT_REVIEWS_FROM_CUSTOMER = "select * from reviews where id = :id";
+    public static final String SELECT_REVIEWS_FROM_CUSTOMER = "select * from reviews " +
+            "inner join sales s on reviews.id_sales = s.id " +
+            "inner join customers c on s.id_customer = c.id " +
+            "inner join items i on s.id_item = i.id where id = :id";
+
+    public static final String SELECT_REVIEWS_FROM_ITEM = "select * " +
+            "from reviews inner join sales s on reviews.id_sales = s.id " +
+            "inner join items i on s.id_item = i.id " +
+            "inner join customers c on s.id_customer = c.id " +
+            "where i.id = :id";
 
     /*-----------------------------------------------------------------------------------------------------------------------------------------*/
 

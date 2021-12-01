@@ -29,13 +29,14 @@ public class FXMLLoginController implements Initializable {
     public void clickLogin() {
         User user = ((ServicesCustomersSpringImpl) principal.getServicesCustomers()).login(
                 User.builder()
+                        .id(-1)
                         .name(fxUser.getText())
                         .password(passBox.getText())
                         .build()
         );
-        if (user.getId() != 0) {
+        if (user.getId() != -1) {
             int isAdmin = ((ServicesCustomersSpringImpl) principal.getServicesCustomers()).checkUserStatus(user);
-            principal.setUsername(user.getName());
+            principal.setUser(user);
             switch (isAdmin) {
                 case 0:
                     principal.setAdmin(true);

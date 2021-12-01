@@ -1,6 +1,7 @@
 package dao.impl.jdbc;
 
 import dao.DAOReviews;
+import model.Item;
 import model.Review;
 import producers.annotations.JDBC;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @JDBC
 public class DAOReviewsJDBCImpl implements DAOReviews {
     @Override
-    public Review get(int id) {
+    public Review get(Review review) {
         return null;
     }
 
@@ -19,17 +20,22 @@ public class DAOReviewsJDBCImpl implements DAOReviews {
     }
 
     @Override
-    public void save(Review t) {
-
+    public List<Review> getReviewsByItem(Item item) {
+        return null;
     }
 
     @Override
-    public void update(Review t) {
-
+    public Review add(Review t) {
+        return null;
     }
 
     @Override
-    public void delete(Review t) {
+    public boolean update(Review t) {
+        return false;
+    }
 
+    @Override
+    public boolean delete(Review t) {
+        return false;
     }
 }

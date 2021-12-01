@@ -26,6 +26,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import lombok.Getter;
+import model.User;
 import producers.annotations.SPRING;
 import services.ServicesCustomers;
 import services.ServicesItems;
@@ -63,7 +64,7 @@ public class FXMLPrincipalController implements Initializable {
     @FXML
     private MenuBar fxMenuTop;
 
-    private String username;
+    private User user;
     private boolean admin;
 
     private ServicesItems servicesItems;
@@ -150,12 +151,12 @@ public class FXMLPrincipalController implements Initializable {
 
     }
 
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setAdmin(boolean admin) {
@@ -251,6 +252,7 @@ public class FXMLPrincipalController implements Initializable {
         try {
             addReview = addReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLaddReview.fxml"));
             addReviewController = addReviewLoader.getController();
+            addReviewController.setPrincipalController(this);
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -262,6 +264,7 @@ public class FXMLPrincipalController implements Initializable {
         try {
             findReview = findReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLfindReview.fxml"));
             findReviewController = findReviewLoader.getController();
+            findReviewController.setPrincipalController(this);
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -360,7 +363,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeWelcome() {
-        welcomeController.setLogin(this.getUsername());
+        welcomeController.setLogin(user);
         fxMenuTop.setVisible(true);
         fxRoot.setCenter(welcome);
     }
@@ -397,7 +400,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeAddReview() {
-        addReviewController.loadCustomers();
+        addReviewController.loadCustomers(servicesCustomers.getAll());
         fxRoot.setCenter(addReview);
     }
 
@@ -407,7 +410,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeFindReview() {
-        findReviewController.loadItems();
+        findReviewController.loadItems(servicesItems.getAll());
         fxRoot.setCenter(findReview);
     }
 

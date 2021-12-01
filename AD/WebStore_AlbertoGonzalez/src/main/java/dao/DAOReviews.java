@@ -5,6 +5,7 @@
  */
 package dao;
 
+import model.Item;
 import model.Review;
 
 import java.util.List;
@@ -14,13 +15,15 @@ import java.util.List;
  */
 public interface DAOReviews {
 
-    Review get(int id);
+    Review get(Review review);
      
     List<Review> getAll(boolean isAdmin);
+
+    List<Review> getReviewsByItem(Item item);
+
+    Review add(Review t);
      
-    void save(Review t);
+    boolean update(Review t);
      
-    void update(Review t);
-     
-    void delete(Review t);
+    boolean delete(Review t);
 }

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Examen_Moviles</string>
+    <string name="add_mensaje_button_text">Add</string>
+    <string name="add_mensaje_not_data_introduced_snackbar_text">Debes haber introducido datos</string>
+</resources>

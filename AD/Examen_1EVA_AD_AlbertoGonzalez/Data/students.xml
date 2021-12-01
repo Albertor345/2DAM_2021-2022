@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<student>
+    <id>3</id>
+    <name>a3</name>
+    <subject>
+        <id>1</id>
+        <name>s1</name>
+        <teacher>
+            <id>1</id>
+        </teacher>
+    </subject>
+    <subject>
+        <id>2</id>
+        <name>s2</name>
+        <teacher>
+            <id>2</id>
+        </teacher>
+    </subject>
+    <subject>
+        <id>3</id>
+        <name>s3</name>
+        <teacher>
+            <id>1</id>
+        </teacher>
+    </subject>
+</student>

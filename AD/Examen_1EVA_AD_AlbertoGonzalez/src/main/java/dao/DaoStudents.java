@@ -149,7 +149,7 @@ public class DaoStudents {
                     .id(0)
                     .student(Student.builder()
                             .id(resultSet.getInt("id_student"))
-                            .name("")
+                            .name(resultSet.getString("name"))
                             .build())
                     .subject(Subject.builder()
                             .id(resultSet.getInt("id_subject"))

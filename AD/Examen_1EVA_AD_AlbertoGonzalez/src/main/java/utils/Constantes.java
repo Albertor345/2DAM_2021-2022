@@ -27,15 +27,15 @@ public class Constantes {
             "                  group by id_student, id_subject) " +
             "  and grade < 5;";
 
-   /* "select id_student, id_subject, max(attempt) as mAttempt, max(grade) < 5 as pass
-    from students_grades
-    group BY id_student, id_subject;"*/
-
-    public final static String UPDATE_GRADE_FROM_GRINGO_STUDENTS = "update students_grades " +
-            "inner join subjects s on students_grades.id_subject = s.id " +
-            "inner join teachers t on s.id_teacher = t.id " +
-            "set grade = grade + 0.5 " +
-            "where t.name = 'gringo'";
+    public final static String UPDATE_GRADE_FROM_GRINGO_STUDENTS = "update students_grades sg " +
+            "    inner join subjects s on sg.id_subject = s.id " +
+            "    inner join teachers t on s.id_teacher = t.id " +
+            "set grade = IF(attempt in (select * " +
+            "                           from (select max(attempt) as max " +
+            "                                 from students_grades sg2 " +
+            "                                 where sg.id_student = sg2.id_student " +
+            "                                 group by id_student, id_subject) as temp), grade + 0.5, grade) " +
+            "where t.name = 'gringo';";
 
     public final static String GET_STUDENT = "select * from students where id = ?";
 

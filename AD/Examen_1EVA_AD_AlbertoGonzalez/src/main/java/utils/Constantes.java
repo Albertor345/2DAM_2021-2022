@@ -43,4 +43,10 @@ public class Constantes {
 
     public final static String DELETE_STUDENT = "delete from students where id = ?";
 
+
+    select count(id_student)
+    from students_grades
+    where grade < 5
+    group by id_student, id_subject
+
 }

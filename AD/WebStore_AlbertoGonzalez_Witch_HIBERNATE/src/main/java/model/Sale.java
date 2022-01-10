@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,17 +28,18 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @PrimaryKeyJoinColumn
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_customer", referencedColumnName = "id")
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "id_item", referencedColumnName = "id")
     private Item item;
 
     private LocalDate date;
 
     @OneToMany(mappedBy = "sale")
+    @LazyCollection(LazyCollectionOption.FALSE)
     public Collection<Review> reviews;
 
     public Sale() {

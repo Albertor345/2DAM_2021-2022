@@ -5,9 +5,11 @@ import dao.DAOReviews;
 import lombok.extern.log4j.Log4j2;
 import model.Item;
 import model.Review;
+import org.hibernate.Session;
 import utils.Constantes;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,10 +37,17 @@ public class DAOReviewsHibernateImpl implements DAOReviews {
     }
 
     @Override
-    public List<Review> getReviewsByItem(Item item) {
-        /*Constantes.SELECT_REVIEWS_FROM_ITEM*/
-        return Collections.emptyList();
-
+    public List<Review> getReviewsByItem(Item item, int month) {
+        List<Review> reviews = new ArrayList<>();
+        try (Session session = hibernateConfig.getSession()) {
+            reviews = session.createNamedQuery("getAllReviewsByItem", Review.class)
+                    .setParameter("id", item.getId())
+                    .setParameter("month", month)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return reviews;
     }
 
     @Override
@@ -60,6 +69,5 @@ public class DAOReviewsHibernateImpl implements DAOReviews {
         return false;
 
     }
-
 
 }

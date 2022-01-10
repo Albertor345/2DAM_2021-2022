@@ -15,6 +15,14 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllItems",
+                query = "from Item"
+        )
+})
+
 @Builder
 @Getter
 @Setter

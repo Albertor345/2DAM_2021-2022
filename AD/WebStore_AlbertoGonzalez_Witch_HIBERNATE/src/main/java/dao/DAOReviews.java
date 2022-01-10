@@ -16,14 +16,14 @@ import java.util.List;
 public interface DAOReviews {
 
     Review get(Review review);
-     
+
     List<Review> getAll(boolean isAdmin);
 
-    List<Review> getReviewsByItem(Item item);
+    List<Review> getReviewsByItem(Item item, int month);
 
     Review add(Review t);
-     
+
     boolean update(Review t);
-     
+
     boolean delete(Review t);
 }

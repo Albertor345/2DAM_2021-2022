@@ -28,8 +28,8 @@ public class ServicesReviewsHibernateImpl implements ServicesReviews {
     }
 
     @Override
-    public List<Review> getReviewsByItem(Item item) {
-        return daoReviews.getReviewsByItem(item);
+    public List<Review> getReviewsByItemAndMonth(Item item, String month) {
+        return daoReviews.getReviewsByItem(item, mapMonth(month));
     }
 
     public List<Review> getAll(boolean isAdmin) {
@@ -46,5 +46,48 @@ public class ServicesReviewsHibernateImpl implements ServicesReviews {
 
     public boolean update(Review review) {
         return daoReviews.update(review);
+    }
+
+    private int mapMonth(String month) {
+        int number = 0;
+        switch (month) {
+            case "January":
+                number = 1;
+                break;
+            case "February":
+                number = 2;
+                break;
+            case "March":
+                number = 3;
+                break;
+            case "April":
+                number = 4;
+                break;
+            case "May":
+                number = 5;
+                break;
+            case "June":
+                number = 6;
+                break;
+            case "July":
+                number = 7;
+                break;
+            case "August":
+                number = 8;
+                break;
+            case "September":
+                number = 9;
+                break;
+            case "October":
+                number = 10;
+                break;
+            case "November":
+                number = 11;
+                break;
+            case "December":
+                number = 12;
+                break;
+        }
+        return number;
     }
 }

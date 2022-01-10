@@ -21,7 +21,7 @@ public class DaoItemsHibernateImpl implements DAOItems {
 
     @Override
     public boolean update(Item item) {
-       /*Constantes.UPDATE_ITEM_QUERY*/
+        /*Constantes.UPDATE_ITEM_QUERY*/
         return false;
     }
 
@@ -54,6 +54,6 @@ public class DaoItemsHibernateImpl implements DAOItems {
     @Override
     public List<Item> getAll() {
         /*Constantes.SELECT_ALL_ITEMS_QUERY*/
-        return Collections.emptyList();
+        return hibernateConfig.getSession().createNamedQuery("getAllItems", Item.class).getResultList();
     }
 }

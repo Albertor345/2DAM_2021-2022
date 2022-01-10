@@ -13,11 +13,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllReviewsByItem",
+                query = "from Review where sale.item.id = :id and month(date) like :month"
+        )
+})
+
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "reviews")
+@Entity
 @Table(name = "reviews", schema = "alberto_WebStore", catalog = "")
 public class Review {
     @Id
@@ -28,10 +35,10 @@ public class Review {
     private String review;
     private LocalDate date;
     @ManyToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "id_sale", referencedColumnName = "id")
     private Sale sale;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_customer", referencedColumnName = "id")
     private Customer customer;
 
 

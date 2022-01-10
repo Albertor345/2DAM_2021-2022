@@ -23,8 +23,8 @@
             </font>
         </Label>
         <TextArea fx:id="textBox" layoutX="399.0" layoutY="188.0" prefHeight="155.0" prefWidth="181.0"/>
-        <ListView fx:id="purchaseList" layoutX="210.0" layoutY="88.0" prefHeight="280.0" prefWidth="165.0"/>
-        <Label layoutX="210.0" layoutY="67.0" text="2) Select a purchase (*)"/>
+        <ListView fx:id="saleList" layoutX="210.0" layoutY="88.0" prefHeight="280.0" prefWidth="165.0"/>
+        <Label layoutX="210.0" layoutY="67.0" text="2) Select a sale (*)"/>
         <Label layoutX="195.0" layoutY="202.0" text="+">
             <font>
                 <Font size="18.0"/>

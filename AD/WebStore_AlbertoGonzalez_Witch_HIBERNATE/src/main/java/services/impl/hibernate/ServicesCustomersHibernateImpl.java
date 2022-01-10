@@ -6,22 +6,19 @@
 package services.impl.hibernate;
 
 import dao.DAOCustomers;
-import dao.impl.spring.DaoCustomersSpringImpl;
 import model.Customer;
 import model.User;
-import producers.annotations.SPRING;
 import services.ServicesCustomers;
 
 import javax.inject.Inject;
 import java.util.List;
 
-@SPRING
 public class ServicesCustomersHibernateImpl implements ServicesCustomers {
 
     private DAOCustomers daoCustomers;
 
     @Inject
-    public ServicesCustomersHibernateImpl(@SPRING DAOCustomers daoCustomers) {
+    public ServicesCustomersHibernateImpl(DAOCustomers daoCustomers) {
         this.daoCustomers = daoCustomers;
     }
 
@@ -31,11 +28,7 @@ public class ServicesCustomersHibernateImpl implements ServicesCustomers {
     }
 
     public User login(User user) {
-        return ((DaoCustomersSpringImpl) daoCustomers).login(user);
-    }
-
-    public int checkUserStatus(User user) {
-        return ((DaoCustomersSpringImpl) daoCustomers).checkUserStatus(user);
+        return daoCustomers.login(user);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class Customer {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "sales")
+    @OneToMany(mappedBy = "customer")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Sale> sales;
 

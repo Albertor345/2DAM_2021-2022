@@ -8,22 +8,19 @@ package services.impl.hibernate;
 import dao.DAOItems;
 import dao.DAOPurchases;
 import model.Item;
-import model.Purchase;
-import producers.annotations.JDBC;
-import producers.annotations.SPRING;
+import model.Sale;
 import services.ServicesItems;
 
 import javax.inject.Inject;
 import java.util.List;
 
-@SPRING
 public class ServicesItemsHibernateImpl implements ServicesItems {
 
     private DAOItems daoItems;
     private DAOPurchases daoPurchases;
 
     @Inject
-    public ServicesItemsHibernateImpl(@SPRING DAOItems daoItems, @SPRING DAOPurchases daoPurchases) {
+    public ServicesItemsHibernateImpl(DAOItems daoItems, DAOPurchases daoPurchases) {
         this.daoItems = daoItems;
         this.daoPurchases = daoPurchases;
     }
@@ -58,7 +55,7 @@ public class ServicesItemsHibernateImpl implements ServicesItems {
 
     @Override
     public boolean checkItemPurchases(Item item) {
-        List<Purchase> purchaseList = daoPurchases.getAll();
+        List<Sale> purchaseList = daoPurchases.getAll();
         return purchaseList.stream()
                 .map(purchase -> purchase.getItem().getId())
                 .anyMatch(itemID -> item.getId() == itemID);

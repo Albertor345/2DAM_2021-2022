@@ -35,7 +35,7 @@ public class FXMLLoginController implements Initializable {
                         .build()
         );
         if (user.getId() != -1) {
-            int isAdmin = ((ServicesCustomersHibernateImpl) principal.getServicesCustomers()).checkUserStatus(user);
+            int isAdmin = user.getCustomer() == null ? 0 : 1;
             principal.setUser(user);
             switch (isAdmin) {
                 case 0:
@@ -46,7 +46,7 @@ public class FXMLLoginController implements Initializable {
                     principal.setAdmin(false);
                     principal.chargeWelcome();
                     break;
-                case -1:
+                default:
                     errorBox.setText("There's been a problem in the database, try it again later");
                     break;
             }

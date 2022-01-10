@@ -6,6 +6,13 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "login",
+                query = "from User where name = :name and password = :password"
+        )
+})
+
 @Builder
 @Getter
 @Setter

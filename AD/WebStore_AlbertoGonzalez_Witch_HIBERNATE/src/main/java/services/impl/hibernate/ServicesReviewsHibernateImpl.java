@@ -8,19 +8,17 @@ package services.impl.hibernate;
 import dao.DAOReviews;
 import model.Item;
 import model.Review;
-import producers.annotations.SPRING;
 import services.ServicesReviews;
 
 import javax.inject.Inject;
 import java.util.List;
 
-@SPRING
 public class ServicesReviewsHibernateImpl implements ServicesReviews {
 
     DAOReviews daoReviews;
 
     @Inject
-    public ServicesReviewsHibernateImpl(@SPRING DAOReviews daoReviews) {
+    public ServicesReviewsHibernateImpl(DAOReviews daoReviews) {
         this.daoReviews = daoReviews;
     }
 

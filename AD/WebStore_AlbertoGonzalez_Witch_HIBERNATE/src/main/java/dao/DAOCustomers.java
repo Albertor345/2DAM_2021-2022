@@ -25,4 +25,5 @@ public interface DAOCustomers {
 
     boolean delete(Customer t);
 
+    User login(User user);
 }

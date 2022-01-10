@@ -21,11 +21,10 @@ import java.util.Properties;
 public class Config {
     private static Properties properties;
 
-
     public Config() {
         try {
             properties = new Properties();
-            properties.loadFromXML(new FileInputStream("propertiesFiles/settings.xml"));
+            properties.loadFromXML(new FileInputStream("properties/settings.xml"));
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }

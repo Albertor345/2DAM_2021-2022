@@ -5,10 +5,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class HibernateConfig {
-    private static final SessionFactory ourSessionFactory;
+import javax.inject.Singleton;
 
-    static {
+@Singleton
+public class HibernateConfig {
+    private static SessionFactory ourSessionFactory;
+
+    public HibernateConfig() {
         try {
             Configuration configuration = new Configuration();
             configuration.configure();
@@ -19,7 +22,7 @@ public class HibernateConfig {
         }
     }
 
-    public static Session getSession() throws HibernateException {
+    public  Session getSession() throws HibernateException {
         return ourSessionFactory.openSession();
     }
 }

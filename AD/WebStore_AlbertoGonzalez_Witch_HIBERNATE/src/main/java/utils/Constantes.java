@@ -49,10 +49,6 @@ public class Constantes {
 
     public static final String DELETE_SALES_FROM_ITEM = "delete from sales where id_item = :id";
 
-    public static final String QUERY_CHECK_USER_IS_CUSTOMER = "select count(id) as 'hasUser' from customers " +
-            "where id in (select id from users where name = :name and password = :password) " +
-            "group by id";
-
     public static final String QUERY_LOGIN = "select * from users where name = :name and password = :password";
 
 }

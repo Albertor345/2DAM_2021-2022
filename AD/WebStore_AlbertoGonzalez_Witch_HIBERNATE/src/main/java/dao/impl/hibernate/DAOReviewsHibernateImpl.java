@@ -37,12 +37,11 @@ public class DAOReviewsHibernateImpl implements DAOReviews {
     }
 
     @Override
-    public List<Review> getReviewsByItem(Item item, int month) {
+    public List<Review> getReviewsByItem(Item item) {
         List<Review> reviews = new ArrayList<>();
         try (Session session = hibernateConfig.getSession()) {
             reviews = session.createNamedQuery("getAllReviewsByItem", Review.class)
                     .setParameter("id", item.getId())
-                    .setParameter("month", month)
                     .getResultList();
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);

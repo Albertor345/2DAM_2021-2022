@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllReviewsByItem",
-                query = "from Review where sale.item.id = :id and month(date) like :month"
+                query = "from Review where sale.item.id = :id"
         )
 })
 

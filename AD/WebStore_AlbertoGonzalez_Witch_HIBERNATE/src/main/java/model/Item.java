@@ -15,11 +15,16 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-
 @NamedQueries({
         @NamedQuery(
                 name = "getAllItems",
                 query = "from Item"
+        ),
+        @NamedQuery(
+                name = "select_Price_AvgRating_NSales_FromItem_LastMonth",
+                query = "select item.price, count(sale.id), avg(review.id)" +
+                        " from Item item, Sale sale, Review review" +
+                        " where item.id = :id and month(sale.date) like month(now())"
         )
 })
 

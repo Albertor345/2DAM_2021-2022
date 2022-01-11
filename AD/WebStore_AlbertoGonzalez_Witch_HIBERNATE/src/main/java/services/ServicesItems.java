@@ -17,5 +17,7 @@ public interface ServicesItems {
 
     Item get(Item item);
 
+    String getItemData(Item item);
+
     boolean checkItemPurchases(Item item);
 }

@@ -22,5 +22,7 @@ public interface DAOItems {
     Item get(Item item);
 
     List<Item> getAll();
+
+    String getItemData(Item item);
 }
 

@@ -8,7 +8,7 @@ import java.util.List;
 public interface ServicesReviews {
     Review add(Review review);
 
-    List<Review> getReviewsByItemAndMonth(Item item, String month);
+    List<Review> getReviewsByItem(Item item);
 
     List<Review> getAll(boolean isAdmin);
 

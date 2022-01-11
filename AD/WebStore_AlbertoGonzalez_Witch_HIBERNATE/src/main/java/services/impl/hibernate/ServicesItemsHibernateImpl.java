@@ -54,6 +54,11 @@ public class ServicesItemsHibernateImpl implements ServicesItems {
     }
 
     @Override
+    public String getItemData(Item item) {
+        return daoItems.getItemData(item);
+    }
+
+    @Override
     public boolean checkItemPurchases(Item item) {
         List<Sale> purchaseList = daoPurchases.getAll();
         return purchaseList.stream()

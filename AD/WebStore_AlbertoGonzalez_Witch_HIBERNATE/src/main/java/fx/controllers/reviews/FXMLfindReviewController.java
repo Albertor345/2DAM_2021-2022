@@ -42,7 +42,7 @@ public class FXMLfindReviewController implements Initializable {
         Item item = itemBox.getSelectionModel().getSelectedItem();
         if (item != null) {
             reviewList.getItems().clear();
-            reviewList.getItems().addAll(principal.getServicesReviews().getReviewsByItemAndMonth(item, ""));
+            reviewList.getItems().addAll(principal.getServicesReviews().getReviewsByItem(item));
         }
     }
 

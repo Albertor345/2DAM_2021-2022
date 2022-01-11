@@ -5,13 +5,12 @@
 
 <AnchorPane prefHeight="437.0" prefWidth="672.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controllers.items.FXMLItemsList">
     <children>
-        <TableView fx:id="tableViewItems" layoutX="14.0" layoutY="18.0" prefHeight="354.0" prefWidth="175.0" onMouseClicked="#loadReviewsByItem">
+        <TableView fx:id="tableViewItems" layoutX="14.0" layoutY="18.0" onMouseClicked="#loadItemData" prefHeight="354.0" prefWidth="175.0">
             <columns>
                 <TableColumn fx:id="tableColumnName" prefWidth="81.0" text="Name" />
                 <TableColumn fx:id="tableColumnCompany" prefWidth="92.0" text="Company" />
             </columns>
         </TableView>
-        <ComboBox fx:id="comboBoxMonths" layoutX="209.0" layoutY="35.0" onAction="#loadReviewsByMonth" prefWidth="150.0" />
         <Label layoutX="209.0" layoutY="18.0" text="Select month" />
         <Button fx:id="clearButton" layoutX="14.0" layoutY="392.0" mnemonicParsing="false" onAction="#clear" text="Clear" />
         <Label layoutX="391.0" layoutY="18.0" text="Average rating, Nº of Sales and Price" />

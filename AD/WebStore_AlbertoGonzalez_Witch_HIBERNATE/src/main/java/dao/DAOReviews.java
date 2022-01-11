@@ -19,7 +19,7 @@ public interface DAOReviews {
 
     List<Review> getAll(boolean isAdmin);
 
-    List<Review> getReviewsByItem(Item item, int month);
+    List<Review> getReviewsByItem(Item item);
 
     Review add(Review t);
 

@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Item;
-import utils.Months;
 
 import java.net.URL;
 import java.util.List;
@@ -16,8 +15,6 @@ import java.util.ResourceBundle;
 
 public class FXMLItemsList implements Initializable {
 
-    @FXML
-    private ComboBox<String> comboBoxMonths;
     @FXML
     private Button clearButton;
     @FXML
@@ -64,22 +61,30 @@ public class FXMLItemsList implements Initializable {
     private void orderAsc(ActionEvent actionEvent) {
     }
 
-    public void loadReviewsByItem(MouseEvent mouseEvent) {
-        if (comboBoxMonths.getSelectionModel().getSelectedItem() != null) {
-            loadReviewsByMonth(new ActionEvent());
+
+    @FXML
+    private void loadItemData(MouseEvent mouseEvent) {
+        Item item = tableViewItems.getSelectionModel().getSelectedItem();
+        if (item != null) {
+            loadReviewsByItem(new ActionEvent());
+            loadData(item);
         } else {
             alert("Month required", "Select a Month from the combo box to proceed", Alert.AlertType.WARNING);
         }
     }
 
+    private void loadData(Item item) {
+        textFieldItemData.setText(principal.getServicesItems().getItemData(item));
+    }
+
     @FXML
-    private void loadReviewsByMonth(ActionEvent actionEvent) {
+    private void loadReviewsByItem(ActionEvent actionEvent) {
         Item item = tableViewItems.getSelectionModel().getSelectedItem();
         if (item != null) {
             tableViewReviews.setDisable(false);
             tableViewReviews.getItems().clear();
             tableViewReviews.getItems().addAll(
-                    principal.getServicesReviews().getReviewsByItemAndMonth(item, comboBoxMonths.getSelectionModel().getSelectedItem()));
+                    principal.getServicesReviews().getReviewsByItem(item));
         } else {
             alert("Item required", "Select an Item from the list to proceed", Alert.AlertType.WARNING);
             tableViewReviews.setDisable(true);
@@ -89,7 +94,6 @@ public class FXMLItemsList implements Initializable {
     @FXML
     private void clear(ActionEvent actionEvent) {
         tableViewItems.getSelectionModel().clearSelection();
-        comboBoxMonths.getSelectionModel().clearSelection();
         textFieldItemData.clear();
         tableViewReviews.getItems().clear();
 
@@ -124,8 +128,6 @@ public class FXMLItemsList implements Initializable {
         tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         alert = new Alert(Alert.AlertType.CONFIRMATION);
-        for (Months value : Months.values()) {
-            comboBoxMonths.getItems().add(value.toString());
-        }
+
     }
 }

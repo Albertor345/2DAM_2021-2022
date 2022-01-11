@@ -26,4 +26,6 @@ public interface DAOReviews {
     boolean update(Review t);
 
     boolean delete(Review t);
+
+    List<Review> orderBy(Item item, boolean order, boolean column);
 }

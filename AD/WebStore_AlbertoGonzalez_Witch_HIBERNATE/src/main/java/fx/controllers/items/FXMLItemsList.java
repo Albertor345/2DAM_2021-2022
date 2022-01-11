@@ -3,22 +3,33 @@ package fx.controllers.items;
 import fx.controllers.FXMLPrincipalController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import lombok.extern.log4j.Log4j2;
 import model.Item;
+import model.Review;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@Log4j2
 public class FXMLItemsList implements Initializable {
 
     @FXML
     private Button clearButton;
     @FXML
-    private TableView tableViewReviews;
+    private TableView<Review> tableViewReviews;
     @FXML
     private TableColumn tableColumnTitle;
     @FXML
@@ -42,25 +53,44 @@ public class FXMLItemsList implements Initializable {
     @FXML
     private TableColumn tableColumnCompany;
 
+    private Stage stage;
+    private BorderPane stageBorderPane;
+
+    private FXMLLoader fxmlLoaderReviewData;
+    private AnchorPane reviewData;
+    private ReviewDataController reviewDataController;
+
     private FXMLPrincipalController principal;
     private Alert alert;
 
-    @FXML
-    private void orderByDate(ActionEvent actionEvent) {
+    @Inject
+    public FXMLItemsList(FXMLLoader fxmlLoaderReviewData) {
+        this.fxmlLoaderReviewData = fxmlLoaderReviewData;
     }
 
     @FXML
-    private void orderByRating(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    private void orderDesc(ActionEvent actionEvent) {
+    private void showReviewData(MouseEvent actionEvent) {
+        stageBorderPane.setCenter(reviewData);
+        stage.setOnCloseRequest(event -> {});
+        stage.setOnShown(event -> {
+            reviewDataController.addReview(tableViewReviews.getSelectionModel().getSelectedItem());
+            reviewDataController.setPrincipal(principal);
+            reviewDataController.setStage(stage);
+        });
+        stage.show();
     }
 
     @FXML
     private void orderAsc(ActionEvent actionEvent) {
+        if (radioButtonDate.getToggleGroup().selectedToggleProperty().getValue() == null) {
+            radioButtonRating.setSelected(true);
+        }
+        tableViewReviews.getItems().clear();
+        tableViewReviews.getItems().addAll(principal.getServicesReviews().orderBy(
+                tableViewItems.getSelectionModel().getSelectedItem(),
+                radioButtonAsc.isSelected(),
+                radioButtonRating.isSelected()));
     }
-
 
     @FXML
     private void loadItemData(MouseEvent mouseEvent) {
@@ -106,6 +136,19 @@ public class FXMLItemsList implements Initializable {
         tableViewItems.getItems().addAll(items);
     }
 
+    private void preload() {
+        try {
+            if (reviewData == null) {
+                reviewData = fxmlLoaderReviewData.load(getClass().getResourceAsStream("/fxml/reviews/ReviewData.fxml"));
+                reviewDataController = fxmlLoaderReviewData.getController();
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            alert("Error", "error pre-loading review data", Alert.AlertType.ERROR);
+        }
+
+    }
+
     private void alert(String titulo, String texto, Alert.AlertType type) {
         alert.setAlertType(type);
         alert.setTitle(titulo);
@@ -128,6 +171,14 @@ public class FXMLItemsList implements Initializable {
         tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UTILITY);
+        stageBorderPane = new BorderPane();
+        stage.setScene(new Scene(stageBorderPane));
+        stage.setResizable(false);
+        preload();
 
     }
 }

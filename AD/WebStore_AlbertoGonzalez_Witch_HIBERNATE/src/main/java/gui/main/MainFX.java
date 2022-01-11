@@ -1,5 +1,6 @@
 package gui.main;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,9 @@ public class MainFX {
         try {
             Parent fxmlParent = fxmlLoader.load(getClass().getResourceAsStream("/fxml/FXMLPrincipal.fxml"));
             stage.setScene(new Scene(fxmlParent, 300, 100));
+            stage.setOnCloseRequest(event -> {
+                Platform.exit();
+            });
             stage.setTitle("JavaFX");
             stage.show();
         } catch (IOException e) {

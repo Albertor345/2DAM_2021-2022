@@ -69,4 +69,20 @@ public class DAOReviewsHibernateImpl implements DAOReviews {
 
     }
 
+    @Override
+    public List<Review> orderBy(Item item, boolean order, boolean column) {
+        List<Review> reviews = new ArrayList<>();
+        String orderBy = order ? "Asc" : "Desc";
+        String col = column ? "Rating" : "Date";
+        String query = "orderReviews" + orderBy + col;
+        try (Session session = hibernateConfig.getSession()) {
+            reviews = session.createNamedQuery(query, Review.class)
+                    .setParameter("id", item.getId())
+                    .getResultList();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return reviews;
+    }
+
 }

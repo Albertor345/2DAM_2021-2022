@@ -66,17 +66,15 @@ public class DaoItemsHibernateImpl implements DAOItems {
     }
 
     @Override
-    public String getItemData(Item item) {
-        AtomicReference<String> result = new AtomicReference<>("");
-        List<Object[]> list;
+    public List<Object[]> getItemData(Item item) {
+        List<Object[]> list = new ArrayList<>();
         try (Session session = hibernateConfig.getSession()) {
             list = session.createNamedQuery("select_Price_AvgRating_NSales_FromItem_LastMonth")
                     .setParameter("id", item.getId())
                     .getResultList();
-            list.forEach(o -> result.set("{Price: " + o[0] + "} -- {Number of Purchases: " + o[1] + "} -- {Average rating " + o[2] + "}"));
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-        return result.get();
+        return list;
     }
 }

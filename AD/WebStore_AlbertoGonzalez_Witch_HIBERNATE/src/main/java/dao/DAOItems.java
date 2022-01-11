@@ -23,6 +23,6 @@ public interface DAOItems {
 
     List<Item> getAll();
 
-    String getItemData(Item item);
+    List<Object[]> getItemData(Item item);
 }
 

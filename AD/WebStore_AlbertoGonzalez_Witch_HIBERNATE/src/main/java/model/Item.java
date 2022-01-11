@@ -22,11 +22,11 @@ import java.util.Objects;
         ),
         @NamedQuery(
                 name = "select_Price_AvgRating_NSales_FromItem_LastMonth",
-                query = "select item.price, count(sales.id), avg(reviews.rating)" +
-                        " from Item item " +
+                query = "select item.price, count(sales.id) - 1, avg(reviews.rating) " +
+                        "from Item item " +
                         "inner join item.sales sales " +
-                        "inner join sales.reviews reviews" +
-                        " where item.id = :id and month(sales.date) like month(now())"
+                        "inner join sales.reviews reviews " +
+                        "where item.id = :id and month(sales.date) like month(now())"
         )
 })
 

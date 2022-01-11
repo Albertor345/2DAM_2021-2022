@@ -12,7 +12,9 @@ import model.Sale;
 import services.ServicesItems;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ServicesItemsHibernateImpl implements ServicesItems {
 
@@ -55,7 +57,15 @@ public class ServicesItemsHibernateImpl implements ServicesItems {
 
     @Override
     public String getItemData(Item item) {
-        return daoItems.getItemData(item);
+        AtomicReference<String> result = new AtomicReference<>("");
+        List<Object[]> list = daoItems.getItemData(item);
+        if (Arrays.stream(list.get(0)).anyMatch(o -> o == null)) {
+            result.set("This item has not been sold in the last month");
+        } else {
+            list.forEach(o -> result.set("{Price: " + o[0] + "} -- {Number of Purchases: " + o[1] + "} -- {Average rating " + o[2] + "}"));
+        }
+
+        return result.get();
     }
 
     @Override

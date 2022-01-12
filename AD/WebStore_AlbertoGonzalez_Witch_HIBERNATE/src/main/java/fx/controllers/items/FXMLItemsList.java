@@ -1,6 +1,7 @@
 package fx.controllers.items;
 
 import fx.controllers.FXMLPrincipalController;
+import fx.controllers.reviews.FXMLReviewDataController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,7 +59,7 @@ public class FXMLItemsList implements Initializable {
 
     private FXMLLoader fxmlLoaderReviewData;
     private AnchorPane reviewData;
-    private ReviewDataController reviewDataController;
+    private FXMLReviewDataController reviewDataController;
 
     private FXMLPrincipalController principal;
     private Alert alert;
@@ -139,7 +140,7 @@ public class FXMLItemsList implements Initializable {
     private void preload() {
         try {
             if (reviewData == null) {
-                reviewData = fxmlLoaderReviewData.load(getClass().getResourceAsStream("/fxml/reviews/ReviewData.fxml"));
+                reviewData = fxmlLoaderReviewData.load(getClass().getResourceAsStream("/fxml/reviews/FXMLReviewData.fxml"));
                 reviewDataController = fxmlLoaderReviewData.getController();
             }
         } catch (Exception e) {

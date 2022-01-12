@@ -23,15 +23,13 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 
-public class FXMLPurchasesController implements Initializable {
+public class FXMLAddPurchasesController implements Initializable {
     FXMLPrincipalController principalController;
     Alert alert;
     @FXML
     private ComboBox<Customer> customerBox;
     @FXML
     private ComboBox<Item> itemBox;
-    @FXML
-    private ListView<Sale> purchaseList;
     @FXML
     private DatePicker dateBox;
 
@@ -48,7 +46,6 @@ public class FXMLPurchasesController implements Initializable {
                     .date(dateBox.getValue()).build();
 
             if (principalController.getServicesPurchases().add(sale)) {
-                purchaseList.getItems().add(sale);
                 alert("Success", "Purchase added successfully", Alert.AlertType.INFORMATION);
                 clear();
             } else {
@@ -60,23 +57,12 @@ public class FXMLPurchasesController implements Initializable {
     public void load(List<Sale> sales, List<Item> items, List<Customer> customers) {
         if (principalController.isAdmin()) {
             loadCustomersList(customers);
-            loadPurchasesList(sales);
         } else {
             loadCustomersList(customers.stream()
                     .filter(customer -> customer.getId() == principalController.getUser().getId())
                     .collect(Collectors.toList()));
-            loadPurchasesList(sales.stream()
-                    .filter(purchase -> purchase.getCustomer().getId() == principalController.getUser().getId())
-                    .collect(Collectors.toList()));
         }
         loadItemsList(items);
-    }
-
-    public void loadPurchasesList(List<Sale> sales) {
-        if (!purchaseList.getItems().isEmpty()) {
-            purchaseList.getItems().clear();
-        }
-        purchaseList.getItems().addAll(sales);
     }
 
     public void loadItemsList(List<Item> items) {

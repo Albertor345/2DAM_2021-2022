@@ -8,7 +8,7 @@ import model.User;
 import org.hibernate.Session;
 
 import javax.inject.Inject;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -39,8 +39,13 @@ public class DaoCustomersHibernateImpl implements DAOCustomers {
 
     @Override
     public List<Customer> getAll() {
-        /*Constantes.SELECT_ALL_CUSTOMERS_QUERY*/
-        return Collections.emptyList();
+        List<Customer> customers = new ArrayList<>();
+        try (Session session = hibernateConfig.getSession()) {
+            customers = session.createNamedQuery("getAllCustomers", Customer.class).getResultList();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return customers;
     }
 
     @Override

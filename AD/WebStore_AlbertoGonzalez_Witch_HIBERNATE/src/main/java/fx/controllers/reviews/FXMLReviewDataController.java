@@ -1,4 +1,4 @@
-package fx.controllers.items;
+package fx.controllers.reviews;
 
 import fx.controllers.FXMLPrincipalController;
 import javafx.fxml.FXML;
@@ -8,12 +8,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Customer;
 import model.Review;
+import model.Sale;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ReviewDataController implements Initializable {
+public class FXMLReviewDataController implements Initializable {
     @FXML
     private TableView<Review> tableViewReview;
     @FXML

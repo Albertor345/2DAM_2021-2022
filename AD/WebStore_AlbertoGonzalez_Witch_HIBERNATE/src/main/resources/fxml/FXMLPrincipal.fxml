@@ -24,6 +24,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Customers" fx:id="topMenuCustomers">
                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#chargeCustomerList" text="Customer List"/>
                         <MenuItem mnemonicParsing="false" onAction="#chargeAddCustomer" text="Add Customer"/>
                         <MenuItem mnemonicParsing="false" onAction="#chargeFindCustomer" text="Find by ID"/>
                         <MenuItem mnemonicParsing="false" onAction="#chargeDeleteCustomer" text="Delete Customer"/>

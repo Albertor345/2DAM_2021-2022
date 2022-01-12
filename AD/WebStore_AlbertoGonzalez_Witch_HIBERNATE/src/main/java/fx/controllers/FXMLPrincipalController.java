@@ -7,15 +7,16 @@ package fx.controllers;
 
 import configuration.Config;
 import fx.controllers.customers.FXMLAddCustomerController;
+import fx.controllers.customers.FXMLCustomerListController;
 import fx.controllers.customers.FXMLdeleteCustomerController;
 import fx.controllers.customers.FXMLfindCustomerController;
 import fx.controllers.items.*;
-import fx.controllers.sales.FXMLDatePurchasesController;
-import fx.controllers.sales.FXMLDeletePurchasesController;
-import fx.controllers.sales.FXMLPurchasesController;
 import fx.controllers.reviews.FXMLAddReviewController;
 import fx.controllers.reviews.FXMLdeleteReviewController;
 import fx.controllers.reviews.FXMLfindReviewController;
+import fx.controllers.sales.FXMLAddPurchasesController;
+import fx.controllers.sales.FXMLDatePurchasesController;
+import fx.controllers.sales.FXMLDeletePurchasesController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -79,7 +80,7 @@ public class FXMLPrincipalController implements Initializable {
     private FXMLWelcomeController welcomeController;
     private FXMLLoader welcomeLoader;
     private AnchorPane purchases;
-    private FXMLPurchasesController purchasesController;
+    private FXMLAddPurchasesController purchasesController;
     private FXMLLoader purchasesLoader;
     private AnchorPane datePurchases;
     private FXMLDatePurchasesController datePurchasesController;
@@ -88,6 +89,9 @@ public class FXMLPrincipalController implements Initializable {
     private FXMLDeletePurchasesController deletePurchasesController;
     private FXMLLoader deletePurchasesLoader;
     private AnchorPane addCustomer;
+    private AnchorPane customerList;
+    private FXMLCustomerListController customerListController;
+    private FXMLLoader customerListLoader;
     private FXMLAddCustomerController addCustomerController;
     private FXMLLoader addCustomerLoader;
     private AnchorPane findCustomer;
@@ -124,13 +128,14 @@ public class FXMLPrincipalController implements Initializable {
 
 
     @Inject
-    public FXMLPrincipalController(ServicesItems servicesItems, ServicesPurchases servicesPurchases, ServicesCustomers servicesCustomers, ServicesReviews servicesReviews, Config config, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader, FXMLLoader findItemsByIDLoader, FXMLLoader updateItemLoader, FXMLLoader itemsListLoader) {
+    public FXMLPrincipalController(ServicesItems servicesItems, ServicesPurchases servicesPurchases, ServicesCustomers servicesCustomers, ServicesReviews servicesReviews, Config config, FXMLLoader loginLoader, FXMLLoader welcomeLoader, FXMLLoader purchasesLoader, FXMLLoader datePurchasesLoader, FXMLLoader deleteLoader, FXMLLoader customerListLoader, FXMLLoader addCustomerLoader, FXMLLoader findCustomerLoader, FXMLLoader deleteCustomerLoader, FXMLLoader addReviewLoader, FXMLLoader findReviewLoader, FXMLLoader deleteReviewLoader, FXMLLoader addItemsLoader, FXMLLoader deleteItemsLoader, FXMLLoader findItemsByIDLoader, FXMLLoader updateItemLoader, FXMLLoader itemsListLoader) {
         this.config = config;
         this.loginLoader = loginLoader;
         this.welcomeLoader = welcomeLoader;
         this.purchasesLoader = purchasesLoader;
         this.datePurchasesLoader = datePurchasesLoader;
         this.deletePurchasesLoader = deleteLoader;
+        this.customerListLoader = customerListLoader;
         this.addCustomerLoader = addCustomerLoader;
         this.findCustomerLoader = findCustomerLoader;
         this.deleteCustomerLoader = deleteCustomerLoader;
@@ -184,7 +189,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadPurchases() {
         try {
-            purchases = purchasesLoader.load(getClass().getResourceAsStream("/fxml/purchases/FXMLPurchases.fxml"));
+            purchases = purchasesLoader.load(getClass().getResourceAsStream("/fxml/purchases/FXMLAddPurchases.fxml"));
             purchasesController = purchasesLoader.getController();
             purchasesController.setPrincipal(this);
         } catch (IOException ex) {
@@ -213,6 +218,18 @@ public class FXMLPrincipalController implements Initializable {
 
     }
 
+
+    public void preloadCustomerList() {
+        try {
+            customerList = customerListLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLCustomerList.fxml"));
+            customerListController = customerListLoader.getController();
+            customerListController.setPrincipal(this);
+
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void preloadAddCustomer() {
         try {
             addCustomer = addCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLAddCustomer.fxml"));
@@ -227,7 +244,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadFindCustomer() {
         try {
-            findCustomer = findCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLfindCustomer.fxml"));
+            findCustomer = findCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLFindCustomer.fxml"));
             findCustomerController = findCustomerLoader.getController();
 
         } catch (IOException ex) {
@@ -238,7 +255,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadDeleteCustomer() {
         try {
-            deleteCustomer = deleteCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLdeleteCustomer.fxml"));
+            deleteCustomer = deleteCustomerLoader.load(getClass().getResourceAsStream("/fxml/customers/FXMLDeleteCustomer.fxml"));
             deleteCustomerController = deleteCustomerLoader.getController();
             deleteCustomerController.setPrincipalController(this);
         } catch (IOException ex) {
@@ -261,7 +278,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadFindReview() {
         try {
-            findReview = findReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLfindReview.fxml"));
+            findReview = findReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLFindReview.fxml"));
             findReviewController = findReviewLoader.getController();
             findReviewController.setPrincipalController(this);
 
@@ -273,7 +290,7 @@ public class FXMLPrincipalController implements Initializable {
 
     public void preloadDeleteReview() {
         try {
-            deleteReview = deleteReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLdeleteReview.fxml"));
+            deleteReview = deleteReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLDeleteReview.fxml"));
             deleteReviewController = deleteReviewLoader.getController();
 
         } catch (IOException ex) {
@@ -383,8 +400,12 @@ public class FXMLPrincipalController implements Initializable {
         fxRoot.setCenter(deletePurchases);
     }
 
+    public void chargeCustomerList() {
+        customerListController.loadCustomers(servicesCustomers.getAll());
+        fxRoot.setCenter(customerList);
+    }
+
     public void chargeAddCustomer() {
-        addCustomerController.loadCustomersList(servicesCustomers.getAll());
         fxRoot.setCenter(addCustomer);
     }
 
@@ -447,6 +468,7 @@ public class FXMLPrincipalController implements Initializable {
         preloadDatePurchases();
         preloadDeletePurchases();
 
+        preloadCustomerList();
         preloadAddCustomer();
         preloadFindCustomer();
         preloadDeleteCustomer();
@@ -464,6 +486,5 @@ public class FXMLPrincipalController implements Initializable {
         chargeLogin();
 
     }
-
 
 }

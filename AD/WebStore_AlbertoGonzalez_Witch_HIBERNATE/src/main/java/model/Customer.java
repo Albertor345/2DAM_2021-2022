@@ -18,12 +18,18 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllCustomers",
+                query = "from Customer"
+        )
+})
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "customers")
+@Entity
 @Table(name = "customers", schema = "alberto_WebStore", catalog = "")
 public class Customer {
     @Id

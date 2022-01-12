@@ -17,6 +17,7 @@ import java.time.LocalDate;
         @NamedQuery(
                 name = "getAllReviewsByItem",
                 query = "from Review where sale.item.id = :id"
+
         ),
         @NamedQuery(
                 name = "orderReviewsAscRating",

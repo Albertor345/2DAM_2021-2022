@@ -28,8 +28,7 @@ public class FXMLAddCustomerController implements Initializable {
     private TextField phoneBox;
     @FXML
     private TextField addressBox;
-    @FXML
-    private ListView customerList;
+
 
     private FXMLPrincipalController principalController;
     private Alert alert;
@@ -42,21 +41,11 @@ public class FXMLAddCustomerController implements Initializable {
                 .address(addressBox.getText())
                 .build();
         if (principalController.getServicesCustomers().add(customer)) {
-            customerList.getItems().add(customer);
-            customerList.refresh();
-
             alert("Success", "The customer has been added", Alert.AlertType.CONFIRMATION);
         } else {
             alert("Invalid", "There's been an error while adding the customer, try it later", Alert.AlertType.ERROR);
         }
         clear();
-    }
-
-    public void loadCustomersList(List<Customer> customers) {
-        if (!customerList.getItems().isEmpty()) {
-            customerList.getItems().clear();
-        }
-        customerList.getItems().addAll(customers);
     }
 
     private void clear(){

@@ -33,7 +33,11 @@ public class DaoCustomersHibernateImpl implements DAOCustomers {
 
     @Override
     public Customer get(Customer customer) {
-        /*Constantes.SELECT_CUSTOMER_QUERY*/
+        try (Session session = hibernateConfig.getSession()) {
+            customer = session.createNamedQuery("getCustomer", Customer.class).getSingleResult();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
         return customer;
     }
 

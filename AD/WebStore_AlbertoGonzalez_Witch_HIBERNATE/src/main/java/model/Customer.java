@@ -22,6 +22,10 @@ import java.util.Objects;
         @NamedQuery(
                 name = "getAllCustomers",
                 query = "from Customer"
+        ),
+        @NamedQuery(
+                name = "getCustomer",
+                query = "from Customer c where c.id = :id"
         )
 })
 

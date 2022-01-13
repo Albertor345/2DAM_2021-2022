@@ -10,6 +10,7 @@ import model.Sale;
 
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -36,10 +37,10 @@ public class FXMLSalesListController implements Initializable {
     @FXML
     private void orderPurchasesBy(ActionEvent actionEvent) {
         switch (comboBoxOrderBy.getSelectionModel().getSelectedItem()) {
-            case "Item":
+            case "Items":
                 loadSalesOrderedBy(true);
                 break;
-            case "Customer":
+            case "Customers":
                 loadSalesOrderedBy(false);
                 break;
             case "Date":
@@ -55,10 +56,10 @@ public class FXMLSalesListController implements Initializable {
     }
 
     private void loadOrderedByDate() {
-        Date initDate = Date.valueOf(datePickerInitialDate.getValue());
-        Date finalDate = Date.valueOf(datePickerFinalDate.getValue());
+        LocalDate initDate = datePickerInitialDate.getValue();
+        LocalDate finalDate = datePickerFinalDate.getValue();
         if (initDate != null && finalDate != null) {
-            if (!finalDate.before(initDate)) {
+            if (!finalDate.isBefore(initDate)) {
                 loadPurchasesList(principalController.getServicesSales().getAllOrderedByDate(initDate, finalDate));
             } else {
                 alert("Warning", "Final date cannot be before the initial date", Alert.AlertType.WARNING);

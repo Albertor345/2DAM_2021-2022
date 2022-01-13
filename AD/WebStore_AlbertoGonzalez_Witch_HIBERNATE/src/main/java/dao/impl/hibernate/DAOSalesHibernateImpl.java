@@ -7,6 +7,7 @@ import model.Sale;
 import org.hibernate.Session;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,21 +40,30 @@ public class DAOSalesHibernateImpl implements DAOSales {
 
     @Override
     public List<Sale> getAllOrderedBy(boolean order) {
-        List<Sale> reviews = new ArrayList<>();
+        List<Sale> sales = new ArrayList<>();
         String orderBy = order ? "Item" : "Customer";
         String query = "getAllSalesOrderBy" + orderBy;
         try (Session session = hibernateConfig.getSession()) {
-            reviews = session.createNamedQuery(query, Sale.class)
+            sales = session.createNamedQuery(query, Sale.class)
                     .getResultList();
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-        return reviews;
+        return sales;
     }
 
     @Override
-    public List<Sale> getAllOrderedByDate(Date initialDate, Date finalDate) {
-        return null;
+    public List<Sale> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate) {
+        List<Sale> sales = new ArrayList<>();
+        try (Session session = hibernateConfig.getSession()) {
+            sales = session.createNamedQuery("getAllSalesOrderByDate", Sale.class)
+                    .setParameter("initDate", initialDate)
+                    .setParameter("finalDate", finalDate)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return sales;
     }
 
     @Override

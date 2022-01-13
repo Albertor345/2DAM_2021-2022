@@ -7,6 +7,7 @@ package dao;
 
 import model.Sale;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface DAOSales {
 
     List<Sale> getAllOrderedBy(boolean orderBy);
 
-    List<Sale> getAllOrderedByDate(Date initialDate, Date finalDate);
+    List<Sale> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate);
      
     boolean add(Sale t);
      

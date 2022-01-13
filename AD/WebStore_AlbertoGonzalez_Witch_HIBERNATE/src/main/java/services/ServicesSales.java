@@ -2,6 +2,7 @@ package services;
 
 import model.Sale;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface ServicesSales {
 
     List<Sale> getAllOrderedBy(boolean orderBy);
 
-    List<Sale> getAllOrderedByDate(Date initialDate, Date finalDate);
+    List<Sale> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate);
 
     Sale get(int id);
 }

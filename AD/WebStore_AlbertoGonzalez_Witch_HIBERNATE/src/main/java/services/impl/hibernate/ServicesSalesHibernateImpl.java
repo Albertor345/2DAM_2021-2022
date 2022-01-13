@@ -10,6 +10,7 @@ import model.Sale;
 import services.ServicesSales;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ServicesSalesHibernateImpl implements ServicesSales {
     }
 
     @Override
-    public List<Sale> getAllOrderedByDate(Date initialDate, Date finalDate) {
+    public List<Sale> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate) {
         return daoSales.getAllOrderedByDate(initialDate, finalDate);
     }
 

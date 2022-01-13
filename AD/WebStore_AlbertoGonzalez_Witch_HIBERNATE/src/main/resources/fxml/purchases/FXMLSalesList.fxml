@@ -14,8 +14,8 @@
         </TableView>
         <ComboBox fx:id="comboBoxOrderBy" layoutX="385.0" layoutY="101.0" onAction="#orderPurchasesBy" prefWidth="150.0" />
         <Label layoutX="385.0" layoutY="84.0" text="Order By:" />
-        <DatePicker fx:id="datePickerInitialDate" disable="true" layoutX="404.0" layoutY="276.0" />
-        <DatePicker fx:id="datePickerFinalDate" disable="true" layoutX="404.0" layoutY="333.0" />
+        <DatePicker fx:id="datePickerInitialDate" layoutX="404.0" layoutY="276.0" onAction="#orderPurchasesBy" />
+        <DatePicker fx:id="datePickerFinalDate" layoutX="404.0" layoutY="333.0" onAction="#orderPurchasesBy" />
         <Label layoutX="404.0" layoutY="260.0" text="Init date:" />
         <Label layoutX="404.0" layoutY="315.0" text="Final date:" />
     </children>

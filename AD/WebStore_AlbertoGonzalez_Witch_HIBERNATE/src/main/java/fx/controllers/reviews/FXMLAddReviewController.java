@@ -25,7 +25,7 @@ public class FXMLAddReviewController implements Initializable {
     @FXML
     private ListView<Customer> customerList;
     @FXML
-    private ListView<Sale> purchaseList;
+    private ListView<Sale> saleList;
     @FXML
     private ComboBox<Integer> ratingBox;
     @FXML
@@ -39,23 +39,24 @@ public class FXMLAddReviewController implements Initializable {
     public void loadPurchasesFromCustomer(MouseEvent mouseEvent) {
         Customer selectedCustomer = customerList.getSelectionModel().getSelectedItem();
         if (selectedCustomer != null) {
-            purchaseList.getItems().clear();
-            purchaseList.getItems().addAll(principal.getServicesSales().getAll()
+            saleList.getItems().clear();
+            saleList.getItems().addAll(principal.getServicesSales().getAll()
                     .stream().filter(purchase -> purchase.getCustomer().getId() == selectedCustomer.getId())
                     .collect(Collectors.toList()));
         }
     }
 
     public void addReview() {
-        if (purchaseList.getSelectionModel().getSelectedItem() != null && customerList.getSelectionModel().getSelectedItem() != null) {
+        if (saleList.getSelectionModel().getSelectedItem() != null && customerList.getSelectionModel().getSelectedItem() != null) {
             Review review = Review.builder()
                     .title(titleBox.getText())
                     .rating(ratingBox.getSelectionModel().getSelectedItem())
                     .review(textBox.getText())
-                    .sale(purchaseList.getSelectionModel().getSelectedItem())
+                    .sale(saleList.getSelectionModel().getSelectedItem())
+                    .customer(customerList.getSelectionModel().getSelectedItem())
                     .date(LocalDate.now()).build();
 
-             if(principal.getServicesReviews().add(review) != null){
+             if(principal.getServicesReviews().add(review)){
                  alert("Success", "Review added", Alert.AlertType.CONFIRMATION);
                  clear();
              }
@@ -66,7 +67,7 @@ public class FXMLAddReviewController implements Initializable {
     }
 
     private void clear() {
-        purchaseList.getSelectionModel().clearSelection();
+        saleList.getSelectionModel().clearSelection();
         customerList.getSelectionModel().clearSelection();
         ratingBox.getSelectionModel().clearSelection();
         textBox.clear();

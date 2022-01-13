@@ -51,8 +51,8 @@ public class Customer {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Sale> sales;
 
-    @OneToOne(mappedBy = "customer", fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private User user;
 
     @Override

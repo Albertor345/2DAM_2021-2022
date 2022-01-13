@@ -8,6 +8,7 @@ import model.User;
 import org.hibernate.Session;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +35,11 @@ public class DaoCustomersHibernateImpl implements DAOCustomers {
     @Override
     public Customer get(Customer customer) {
         try (Session session = hibernateConfig.getSession()) {
-            customer = session.createNamedQuery("getCustomer", Customer.class).getSingleResult();
-        } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
+            customer = session.createNamedQuery("getCustomer", Customer.class).setParameter("id", customer.getId()).getSingleResult();
+        } catch (NoResultException ex) {
+            customer = null;
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
         }
         return customer;
     }
@@ -54,15 +57,26 @@ public class DaoCustomersHibernateImpl implements DAOCustomers {
 
     @Override
     public boolean add(Customer customer) {
-      /* Constantes.INSERT_USER_QUERY
-    Constantes.INSERT_CUSTOMER_QUERY*/
-        return true;
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+            User user = User.builder().password(customer.getName()).name(customer.getName()).customer(customer).build();
+            customer.setUser(user);
+
+            int id = (Integer) session.save(user);
+            user.setId(id);
+            customer.setId(id);
+            session.save(customer);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return false;
+        }
     }
 
     @Override
     public boolean update(Customer customer) {
-        /*Constantes.UPDATE_CUSTOMER_QUERY*/
-        return true;
+        return false;
     }
 
     @Override

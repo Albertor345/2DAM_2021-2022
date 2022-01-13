@@ -15,6 +15,11 @@ import java.time.LocalDate;
 
 @NamedQueries({
         @NamedQuery(
+                name = "getAllReviews",
+                query = "from Review"
+
+        ),
+        @NamedQuery(
                 name = "getAllReviewsByItem",
                 query = "from Review where sale.item.id = :id"
 
@@ -54,6 +59,7 @@ public class Review {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_sale", referencedColumnName = "id")
     private Sale sale;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_customer", referencedColumnName = "id")
     private Customer customer;

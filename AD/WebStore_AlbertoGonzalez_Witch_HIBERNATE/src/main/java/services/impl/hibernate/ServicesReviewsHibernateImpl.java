@@ -28,8 +28,8 @@ public class ServicesReviewsHibernateImpl implements ServicesReviews {
     }
 
     @Override
-    public List<Review> getAll(boolean isAdmin) {
-        return daoReviews.getAll(isAdmin);
+    public List<Review> getAll() {
+        return daoReviews.getAll();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ServicesReviewsHibernateImpl implements ServicesReviews {
     }
 
     @Override
-    public Review add(Review review) {
+    public boolean add(Review review) {
         return daoReviews.add(review);
     }
 

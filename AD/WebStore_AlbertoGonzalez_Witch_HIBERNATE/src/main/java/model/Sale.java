@@ -56,7 +56,7 @@ public class Sale {
 
     private LocalDate date;
 
-    @OneToMany(mappedBy = "sale")
+    @OneToMany(mappedBy = "sale", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     public Collection<Review> reviews;
 

@@ -31,10 +31,8 @@ public class FXMLAddItemsController implements Initializable {
 
     @FXML
     private void addItem(ActionEvent actionEvent) {
-        List<Item> items = principal.getServicesItems().getAll();
         try {
             Item item = Item.builder()
-                    .id(items.size())
                     .name(textFieldName.getText())
                     .company(textFieldCompany.getText())
                     .price(Double.parseDouble(textFieldPrice.getText()))

@@ -48,8 +48,6 @@ public class ServicesCustomersHibernateImpl implements ServicesCustomers {
 
     @Override
     public boolean add(Customer customer) {
-        List<Customer> customers = getAll();
-        customer.setId(customers.size());
         return daoCustomers.add(customer);
     }
 }

@@ -3,13 +3,14 @@ package dao.impl.hibernate;
 import configuration.HibernateConfig;
 import dao.DAOItems;
 import lombok.extern.log4j.Log4j2;
+import model.Customer;
 import model.Item;
 import org.hibernate.Session;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Log4j2
 public class DaoItemsHibernateImpl implements DAOItems {
@@ -23,15 +24,32 @@ public class DaoItemsHibernateImpl implements DAOItems {
 
     @Override
     public boolean update(Item item) {
-        /*Constantes.UPDATE_ITEM_QUERY*/
-        return false;
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+            Item itemFromDatabase = get(item);
+            itemFromDatabase.setCompany(item.getCompany());
+            itemFromDatabase.setName(item.getName());
+            itemFromDatabase.setPrice(item.getPrice());
+            session.update(itemFromDatabase);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return false;
+        }
     }
 
     @Override
     public boolean add(Item item) {
-
-        /*Constantes.INSERT_ITEM_QUERY*/
-        return false;
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+            session.save(item);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return false;
+        }
     }
 
     @Override
@@ -42,14 +60,25 @@ public class DaoItemsHibernateImpl implements DAOItems {
 
     @Override
     public boolean deleteAllPurchasesFromAnItem(Item item) {
-        /*Constantes.DELETE_SALES_FROM_ITEM
-        Constantes.DELETE_ITEM_QUERY*/
-        return true;
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+
+            item = session.createNamedQuery("getItem", Item.class).setParameter("id", item.getId()).getSingleResult();
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+        }
+        return item;
     }
 
     @Override
     public Item get(Item item) {
-        /*Constantes.SELECT_ITEM_QUERY*/
+        try (Session session = hibernateConfig.getSession()) {
+            item = session.createNamedQuery("getItem", Item.class).setParameter("id", item.getId()).getSingleResult();
+        } catch (NoResultException ex) {
+            item = null;
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+        }
         return item;
     }
 

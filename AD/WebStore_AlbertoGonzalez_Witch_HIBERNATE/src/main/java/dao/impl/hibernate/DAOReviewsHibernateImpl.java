@@ -30,9 +30,15 @@ public class DAOReviewsHibernateImpl implements DAOReviews {
     }
 
     @Override
-    public List<Review> getAll(boolean isAdmin) {
-        String query = isAdmin ? Constantes.SELECT_ALL_REVIEWS_QUERY : Constantes.SELECT_REVIEWS_FROM_CUSTOMER;
-        return Collections.emptyList();
+    public List<Review> getAll() {
+        List<Review> reviews = new ArrayList<>();
+        try (Session session = hibernateConfig.getSession()) {
+            reviews = session.createNamedQuery("getAllReviews", Review.class)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return reviews;
 
     }
 
@@ -50,9 +56,16 @@ public class DAOReviewsHibernateImpl implements DAOReviews {
     }
 
     @Override
-    public Review add(Review review) {
-        /*Constantes.INSERT_REVIEW_QUERY*/
-        return review;
+    public boolean add(Review review) {
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+            session.save(review);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return false;
+        }
     }
 
     @Override

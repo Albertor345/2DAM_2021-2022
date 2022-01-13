@@ -26,8 +26,7 @@ public class User {
     private int id;
     private String name;
     private String password;
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "user" ,fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
     private Customer customer;
 }

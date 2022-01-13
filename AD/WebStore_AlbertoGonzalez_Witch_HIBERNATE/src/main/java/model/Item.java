@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +20,10 @@ import java.util.Objects;
         @NamedQuery(
                 name = "getAllItems",
                 query = "from Item"
+        ),
+        @NamedQuery(
+                name = "getItem",
+                query = "from Item where id = :id"
         ),
         @NamedQuery(
                 name = "select_Price_AvgRating_NSales_FromItem_LastMonth",
@@ -44,7 +49,7 @@ public class Item {
     private String company;
     private double price;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", orphanRemoval = true)
     private List<Sale> sales;
 
     public Item() {

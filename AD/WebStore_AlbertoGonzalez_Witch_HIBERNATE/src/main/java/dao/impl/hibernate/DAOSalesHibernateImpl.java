@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Log4j2
@@ -68,8 +67,15 @@ public class DAOSalesHibernateImpl implements DAOSales {
 
     @Override
     public boolean add(Sale sale) {
-        /*Constantes.INSERT_PURCHASE_QUERY*/
-        return false;
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+            session.save(sale);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return false;
+        }
     }
 
     @Override

@@ -17,11 +17,11 @@ public interface DAOReviews {
 
     Review get(Review review);
 
-    List<Review> getAll(boolean isAdmin);
+    List<Review> getAll();
 
     List<Review> getReviewsByItem(Item item);
 
-    Review add(Review t);
+    boolean add(Review t);
 
     boolean update(Review t);
 

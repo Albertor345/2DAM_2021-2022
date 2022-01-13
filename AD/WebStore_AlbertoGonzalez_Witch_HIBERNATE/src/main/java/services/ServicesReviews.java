@@ -8,11 +8,11 @@ import java.util.List;
 public interface ServicesReviews {
     List<Review> orderBy(Item item, boolean order, boolean column);
 
-    Review add(Review review);
+    boolean add(Review review);
 
     List<Review> getReviewsByItem(Item item);
 
-    List<Review> getAll(boolean isAdmin);
+    List<Review> getAll();
 
     boolean delete(Review review);
 

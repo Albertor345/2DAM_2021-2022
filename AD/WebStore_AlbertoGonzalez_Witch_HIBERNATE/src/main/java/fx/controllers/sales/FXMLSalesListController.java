@@ -42,8 +42,10 @@ public class FXMLSalesListController implements Initializable {
             case "Customer":
                 loadSalesOrderedBy(false);
                 break;
-            default:
+            case "Date":
                 loadOrderedByDate();
+                break;
+            default:
                 break;
         }
     }
@@ -55,10 +57,14 @@ public class FXMLSalesListController implements Initializable {
     private void loadOrderedByDate() {
         Date initDate = Date.valueOf(datePickerInitialDate.getValue());
         Date finalDate = Date.valueOf(datePickerFinalDate.getValue());
-        if (!finalDate.before(initDate)) {
-            loadPurchasesList(principalController.getServicesSales().getAllOrderedByDate(initDate, finalDate));
-        } else {
-            alert("Warning", "Final date cannot be before the initial date", Alert.AlertType.WARNING);
+        if (initDate != null && finalDate != null) {
+            if (!finalDate.before(initDate)) {
+                loadPurchasesList(principalController.getServicesSales().getAllOrderedByDate(initDate, finalDate));
+            } else {
+                alert("Warning", "Final date cannot be before the initial date", Alert.AlertType.WARNING);
+            }
+        }else{
+            alert("Warning", "Choose the dates in between the purchases are located", Alert.AlertType.WARNING);
         }
     }
 
@@ -93,6 +99,7 @@ public class FXMLSalesListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         alert = new Alert(Alert.AlertType.CONFIRMATION);
+        comboBoxOrderBy.getItems().addAll("Items","Customers","Date");
         tableColumnCustomer.setCellValueFactory(new PropertyValueFactory<>("customer"));
         tableColumnItem.setCellValueFactory(new PropertyValueFactory<>("item"));
         tableColumnDate.setCellValueFactory(new PropertyValueFactory<>("date"));

@@ -6,7 +6,7 @@
 package services.impl.hibernate;
 
 import dao.DAOItems;
-import dao.DAOPurchases;
+import dao.DAOSales;
 import model.Item;
 import model.Sale;
 import services.ServicesItems;
@@ -19,12 +19,12 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ServicesItemsHibernateImpl implements ServicesItems {
 
     private DAOItems daoItems;
-    private DAOPurchases daoPurchases;
+    private DAOSales daoSales;
 
     @Inject
-    public ServicesItemsHibernateImpl(DAOItems daoItems, DAOPurchases daoPurchases) {
+    public ServicesItemsHibernateImpl(DAOItems daoItems, DAOSales daoSales) {
         this.daoItems = daoItems;
-        this.daoPurchases = daoPurchases;
+        this.daoSales = daoSales;
     }
 
     public boolean add(Item item) {
@@ -70,7 +70,7 @@ public class ServicesItemsHibernateImpl implements ServicesItems {
 
     @Override
     public boolean checkItemPurchases(Item item) {
-        List<Sale> purchaseList = daoPurchases.getAll();
+        List<Sale> purchaseList = daoSales.getAll();
         return purchaseList.stream()
                 .map(purchase -> purchase.getItem().getId())
                 .anyMatch(itemID -> item.getId() == itemID);

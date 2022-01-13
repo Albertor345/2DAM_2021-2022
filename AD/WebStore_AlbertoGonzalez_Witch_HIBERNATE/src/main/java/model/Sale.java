@@ -23,15 +23,15 @@ import java.util.Collection;
         ),
         @NamedQuery(
                 name = "getAllSalesOrderByItem",
-                query = "from Sale order by item.id"
+                query = "from Sale order by item.name"
         ),
         @NamedQuery(
                 name = "getAllSalesOrderByCustomer",
-                query = "from Sale order by customer.id asc "
+                query = "from Sale order by customer.name asc "
         ),
         @NamedQuery(
                 name = "getAllSalesOrderByDate",
-                query = "from Sale where date >= :date order by date asc"
+                query = "from Sale where date between :initDate and :finalDate order by date asc"
         )
 })
 

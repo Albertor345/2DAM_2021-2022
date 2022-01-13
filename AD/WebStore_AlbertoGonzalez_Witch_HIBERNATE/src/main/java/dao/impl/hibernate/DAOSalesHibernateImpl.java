@@ -1,23 +1,22 @@
 package dao.impl.hibernate;
 
 import configuration.HibernateConfig;
-import dao.DAOPurchases;
+import dao.DAOSales;
 import lombok.extern.log4j.Log4j2;
-import model.Item;
 import model.Sale;
 import org.hibernate.Session;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Log4j2
-public class DAOPurchasesHibernateImpl implements DAOPurchases {
+public class DAOSalesHibernateImpl implements DAOSales {
     private final HibernateConfig hibernateConfig;
 
     @Inject
-    public DAOPurchasesHibernateImpl(HibernateConfig hibernateConfig) {
+    public DAOSalesHibernateImpl(HibernateConfig hibernateConfig) {
         this.hibernateConfig = hibernateConfig;
     }
 
@@ -36,6 +35,25 @@ public class DAOPurchasesHibernateImpl implements DAOPurchases {
             log.error(ex.getMessage(), ex);
         }
         return sales;
+    }
+
+    @Override
+    public List<Sale> getAllOrderedBy(boolean order) {
+        List<Sale> reviews = new ArrayList<>();
+        String orderBy = order ? "Item" : "Customer";
+        String query = "getAllSalesOrderBy" + orderBy;
+        try (Session session = hibernateConfig.getSession()) {
+            reviews = session.createNamedQuery(query, Sale.class)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return reviews;
+    }
+
+    @Override
+    public List<Sale> getAllOrderedByDate(Date initialDate, Date finalDate) {
+        return null;
     }
 
     @Override

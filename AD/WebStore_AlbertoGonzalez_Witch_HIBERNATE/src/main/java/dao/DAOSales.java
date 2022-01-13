@@ -7,13 +7,18 @@ package dao;
 
 import model.Sale;
 
+import java.util.Date;
 import java.util.List;
 
-public interface DAOPurchases {
+public interface DAOSales {
 
     Sale get(Sale sale);
      
     List<Sale> getAll();
+
+    List<Sale> getAllOrderedBy(boolean orderBy);
+
+    List<Sale> getAllOrderedByDate(Date initialDate, Date finalDate);
      
     boolean add(Sale t);
      

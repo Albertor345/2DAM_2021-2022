@@ -16,6 +16,24 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllSales",
+                query = "from Sale "
+        ),
+        @NamedQuery(
+                name = "getAllSalesOrderByItem",
+                query = "from Sale order by item.id"
+        ),
+        @NamedQuery(
+                name = "getAllSalesOrderByCustomer",
+                query = "from Sale order by customer.id asc "
+        ),
+        @NamedQuery(
+                name = "getAllSalesOrderByDate",
+                query = "from Sale where date >= :date order by date asc"
+        )
+})
 
 @Getter
 @Setter

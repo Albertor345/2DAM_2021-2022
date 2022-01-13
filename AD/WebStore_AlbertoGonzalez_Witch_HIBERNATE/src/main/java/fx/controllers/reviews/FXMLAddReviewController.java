@@ -40,7 +40,7 @@ public class FXMLAddReviewController implements Initializable {
         Customer selectedCustomer = customerList.getSelectionModel().getSelectedItem();
         if (selectedCustomer != null) {
             purchaseList.getItems().clear();
-            purchaseList.getItems().addAll(principal.getServicesPurchases().getAll()
+            purchaseList.getItems().addAll(principal.getServicesSales().getAll()
                     .stream().filter(purchase -> purchase.getCustomer().getId() == selectedCustomer.getId())
                     .collect(Collectors.toList()));
         }

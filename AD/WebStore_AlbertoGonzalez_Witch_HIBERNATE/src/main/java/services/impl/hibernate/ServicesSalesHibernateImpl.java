@@ -7,17 +7,17 @@ package services.impl.hibernate;
 
 import dao.DAOPurchases;
 import model.Sale;
-import services.ServicesPurchases;
+import services.ServicesSales;
 
 import javax.inject.Inject;
 import java.util.List;
 
-public class ServicesPurchasesHibernateImpl implements ServicesPurchases {
+public class ServicesSalesHibernateImpl implements ServicesSales {
 
     private DAOPurchases daoPurchases;
 
     @Inject
-    public ServicesPurchasesHibernateImpl(DAOPurchases daoPurchases) {
+    public ServicesSalesHibernateImpl(DAOPurchases daoPurchases) {
         this.daoPurchases = daoPurchases;
     }
 

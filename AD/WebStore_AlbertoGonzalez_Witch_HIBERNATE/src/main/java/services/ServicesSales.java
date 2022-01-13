@@ -4,7 +4,7 @@ import model.Sale;
 
 import java.util.List;
 
-public interface ServicesPurchases {
+public interface ServicesSales {
 
     boolean add(Sale purchase);
 

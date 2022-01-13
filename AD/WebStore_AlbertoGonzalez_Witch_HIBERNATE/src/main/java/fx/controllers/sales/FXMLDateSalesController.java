@@ -20,7 +20,7 @@ import javafx.scene.control.ListView;
  *
  * @author Laura
  */
-public class FXMLDatePurchasesController implements Initializable {
+public class FXMLDateSalesController implements Initializable {
 
     @FXML
     private DatePicker dateBox;

@@ -3,9 +3,12 @@ package dao.impl.hibernate;
 import configuration.HibernateConfig;
 import dao.DAOPurchases;
 import lombok.extern.log4j.Log4j2;
+import model.Item;
 import model.Sale;
+import org.hibernate.Session;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,8 +29,13 @@ public class DAOPurchasesHibernateImpl implements DAOPurchases {
 
     @Override
     public List<Sale> getAll() {
-        /*Constantes.SELECT_ALL_PURCHASES_QUERY*/
-        return Collections.emptyList();
+        List<Sale> sales = new ArrayList<>();
+        try (Session session = hibernateConfig.getSession()) {
+            sales = session.createNamedQuery("getAllSales", Sale.class).getResultList();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return sales;
     }
 
     @Override

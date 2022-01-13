@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
 import model.Customer;
 import model.Item;
 import model.Sale;
@@ -23,7 +22,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 
-public class FXMLAddPurchasesController implements Initializable {
+public class FXMLAddSaleController implements Initializable {
     FXMLPrincipalController principalController;
     Alert alert;
     @FXML
@@ -40,12 +39,12 @@ public class FXMLAddPurchasesController implements Initializable {
         Customer customer = customerBox.getSelectionModel().getSelectedItem();
         if (item != null && customer != null) {
             Sale sale = Sale.builder()
-                    .id(principalController.getServicesPurchases().getAll().size())
+                    .id(principalController.getServicesSales().getAll().size())
                     .customer(customer)
                     .item(item)
                     .date(dateBox.getValue()).build();
 
-            if (principalController.getServicesPurchases().add(sale)) {
+            if (principalController.getServicesSales().add(sale)) {
                 alert("Success", "Purchase added successfully", Alert.AlertType.INFORMATION);
                 clear();
             } else {
@@ -54,7 +53,7 @@ public class FXMLAddPurchasesController implements Initializable {
         }
     }
 
-    public void load(List<Sale> sales, List<Item> items, List<Customer> customers) {
+    public void load(List<Item> items, List<Customer> customers) {
         if (principalController.isAdmin()) {
             loadCustomersList(customers);
         } else {

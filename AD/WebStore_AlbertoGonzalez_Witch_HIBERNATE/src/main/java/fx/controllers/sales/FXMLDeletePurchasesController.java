@@ -27,7 +27,7 @@ public class FXMLDeletePurchasesController implements Initializable {
     private void deletePurchase() {
         Sale sale = purchaseBox.getSelectionModel().getSelectedItem();
         if (sale != null) {
-            if (principalController.getServicesPurchases().delete(sale)) {
+            if (principalController.getServicesSales().delete(sale)) {
                 alert("Success", "Purchase deleted", Alert.AlertType.WARNING);
                 purchaseBox.getItems().remove(sale);
                 purchaseBox.refresh();

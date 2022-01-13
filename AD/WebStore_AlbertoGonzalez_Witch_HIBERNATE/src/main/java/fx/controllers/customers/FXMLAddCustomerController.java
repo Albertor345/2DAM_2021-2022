@@ -17,9 +17,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * FXML Controller class
- */
 public class FXMLAddCustomerController implements Initializable {
 
     @FXML

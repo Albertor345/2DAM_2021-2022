@@ -1,18 +1,16 @@
 package fx.controllers.customers;
 
 import fx.controllers.FXMLPrincipalController;
-import fx.controllers.sales.FXMLPurchasesListController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 import model.Customer;
 
-import javax.inject.Inject;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,26 +27,30 @@ public class FXMLCustomerListController implements Initializable {
     @FXML
     private TextField textFieldAddress;
 
-    private Stage stage;
-    private BorderPane stageBorderPane;
-
-    private FXMLLoader fxmlLoaderPurchasesList;
-    private AnchorPane purchasesList;
-    private FXMLPurchasesListController purchasesListController;
-
     private FXMLPrincipalController principal;
     private Alert alert;
 
-    @Inject
-    public FXMLCustomerListController(FXMLLoader fxmlLoaderPurchasesList) {
-        this.fxmlLoaderPurchasesList = fxmlLoaderPurchasesList;
+
+    @FXML
+    private void loadCustomerData(MouseEvent mouseEvent) {
+        Customer customer = tableViewCustomers.getSelectionModel().getSelectedItem();
+        if (customer != null) {
+            textFieldPhone.setText(customer.getPhone());
+            textFieldAddress.setText(customer.getAddress());
+        }
     }
 
     public void loadCustomers(List<Customer> customerList) {
+        clear();
         if (!tableViewCustomers.getItems().isEmpty()) {
             tableViewCustomers.getItems().clear();
         }
         tableViewCustomers.getItems().addAll(customerList);
+    }
+
+    private void clear() {
+        textFieldPhone.clear();
+        textFieldAddress.clear();
     }
 
     public void setPrincipal(FXMLPrincipalController principal) {

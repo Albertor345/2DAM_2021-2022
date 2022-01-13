@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
-import model.Customer;
-import model.Item;
 import model.Sale;
 
 import java.net.URL;
@@ -14,7 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class FXMLPurchasesListController implements Initializable {
+public class FXMLSalesListController implements Initializable {
 
     FXMLPrincipalController principalController;
     Alert alert;
@@ -23,7 +21,7 @@ public class FXMLPurchasesListController implements Initializable {
 
     public void load(List<Sale> sales) {
         if (principalController.isAdmin()) {
-            loadPurchasesList(principalController.getServicesPurchases().getAll());
+            loadPurchasesList(principalController.getServicesSales().getAll());
         } else {
             loadPurchasesList(sales.stream()
                     .filter(purchase -> purchase.getCustomer().getId() == principalController.getUser().getId())

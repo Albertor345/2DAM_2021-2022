@@ -4,21 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #eeeeee;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controllers.customers.FXMLAddCustomerController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="360.0" style="-fx-background-color: #eeeeee;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controllers.customers.FXMLAddCustomerController">
    <children>
-      <ListView fx:id="customerList" layoutX="29.0" layoutY="89.0" prefHeight="280.0" prefWidth="370.0" />
-      <TextField fx:id="nameBox" layoutX="426.0" layoutY="114.0" />
-      <Button layoutX="441.0" layoutY="320.0" mnemonicParsing="false" onAction="#addCustomer" text="Save new customer" />
-      <Label layoutX="425.0" layoutY="97.0" text="Name" />
-      <Label layoutX="427.0" layoutY="155.0" text="Telephone" />
-      <Label layoutX="29.0" layoutY="73.0" text="Customer list:" />
-      <Label layoutX="29.0" layoutY="38.0" text="ADD A NEW CUSTOMER" textFill="#000000bb">
+      <TextField fx:id="nameBox" layoutX="113.0" layoutY="114.0" />
+      <Button layoutX="130.0" layoutY="291.0" mnemonicParsing="false" onAction="#addCustomer" text="Save new customer" />
+      <Label layoutX="113.0" layoutY="97.0" text="Name" />
+      <Label layoutX="113.0" layoutY="156.0" text="Telephone" />
+      <Label layoutX="83.0" layoutY="46.0" text="ADD A NEW CUSTOMER" textFill="#000000bb">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="phoneBox" layoutX="426.0" layoutY="173.0" />
-      <Label layoutX="429.0" layoutY="212.0" text="Address" />
-      <TextField fx:id="addressBox" layoutX="426.0" layoutY="229.0" />
+      <TextField fx:id="phoneBox" layoutX="113.0" layoutY="173.0" />
+      <Label layoutX="114.0" layoutY="212.0" text="Address" />
+      <TextField fx:id="addressBox" layoutX="113.0" layoutY="229.0" />
    </children>
 </AnchorPane>

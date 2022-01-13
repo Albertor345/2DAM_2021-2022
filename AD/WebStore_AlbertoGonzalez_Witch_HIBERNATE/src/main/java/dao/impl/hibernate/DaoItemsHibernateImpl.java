@@ -55,7 +55,6 @@ public class DaoItemsHibernateImpl implements DAOItems {
 
     @Override
     public List<Item> getAll() {
-        /*Constantes.SELECT_ALL_ITEMS_QUERY*/
         List<Item> items = new ArrayList<>();
         try (Session session = hibernateConfig.getSession()) {
             items = session.createNamedQuery("getAllItems", Item.class).getResultList();

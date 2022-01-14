@@ -37,7 +37,7 @@ public class FXMLDeleteItemsController implements Initializable {
                         listViewItems.refresh();
                         alert("Success", "The item has been deleted alongside its related purchases", Alert.AlertType.INFORMATION);
                     } else {
-                        alert("Error", "There's been an error while deleting the item, try it again later", Alert.AlertType.ERROR);
+                        alert("Error", "The item has reviews or there's been an unexpected problem", Alert.AlertType.ERROR);
                     }
                 } else {
                     alert("Aborted", "Task aborted", Alert.AlertType.INFORMATION);

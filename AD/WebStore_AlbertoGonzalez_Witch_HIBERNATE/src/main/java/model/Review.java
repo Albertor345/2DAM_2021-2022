@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @NamedQueries({
         @NamedQuery(
@@ -22,6 +23,11 @@ import java.time.LocalDate;
         @NamedQuery(
                 name = "getAllReviewsByItem",
                 query = "from Review where sale.item.id = :id"
+
+        ),
+        @NamedQuery(
+                name = "getAllReviewsByCustomer",
+                query = "from Review where customer.id = :id"
 
         ),
         @NamedQuery(
@@ -70,4 +76,16 @@ public class Review {
         return "No. " + id + "  Item: " + sale.getItem().getName() + "  Rating: " + rating + "\nTitle: " + title + "\nComment: " + review + "\nDate: " + date + "\n____________________________________________________________\n";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return id == review.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

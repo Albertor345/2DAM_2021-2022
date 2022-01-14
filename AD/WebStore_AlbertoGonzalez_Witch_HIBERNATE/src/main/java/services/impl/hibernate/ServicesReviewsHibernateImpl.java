@@ -6,6 +6,7 @@
 package services.impl.hibernate;
 
 import dao.DAOReviews;
+import model.Customer;
 import model.Item;
 import model.Review;
 import services.ServicesReviews;
@@ -53,6 +54,11 @@ public class ServicesReviewsHibernateImpl implements ServicesReviews {
 
     public boolean update(Review review) {
         return daoReviews.update(review);
+    }
+
+    @Override
+    public List<Review> getReviewsByCustomer(Customer customer) {
+        return daoReviews.getReviewsByCustomer(customer);
     }
 
 }

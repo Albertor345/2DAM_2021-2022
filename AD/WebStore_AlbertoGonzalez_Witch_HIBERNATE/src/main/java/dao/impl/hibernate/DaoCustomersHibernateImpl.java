@@ -81,8 +81,16 @@ public class DaoCustomersHibernateImpl implements DAOCustomers {
 
     @Override
     public boolean delete(Customer customer) {
-       /*Constantes.DELETE_CUSTOMER_QUERY
-    Constantes.DELETE_USER_QUERY*/
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+            User user = User.builder().id(customer.getId()).build();
+            session.remove(customer);
+            session.remove(user);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
         return false;
     }
 }

@@ -306,6 +306,7 @@ public class FXMLPrincipalController implements Initializable {
         try {
             deleteReview = deleteReviewLoader.load(getClass().getResourceAsStream("/fxml/reviews/FXMLDeleteReview.fxml"));
             deleteReviewController = deleteReviewLoader.getController();
+            deleteReviewController.setPrincipal(this);
 
         } catch (IOException ex) {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -444,7 +445,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void chargeDeleteReview() {
-        deleteReviewController.loadCustomersList();
+        deleteReviewController.loadCustomersList(getServicesCustomers().getAll());
         fxRoot.setCenter(deleteReview);
     }
 

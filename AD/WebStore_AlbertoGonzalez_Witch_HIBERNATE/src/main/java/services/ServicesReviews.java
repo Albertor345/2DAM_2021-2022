@@ -1,5 +1,6 @@
 package services;
 
+import model.Customer;
 import model.Item;
 import model.Review;
 
@@ -19,4 +20,6 @@ public interface ServicesReviews {
     Review get(Review review);
 
     boolean update(Review review);
+
+    List<Review> getReviewsByCustomer(Customer customer);
 }

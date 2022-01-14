@@ -5,6 +5,7 @@
  */
 package dao;
 
+import model.Customer;
 import model.Item;
 import model.Review;
 
@@ -28,4 +29,6 @@ public interface DAOReviews {
     boolean delete(Review t);
 
     List<Review> orderBy(Item item, boolean order, boolean column);
+
+    List<Review> getReviewsByCustomer(Customer customer);
 }

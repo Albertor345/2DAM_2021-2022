@@ -5,40 +5,77 @@
  */
 package fx.controllers.reviews;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import fx.controllers.FXMLPrincipalController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
+import model.Customer;
+import model.Review;
 
-/**
- * FXML Controller class
- *
- * @author dam2
- */
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
 public class FXMLdeleteReviewController implements Initializable {
 
+    Alert alert;
+    private FXMLPrincipalController principal;
+
     @FXML
-    private ListView customerBox;
+    private ListView<Customer> listViewCustomers;
     @FXML
-    private ListView reviewBox;
+    private ListView<Review> listViewReviews;
 
-    public void loadReviewsList() {
-     }
-
-    public void loadCustomersList() {
-
+    @FXML
+    private void getAllReviewsFromCustomer(MouseEvent mouseEvent) {
+        Customer customer = listViewCustomers.getSelectionModel().getSelectedItem();
+        if (customer != null) {
+            loadReviewList(customer);
+        }
     }
 
-    public void deleteReview() {
+    private void loadReviewList(Customer customer) {
+        if (!listViewReviews.getItems().isEmpty()) {
+            listViewReviews.getItems().clear();
+        }
+        listViewReviews.getItems().addAll(principal.getServicesReviews().getReviewsByCustomer(customer));
     }
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private void deleteReview() {
+        Review review = listViewReviews.getSelectionModel().getSelectedItem();
+        if (review != null) {
+            if (principal.getServicesReviews().delete(review)) {
+                listViewReviews.getItems().remove(review);
+                alert("Success", "Review Deleted Successfully", Alert.AlertType.CONFIRMATION);
+            } else {
+                alert("Error", "There's been a problem while processing your solicitude, try it again later", Alert.AlertType.CONFIRMATION);
+            }
+        }
+    }
+
+    public void loadCustomersList(List<Customer> customers) {
+        if (!listViewCustomers.getItems().isEmpty()) {
+            listViewCustomers.getItems().clear();
+        }
+        listViewCustomers.getItems().addAll(customers);
+    }
+
+    private void alert(String titulo, String texto, Alert.AlertType type) {
+        alert.setAlertType(type);
+        alert.setTitle(titulo);
+        alert.setContentText(texto);
+        alert.showAndWait();
+    }
+
+    public void setPrincipal(FXMLPrincipalController principalController) {
+        this.principal = principalController;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //loadCustomersList();
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
     }
-
 }

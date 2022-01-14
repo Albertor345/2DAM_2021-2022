@@ -3,14 +3,13 @@ package dao.impl.hibernate;
 import configuration.HibernateConfig;
 import dao.DAOReviews;
 import lombok.extern.log4j.Log4j2;
+import model.Customer;
 import model.Item;
 import model.Review;
 import org.hibernate.Session;
-import utils.Constantes;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -56,6 +55,19 @@ public class DAOReviewsHibernateImpl implements DAOReviews {
     }
 
     @Override
+    public List<Review> getReviewsByCustomer(Customer customer) {
+        List<Review> reviews = new ArrayList<>();
+        try (Session session = hibernateConfig.getSession()) {
+            reviews = session.createNamedQuery("getAllReviewsByCustomer", Review.class)
+                    .setParameter("id", customer.getId())
+                    .getResultList();
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return reviews;
+    }
+
+    @Override
     public boolean add(Review review) {
         try (Session session = hibernateConfig.getSession()) {
             session.beginTransaction();
@@ -70,14 +82,19 @@ public class DAOReviewsHibernateImpl implements DAOReviews {
 
     @Override
     public boolean update(Review review) {
-        /*Constantes.UPDATE_REVIEW_QUERY*/
         return false;
-
     }
 
     @Override
     public boolean delete(Review review) {
-        /* Constantes.DELETE_REVIEW_QUERY*/
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+            session.remove(review);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
         return false;
 
     }

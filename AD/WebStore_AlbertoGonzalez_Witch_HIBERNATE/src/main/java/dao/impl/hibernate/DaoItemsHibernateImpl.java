@@ -3,7 +3,6 @@ package dao.impl.hibernate;
 import configuration.HibernateConfig;
 import dao.DAOItems;
 import lombok.extern.log4j.Log4j2;
-import model.Customer;
 import model.Item;
 import org.hibernate.Session;
 
@@ -54,20 +53,31 @@ public class DaoItemsHibernateImpl implements DAOItems {
 
     @Override
     public boolean delete(Item item) {
-        /*Constantes.DELETE_ITEM_QUERY*/
-        return true;
+        try (Session session = hibernateConfig.getSession()) {
+            session.beginTransaction();
+            session.remove(item);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return false;
     }
 
     @Override
     public boolean deleteAllPurchasesFromAnItem(Item item) {
         try (Session session = hibernateConfig.getSession()) {
             session.beginTransaction();
-
-            item = session.createNamedQuery("getItem", Item.class).setParameter("id", item.getId()).getSingleResult();
+            session.createNamedQuery("deleteAllSalesFromAnItem")
+                    .setParameter("id", item.getId())
+                    .executeUpdate();
+            session.remove(item);
+            session.getTransaction().commit();
+            return true;
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
         }
-        return item;
+        return false;
     }
 
     @Override

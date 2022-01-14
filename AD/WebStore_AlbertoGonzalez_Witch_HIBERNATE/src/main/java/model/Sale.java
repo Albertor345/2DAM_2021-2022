@@ -32,6 +32,10 @@ import java.util.Collection;
         @NamedQuery(
                 name = "getAllSalesOrderByDate",
                 query = "from Sale where date between :initDate and :finalDate order by date asc"
+        ),
+        @NamedQuery(
+                name = "deleteAllSalesFromAnItem",
+                query = "delete from Sale where item.id = :id"
         )
 })
 

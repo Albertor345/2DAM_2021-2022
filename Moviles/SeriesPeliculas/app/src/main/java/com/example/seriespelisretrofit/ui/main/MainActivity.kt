@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.SeriesPelisRetrofit.ui.main.MainViewModel
 import com.example.seriespelisretrofit.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: MainViewModel by viewModels()
+    private val adapter: PeliculaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity() {
     private fun observers() {
         viewModel.error.observe(this, {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        })
+        viewModel.currentFilms.observe(this, {
+
         })
     }
 

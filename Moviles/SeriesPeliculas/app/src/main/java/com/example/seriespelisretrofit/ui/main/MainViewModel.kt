@@ -1,10 +1,12 @@
-package com.example.SeriesPelisRetrofit.ui.main
+package com.example.seriespelisretrofit.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.seriespelisretrofit.ui.model.PeliculaUI
 import com.example.seriespelisretrofit.usecases.GetPeliculasUseCase
+import com.example.seriespelisretrofit.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,17 +17,16 @@ class MainViewModel @Inject constructor(private val getPeliculas: GetPeliculasUs
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
-    private val _currentFilms = MutableLiveData<String>()
-    val currentFilms: LiveData<String> get() = _error
+    private val _currentFilms = MutableLiveData<List<PeliculaUI>>()
+    val currentFilms: LiveData<List<PeliculaUI>> get() = _currentFilms
 
     fun getPeliculas(query: String, page: Int) {
         try {
             viewModelScope.launch {
-                val list = getPeliculas.getPeliculas(query, page)
-                when (list){
-
+                when (val result = getPeliculas.getPeliculas(query, page)){
+                    is NetworkResult.Error -> _error.value = result.message!!
+                    is NetworkResult.Success -> _currentFilms.value = result.data!!
                 }
-                _currentFilms.value = list
             }
         } catch (ex: Exception) {
             _error.value = ex.toString()

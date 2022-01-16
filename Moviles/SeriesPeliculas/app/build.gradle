@@ -67,6 +67,14 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
+    def retrofitVersion = "2.9.0"
+
+    //Retrofit libraries
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 

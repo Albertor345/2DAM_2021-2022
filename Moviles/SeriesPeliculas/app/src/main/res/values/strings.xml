@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SeriesPelisRetrofit</string>
+    <string name="emptyFavListText">Vaya... parece que no tienes favoritos</string>
+    <string name="exploreTheAppText">Explora la App</string>
 </resources>

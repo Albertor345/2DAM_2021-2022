@@ -3,34 +3,45 @@ package com.example.seriespelisretrofit.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.seriespelisretrofit.ui.model.PeliculaUI
-import com.example.seriespelisretrofit.usecases.GetPeliculasUseCase
-import com.example.seriespelisretrofit.utils.NetworkResult
+import com.example.seriespelisretrofit.ui.model.FavoritoUI
+import com.example.seriespelisretrofit.usecases.favoritos.GetFavoritosLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val getPeliculas: GetPeliculasUseCase ) : ViewModel() {
+class MainViewModel @Inject constructor(private val getFavoritosLocalLocal: GetFavoritosLocalUseCase) : ViewModel() {
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
-    private val _currentFilms = MutableLiveData<List<PeliculaUI>>()
-    val currentFilms: LiveData<List<PeliculaUI>> get() = _currentFilms
+    private val _favoriteList = MutableLiveData<List<FavoritoUI>>()
+    val favoriteList: LiveData<List<FavoritoUI>> get() = _favoriteList
 
-    fun getPeliculas(query: String, page: Int) {
-        try {
-            viewModelScope.launch {
-                when (val result = getPeliculas.getPeliculas(query, page)){
-                    is NetworkResult.Error -> _error.value = result.message!!
-                    is NetworkResult.Success -> _currentFilms.value = result.data!!
-                }
-            }
-        } catch (ex: Exception) {
-            _error.value = ex.toString()
+    private var selectedItem = mutableListOf<FavoritoUI>()
+
+    fun getFavoritos() {
+        TODO()
+    }
+
+    fun delFavorito(favorito: FavoritoUI) {
+        TODO()
+    }
+
+    fun addFavorito(favorito: FavoritoUI) {
+        TODO()
+    }
+
+    fun seleccionaFavorito(favorito: FavoritoUI) {
+        if (isSelected(favorito)) {
+            selectedItem.remove(favorito)
         }
+        else {
+            selectedItem.add(favorito)
+        }
+    }
+
+    fun isSelected(favorito: FavoritoUI): Boolean {
+        return selectedItem.contains(favorito)
     }
 
 }

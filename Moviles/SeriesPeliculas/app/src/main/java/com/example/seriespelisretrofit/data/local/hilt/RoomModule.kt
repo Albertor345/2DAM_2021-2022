@@ -20,9 +20,12 @@ object RoomModule {
         @ApplicationContext context: Context,
     ) =
         Room.databaseBuilder(context, RoomDatabaseConfig::class.java, "database")
-            .fallbackToDestructiveMigrationFrom(16)
+            .fallbackToDestructiveMigrationFrom(1)
 
             .build()
 
+    @Provides
+    fun providesDaoFavoritos(articlesDatabase: RoomDatabaseConfig) =
+        articlesDatabase.daoFavoritos()
 
 }

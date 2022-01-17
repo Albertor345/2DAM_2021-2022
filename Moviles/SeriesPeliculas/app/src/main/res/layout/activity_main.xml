@@ -1,79 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/toolbar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/recyclerViewPeliculas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:navigationIcon="@drawable/ic_baseline_menu_24"
-            android:paddingStart="6dp"
-            android:paddingEnd="16dp"
-            app:menu="@menu/main_activity_menu" />
-    </com.google.android.material.appbar.AppBarLayout>
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="16dp"
+                    app:menu="@menu/main_activity_menu"
+                    app:navigationIcon="@drawable/ic_baseline_menu_24" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPeliculas"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+
+                app:navGraph="@navigation/nav_relations"
+                tools:layout_editor_absoluteX="1dp" />
+
+            <LinearLayout
+                android:id="@+id/emptyDataLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="606dp"
+                    tools:srcCompat="@tools:sample/avatars"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/emptyFavListText" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/exploreButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="130dp"
+                    android:layout_height="70dp"
+                    android:backgroundTint="@color/green"
+                    app:icon="@drawable/ic_baseline_saved_search_24"
+                    app:iconGravity="textEnd" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exploreTheAppText" />
+            </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPeliculas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical"
-        android:id="@+id/emptyDataLayout">
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_menu"
+        app:menu="@menu/menu_drawer" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="606dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/emptyFavListText"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/exploreButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="130dp"
-            android:layout_height="70dp"
-            android:backgroundTint="@color/green"
-            app:icon="@drawable/ic_baseline_saved_search_24"
-            app:iconGravity="textEnd" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/exploreTheAppText"/>
-    </LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>

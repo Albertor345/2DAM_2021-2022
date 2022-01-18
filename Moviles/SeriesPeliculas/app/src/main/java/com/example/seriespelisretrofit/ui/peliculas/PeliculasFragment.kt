@@ -27,7 +27,7 @@ class PeliculasFragment : Fragment() {
     ): View {
         _binding = PeliculasFragmentBinding.inflate(inflater, container, false)
         observers()
-        setListeners()
+        configAdapter()
         getPeliculas()
         return binding.root
     }
@@ -46,7 +46,7 @@ class PeliculasFragment : Fragment() {
         })
     }
 
-    private fun setListeners() {
+    private fun configAdapter() {
         adapter = PeliculaAdapter(object : PeliculaAdapter.PeliculaAdapterActions {
             override fun detalles(item: PeliculaUI) {
                 this@PeliculasFragment.detalles(item)

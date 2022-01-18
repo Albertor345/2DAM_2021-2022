@@ -8,5 +8,6 @@ data class SerieUI(
     val name: String?,
     val originalName: String?,
     val overview: String?,
-    val posterPath: String?
+    val posterPath: String?,
+    val seasons: List<TemporadaUI>?
 )

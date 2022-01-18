@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.seriespelisretrofit.databinding.DetallesSerieFragmentBinding
+import com.example.seriespelisretrofit.ui.model.PeliculaUI
 import com.example.seriespelisretrofit.ui.model.SerieUI
+import com.example.seriespelisretrofit.ui.model.TemporadaUI
+import com.example.seriespelisretrofit.ui.peliculas.PeliculaAdapter
+import com.example.seriespelisretrofit.ui.peliculas.PeliculasFragmentDirections
 import com.example.seriespelisretrofit.ui.peliculas.detalles.DetallesPeliculaFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,8 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetallesSeriesFragment : Fragment() {
     private val viewModel: DetallesSeriesViewModel by viewModels()
     private var _binding: DetallesSerieFragmentBinding? = null
-
-
+    private lateinit var adapter: SeasonAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -29,13 +33,27 @@ class DetallesSeriesFragment : Fragment() {
     ): View? {
         _binding = DetallesSerieFragmentBinding.inflate(inflater, container, false)
         observers()
+        configAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args: DetallesPeliculaFragmentArgs by navArgs()
-        getPelicula(args.id)
+        getSerie(args.id)
+    }
+
+    private fun configAdapter() {
+        adapter = SeasonAdapter(object : SeasonAdapter.SeasonAdapterActions {
+            override fun detalles(item: TemporadaUI) {
+                this@DetallesSeriesFragment.detalles(item)
+            }
+        })
+        binding.seasons.adapter = adapter
+    }
+
+    private fun detalles(item: TemporadaUI) {
+
     }
 
     private fun observers() {
@@ -44,6 +62,7 @@ class DetallesSeriesFragment : Fragment() {
         })
         viewModel.currentSerie.observe(this, {
             loadSerie(it)
+            adapter.submitList(it.seasons)
         })
     }
 
@@ -56,7 +75,7 @@ class DetallesSeriesFragment : Fragment() {
     }
 
 
-    private fun getPelicula(id: Int) {
+    private fun getSerie(id: Int) {
         viewModel.getSerie(id)
     }
 

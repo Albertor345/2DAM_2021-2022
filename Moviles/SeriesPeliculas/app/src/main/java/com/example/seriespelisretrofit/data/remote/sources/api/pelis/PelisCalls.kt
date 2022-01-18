@@ -1,7 +1,7 @@
 package com.example.seriespelisretrofit.data.remote.sources.api.pelis
 
 import com.example.seriespelisretrofit.data.remote.model.PeliculaRemote
-import com.example.seriespelisretrofit.data.remote.model.SearchResult
+import com.example.seriespelisretrofit.data.remote.model.PeliculasResultRemote
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,5 +16,5 @@ interface PelisCalls {
     suspend fun getPeliculas(
         @Query("query") query: String,
         @Query("page") page: Int
-    ): Response<SearchResult>
+    ): Response<PeliculasResultRemote>
 }

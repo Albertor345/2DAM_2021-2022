@@ -6,14 +6,23 @@
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/drawable/ic_close_24dp.xml" value="0.18162393162393162" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/drawable/side_nav_bar.xml" value="0.18162393162393162" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/detalles_pelicula_fragment.xml" value="0.16538461538461538" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/detalles_serie_fragment.xml" value="0.1683760683760684" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/favorito.xml" value="0.1683760683760684" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/favoritos_activity.xml" value="0.18547008547008548" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/favoritos_fragment.xml" value="0.1683760683760684" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/nav_header_menu.xml" value="0.1683760683760684" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/pelicula.xml" value="0.18547008547008548" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/pelicula_fragment.xml" value="0.1683760683760684" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/peliculas_fragment.xml" value="0.16538461538461538" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/persona.xml" value="0.18803418803418803" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/serie.xml" value="0.30085470085470084" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/layout/series_fragment.xml" value="0.16538461538461538" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/menu/list_activity_menu.xml" value="0.18803418803418803" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/menu/main_activity_menu.xml" value="0.18547008547008548" />
         <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/menu/menu_drawer.xml" value="0.1683760683760684" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/menu/peliculas_fragment_menu.xml" value="0.16538461538461538" />
+        <entry key="..\:/2DAM_2021-2022/Moviles/SeriesPeliculas/app/src/main/res/menu/series_fragment_menu.xml" value="0.16538461538461538" />
       </map>
     </option>
   </component>

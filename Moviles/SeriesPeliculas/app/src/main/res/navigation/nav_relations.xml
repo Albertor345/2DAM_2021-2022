@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_relations"
+    app:startDestination="@id/favoritosFragment">
+
+    <fragment
+        android:id="@+id/seriesFragment"
+        android:name="com.example.seriespelisretrofit.ui.seriesActivity.SeriesFragment"
+        android:label="SeriesFragment" >
+        <action
+            android:id="@+id/action_seriesFragment_to_detallesSeriesFragment"
+            app:destination="@id/detallesSeriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/peliculasFragment"
+        android:name="com.example.seriespelisretrofit.ui.peliculas.PeliculasFragment"
+        android:label="PeliculasFragment" >
+        <action
+            android:id="@+id/action_peliculasFragment_to_detallesPeliculasFragment"
+            app:destination="@id/detallesPeliculasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallesSeriesFragment"
+        android:name="com.example.seriespelisretrofit.ui.seriesActivity.detalles.DetallesSeriesFragment"
+        android:label="DetallesSeriesFragment">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallesPeliculasFragment"
+        android:name="com.example.seriespelisretrofit.ui.peliculas.detalles.DetallesPeliculaFragment"
+        android:label="DetallesPeliculasFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritosFragment"
+        android:name="com.example.seriespelisretrofit.ui.favoritos.FavoritosFragment"
+        android:label="FavoritosFragment" >
+        <action
+            android:id="@+id/action_favoritosFragment_to_detallesSeriesFragment"
+            app:destination="@id/detallesSeriesFragment" />
+        <action
+            android:id="@+id/action_favoritosFragment_to_detallesPeliculasFragment"
+            app:destination="@id/detallesPeliculasFragment" />
+    </fragment>
+</navigation>

@@ -1,6 +1,7 @@
 package com.example.seriespelisretrofit.data.remote.sources.di
 
 import com.example.seriespelisretrofit.data.remote.sources.api.pelis.PelisCalls
+import com.example.seriespelisretrofit.data.remote.sources.api.series.SeriesCalls
 import com.example.seriespelisretrofit.utils.Constants.BASE_URL
 
 import dagger.Module
@@ -54,7 +55,12 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCurrencyService(retrofit: Retrofit): PelisCalls =
+    fun providePelisCalls(retrofit: Retrofit): PelisCalls =
         retrofit.create(PelisCalls::class.java)
+
+    @Singleton
+    @Provides
+    fun provideSeriesCalls(retrofit: Retrofit): SeriesCalls =
+        retrofit.create(SeriesCalls::class.java)
 
 }

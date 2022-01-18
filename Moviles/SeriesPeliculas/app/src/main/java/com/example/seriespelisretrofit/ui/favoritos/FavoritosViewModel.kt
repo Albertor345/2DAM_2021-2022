@@ -1,16 +1,14 @@
-package com.example.seriespelisretrofit.ui.main
+package com.example.seriespelisretrofit.ui.favoritos
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.seriespelisretrofit.ui.model.FavoritoUI
-import com.example.seriespelisretrofit.usecases.favoritos.GetFavoritosLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val getFavoritosLocalLocal: GetFavoritosLocalUseCase) : ViewModel() {
-
+class FavoritosViewModel @Inject constructor() : ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
@@ -44,4 +42,11 @@ class MainViewModel @Inject constructor(private val getFavoritosLocalLocal: GetF
         return selectedItem.contains(favorito)
     }
 
+    fun addItemSelected(favorito: FavoritoUI) {
+        selectedItem.contains(favorito) ?: selectedItem.add(favorito)
+    }
+
+    fun getSelectedItemSize() : Int{
+        return selectedItem.size
+    }
 }

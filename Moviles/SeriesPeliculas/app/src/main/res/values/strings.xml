@@ -2,4 +2,9 @@
     <string name="app_name">SeriesPelisRetrofit</string>
     <string name="emptyFavListText">Vaya... parece que no tienes favoritos</string>
     <string name="exploreTheAppText">Explora la App</string>
+    <string name="search">search</string>
+    <string name="firstPeliculasCallQuery">Popular</string>
+    <string name="peliculas">Peliculas</string>
+    <string name="series">Series</string>
+    <string name="favoritos">Favoritos</string>
 </resources>

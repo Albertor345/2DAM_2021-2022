@@ -17,5 +17,7 @@ data class SeasonRemote(
     @SerializedName("poster_path")
     val posterPath: String?,
     @SerializedName("season_number")
-    val seasonNumber: Int?
+    val seasonNumber: Int?,
+    @SerializedName("")
+    val episodes: List<String>
 )

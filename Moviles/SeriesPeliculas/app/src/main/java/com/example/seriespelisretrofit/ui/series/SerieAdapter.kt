@@ -1,4 +1,4 @@
-package com.example.seriespelisretrofit.ui.seriesActivity
+package com.example.seriespelisretrofit.ui.series
 
 import android.view.LayoutInflater
 import android.view.View

@@ -2,6 +2,7 @@ package com.example.seriespelisretrofit.data.remote.sources.di
 
 import com.example.seriespelisretrofit.data.remote.sources.api.pelis.PelisCalls
 import com.example.seriespelisretrofit.data.remote.sources.api.series.SeriesCalls
+import com.example.seriespelisretrofit.data.remote.sources.api.temporadas.SeasonCalls
 import com.example.seriespelisretrofit.utils.Constants.BASE_URL
 
 import dagger.Module
@@ -62,5 +63,10 @@ object NetworkModule {
     @Provides
     fun provideSeriesCalls(retrofit: Retrofit): SeriesCalls =
         retrofit.create(SeriesCalls::class.java)
+
+    @Singleton
+    @Provides
+    fun provideSeasonsCalls(retrofit: Retrofit): SeasonCalls =
+        retrofit.create(SeasonCalls::class.java)
 
 }

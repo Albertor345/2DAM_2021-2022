@@ -3,6 +3,7 @@ package com.example.seriespelisretrofit.ui.peliculas
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -28,13 +29,39 @@ class PeliculasFragment : Fragment() {
         _binding = PeliculasFragmentBinding.inflate(inflater, container, false)
         observers()
         configAdapter()
-        getPeliculas()
+        getPeliculas(getString(R.string.firstPeliculasCallQuery))
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.peliculas_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.search -> {
+                val actionSearch = item.actionView as SearchView
+
+                actionSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(p0: String?): Boolean {
+                        p0?.let {getPeliculas(it)}
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        newText?.let {getPeliculas(it)}
+                        return true
+                    }
+                })
+            }
+            else -> false
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun observers() {
@@ -64,8 +91,8 @@ class PeliculasFragment : Fragment() {
         )
     }
 
-    private fun getPeliculas() {
-        viewModel.getPeliculas(getString(R.string.firstPeliculasCallQuery), currentPage)
+    private fun getPeliculas(query: String) {
+        viewModel.getPeliculas(query)
     }
 
 }

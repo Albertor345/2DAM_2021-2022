@@ -1,21 +1,17 @@
-package com.example.seriespelisretrofit.ui.seriesActivity.detalles
+package com.example.seriespelisretrofit.ui.series.detalles
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.example.seriespelisretrofit.R
 import com.example.seriespelisretrofit.databinding.DetallesSerieFragmentBinding
-import com.example.seriespelisretrofit.ui.model.PeliculaUI
 import com.example.seriespelisretrofit.ui.model.SerieUI
 import com.example.seriespelisretrofit.ui.model.TemporadaUI
-import com.example.seriespelisretrofit.ui.peliculas.PeliculaAdapter
-import com.example.seriespelisretrofit.ui.peliculas.PeliculasFragmentDirections
 import com.example.seriespelisretrofit.ui.peliculas.detalles.DetallesPeliculaFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,10 +33,19 @@ class DetallesSeriesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args: DetallesPeliculaFragmentArgs by navArgs()
         getSerie(args.id)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.detalles_serie_menu, menu)
     }
 
     private fun configAdapter() {
@@ -53,7 +58,11 @@ class DetallesSeriesFragment : Fragment() {
     }
 
     private fun detalles(item: TemporadaUI) {
-
+        findNavController().navigate(
+            DetallesSeriesFragmentDirections.actionDetallesSeriesFragmentToDetallesSeasonFragment(
+                item.idSerie!!, item.seasonNumber!!
+            )
+        )
     }
 
     private fun observers() {
@@ -68,7 +77,7 @@ class DetallesSeriesFragment : Fragment() {
 
     private fun loadSerie(it: SerieUI) {
         with(binding) {
-            title.text = it.name
+            title.text = "it.name"
             overview.text = it.overview
             imagen.load(it.posterPath)
         }

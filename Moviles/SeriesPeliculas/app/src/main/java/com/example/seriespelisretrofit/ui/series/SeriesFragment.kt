@@ -1,18 +1,14 @@
-package com.example.seriespelisretrofit.ui.seriesActivity
+package com.example.seriespelisretrofit.ui.series
 
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.seriespelisretrofit.R
 import com.example.seriespelisretrofit.databinding.SeriesFragmentBinding
-import com.example.seriespelisretrofit.ui.model.PeliculaUI
 import com.example.seriespelisretrofit.ui.model.SerieUI
-import com.example.seriespelisretrofit.ui.peliculas.PeliculaAdapter
-import com.example.seriespelisretrofit.ui.peliculas.PeliculasFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,6 +31,11 @@ class SeriesFragment : Fragment() {
         setListeners()
         getSeries()
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

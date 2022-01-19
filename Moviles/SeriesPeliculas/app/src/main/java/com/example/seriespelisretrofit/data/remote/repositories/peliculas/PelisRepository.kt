@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 @ActivityRetainedScoped
 class PelisRepository @Inject constructor(private val pelisDataSource: PelisDataSource) {
-    suspend fun getPeliculas(query: String, page: Int) =
+    suspend fun getPeliculas(query: String) =
         withContext(Dispatchers.IO)
-        { pelisDataSource.getPeliculas(query, page) }
+        { pelisDataSource.getPeliculas(query) }
 
     suspend fun getPelicula(id: Int) =
         withContext(Dispatchers.IO)

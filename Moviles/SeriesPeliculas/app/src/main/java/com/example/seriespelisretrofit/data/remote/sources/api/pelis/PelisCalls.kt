@@ -14,7 +14,6 @@ interface PelisCalls {
 
     @GET("search/movie")
     suspend fun getPeliculas(
-        @Query("query") query: String,
-        @Query("page") page: Int
+        @Query("query") query: String
     ): Response<PeliculasResultRemote>
 }

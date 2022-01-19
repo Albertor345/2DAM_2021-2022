@@ -4,6 +4,6 @@ import com.example.seriespelisretrofit.data.remote.repositories.peliculas.PelisR
 import javax.inject.Inject
 
 class GetPeliculasUseCase @Inject constructor(private val repository: PelisRepository) {
-    suspend fun getPeliculas(query: String, page: Int) = repository.getPeliculas(query, page)
+    suspend fun getPeliculas(query: String) = repository.getPeliculas(query)
     suspend fun getPelicula(id: Int) = repository.getPelicula(id)
 }

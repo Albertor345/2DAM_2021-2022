@@ -20,8 +20,7 @@ object RoomModule {
         @ApplicationContext context: Context,
     ) =
         Room.databaseBuilder(context, RoomDatabaseConfig::class.java, "database")
-            .fallbackToDestructiveMigrationFrom(1)
-
+            .fallbackToDestructiveMigration()
             .build()
 
     @Provides

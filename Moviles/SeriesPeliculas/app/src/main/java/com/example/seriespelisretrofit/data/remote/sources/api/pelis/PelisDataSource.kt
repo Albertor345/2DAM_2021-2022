@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 class PelisDataSource @Inject constructor(private val pelisCalls: PelisCalls) : BaseApiResponse() {
 
-    suspend fun getPeliculas(query: String, page: Int) = safeApiCall(
-        apiCall = { pelisCalls.getPeliculas(query, page) },
+    suspend fun getPeliculas(query: String) = safeApiCall(
+        apiCall = { pelisCalls.getPeliculas(query) },
         transform = PeliculasResultRemote::toListPeliculaUI
     )
 

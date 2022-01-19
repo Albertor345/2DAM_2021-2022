@@ -9,9 +9,7 @@ import retrofit2.http.Query
 
 interface SeasonCalls {
 
-    //https://api.themoviedb.org/3/tv/100/season/1?api_key=sdgsd<as&language=en-US
-
-    @GET("tv/{season_id}/season/{season_number}")
-    suspend fun getSeason(@Path("season_id") id: Int, @Path("season_number") season_number: Int): Response<SeasonRemote>
+    @GET("tv/{tv_id}/season/{season_number}")
+    suspend fun getSeason(@Path("tv_id") id: Int, @Path("season_number") season_number: Int): Response<SeasonRemote>
 
 }

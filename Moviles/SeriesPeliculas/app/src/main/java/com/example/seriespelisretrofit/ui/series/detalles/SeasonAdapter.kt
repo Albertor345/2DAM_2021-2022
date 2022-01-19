@@ -1,4 +1,4 @@
-package com.example.seriespelisretrofit.ui.seriesActivity.detalles
+package com.example.seriespelisretrofit.ui.series.detalles
 
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +37,7 @@ class SeasonAdapter(val actions: SeasonAdapterActions) :
         private val binding = SeasonBinding.bind(view)
         fun bind(temporadaUI: TemporadaUI, position: Int) {
             with(binding) {
-                seasonNumber.text = "Temporada ${position+1} capitulos: ${temporadaUI.episodeCount}"
+                seasonNumber.text = "Temporada ${position+1} capitulos: ${temporadaUI.episodeCount} ${temporadaUI.id}"
             }
             itemView.setOnClickListener {
                 actions.detalles(temporadaUI)

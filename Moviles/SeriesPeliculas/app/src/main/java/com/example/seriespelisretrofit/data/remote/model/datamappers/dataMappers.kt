@@ -1,6 +1,7 @@
 package com.example.seriespelisretrofit.data.remote.model.datamappers
 
 import com.example.seriespelisretrofit.data.remote.model.*
+import com.example.seriespelisretrofit.ui.model.CapituloUI
 import com.example.seriespelisretrofit.ui.model.PeliculaUI
 import com.example.seriespelisretrofit.ui.model.SerieUI
 import com.example.seriespelisretrofit.ui.model.TemporadaUI
@@ -27,7 +28,21 @@ fun SerieRemote.toSerieUI(): SerieUI =
         originalName,
         overview,
         Constants.IMAGE_PATH + posterPath,
-        seasons?.map { it.toTemporadaUI() })
+        seasons?.map { it.toTemporadaUI(id) })
 
-fun SeasonRemote.toTemporadaUI(): TemporadaUI =
-    TemporadaUI(id, airDate, episodeCount, name, overview, posterPath, seasonNumber)
+fun SeasonRemote.toTemporadaUI(idSerie: Int): TemporadaUI =
+    TemporadaUI(
+        id,
+        idSerie,
+        airDate,
+        episodeCount,
+        name,
+        overview,
+        posterPath,
+        seasonNumber,
+        capitulos?.let {
+            it.map { it.toCapituloUI() }
+        })
+
+fun CapituloRemote.toCapituloUI(): CapituloUI =
+    CapituloUI(episodeNumber, id, name)

@@ -1,4 +1,4 @@
-package com.example.seriespelisretrofit.ui.seriesActivity.detalles
+package com.example.seriespelisretrofit.ui.series
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,22 +12,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetallesSeriesViewModel @Inject constructor(private val getSeriesUseCase: GetSeriesUseCase) :
+class SeriesViewModel @Inject constructor(private val getSeriesUseCase: GetSeriesUseCase) :
     ViewModel() {
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
-    private val _currentSerie = MutableLiveData<SerieUI>()
-    val currentSerie: LiveData<SerieUI> get() = _currentSerie
+    private val _currentSeries = MutableLiveData<List<SerieUI>>()
+    val currentSeries: LiveData<List<SerieUI>> get() = _currentSeries
 
-
-    fun getSerie(id: Int) {
+    fun getSeries(query: String, page: Int) {
         try {
             viewModelScope.launch {
-                when (val result = getSeriesUseCase.getSerie(id)) {
+                when (val result = getSeriesUseCase.getSeries(query, page)) {
                     is NetworkResult.Error -> _error.value = result.message!!
-                    is NetworkResult.Success -> _currentSerie.value = result.data!!
+                    is NetworkResult.Success -> _currentSeries.value = result.data!!
                 }
             }
         } catch (ex: Exception) {

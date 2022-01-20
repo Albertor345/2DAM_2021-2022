@@ -10,8 +10,8 @@ import javax.inject.Inject
 class SeriesDataSource @Inject constructor(private val seriesCalls: SeriesCalls) :
     BaseApiResponse() {
 
-    suspend fun getSeries(query: String, page: Int) = safeApiCall(
-        apiCall = { seriesCalls.getSeries(query, page) },
+    suspend fun getSeries(query: String) = safeApiCall(
+        apiCall = { seriesCalls.getSeries(query) },
         transform = SeriesResultRemoteRemote::toListSeriesUI
     )
 

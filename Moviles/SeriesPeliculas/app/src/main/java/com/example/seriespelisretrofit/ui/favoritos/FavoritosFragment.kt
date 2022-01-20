@@ -3,6 +3,7 @@ package com.example.seriespelisretrofit.ui.favoritos
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +13,9 @@ import com.example.seriespelisretrofit.R
 import com.example.seriespelisretrofit.databinding.FavoritosFragmentBinding
 import com.example.seriespelisretrofit.ui.main.MainActivity
 import com.example.seriespelisretrofit.ui.model.FavoritoUI
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritosFragment : Fragment() {
 
     private lateinit var adapter: FavoritoAdapter
@@ -31,31 +34,29 @@ class FavoritosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FavoritosFragmentBinding.inflate(inflater, container, false)
+        configAdapter()
         observers()
-        setListeners()
+        getFavoritos()
         return binding.root
     }
 
     private fun observers() {
         viewModel.error.observe(this, {
-            //Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         })
         viewModel.favoriteList.observe(this, {
+            emptyData(it)
             adapter.submitList(it)
-            emptyData()
         })
     }
 
-    private fun setListeners() {
-        configAdapter()
-        emptyData()
-        val touchHelper = ItemTouchHelper(adapter.swipeGesture)
-        touchHelper.attachToRecyclerView(binding.recyclerViewFavoritos)
+    private fun getFavoritos() {
+        viewModel.getFavoritos()
     }
 
-    private fun emptyData() {
+    private fun emptyData(favoritos: List<FavoritoUI>) {
         with(binding) {
-            if (adapter.itemCount != 0) {
+            if (favoritos.isNotEmpty()) {
                 emptyDataLayout.visibility = View.GONE
             } else {
                 imageView.load(
@@ -70,6 +71,7 @@ class FavoritosFragment : Fragment() {
     }
 
     private fun configAdapter() {
+
         adapter = FavoritoAdapter(this.requireContext(), object : FavoritoAdapter.FavoritoActions {
             override fun onDelete(favorito: FavoritoUI) = viewModel.delFavorito(favorito)
 
@@ -77,7 +79,6 @@ class FavoritosFragment : Fragment() {
                 (requireActivity() as MainActivity).startSupportActionMode(callback)?.let {
                     actionMode = it
                     it.title = "1 selected"
-
                 }
             }
 
@@ -92,6 +93,9 @@ class FavoritosFragment : Fragment() {
                 viewModel.isSelected(favorito)
 
         })
+        binding.recyclerViewFavoritos.adapter = adapter
+        val touchHelper = ItemTouchHelper(adapter.swipeGesture)
+        touchHelper.attachToRecyclerView(binding.recyclerViewFavoritos)
     }
 
     private fun configContextBar() =

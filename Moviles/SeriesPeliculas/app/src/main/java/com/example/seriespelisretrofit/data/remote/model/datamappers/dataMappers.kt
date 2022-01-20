@@ -8,13 +8,13 @@ import com.example.seriespelisretrofit.ui.model.TemporadaUI
 import com.example.seriespelisretrofit.utils.Constants
 
 
-fun PeliculasResultRemote.toListPeliculaUI(): List<PeliculaUI> =
-    peliculas!!.map { it.toPeliculaUI() }
+fun PeliculasResultRemote.toListPeliculaUI(): List<PeliculaUI>? =
+    peliculas?.map { it.toPeliculaUI() }
 
 fun PeliculaRemote.toPeliculaUI(): PeliculaUI =
     PeliculaUI(
-        id, backdropPath, genres, originalTitle,
-        Constants.IMAGE_PATH + posterPath, overview, releaseDate, title
+        id, backdropPath, originalTitle,
+        Constants.IMAGE_PATH + posterPath, overview, releaseDate, title, false
     )
 
 fun SeriesResultRemoteRemote.toListSeriesUI(): List<SerieUI> =
@@ -27,7 +27,7 @@ fun SerieRemote.toSerieUI(): SerieUI =
         name,
         originalName,
         overview,
-        Constants.IMAGE_PATH + posterPath,
+        Constants.IMAGE_PATH + posterPath, false,
         seasons?.map { it.toTemporadaUI(id) })
 
 fun SeasonRemote.toTemporadaUI(idSerie: Int): TemporadaUI =

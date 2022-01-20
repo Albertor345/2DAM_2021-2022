@@ -14,7 +14,6 @@ interface SeriesCalls {
 
     @GET("search/tv")
     suspend fun getSeries(
-        @Query("query") query: String,
-        @Query("page") page: Int
+        @Query("query") query: String
     ): Response<SeriesResultRemoteRemote>
 }

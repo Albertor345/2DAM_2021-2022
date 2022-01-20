@@ -1,6 +1,5 @@
 package com.example.seriespelisretrofit.data.remote
 
-import com.example.seriespelisretrofit.utils.NetworkResult
 import retrofit2.Response
 
 

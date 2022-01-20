@@ -3,12 +3,17 @@ package com.example.seriespelisretrofit.ui.favoritos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.seriespelisretrofit.ui.model.FavoritoUI
+import com.example.seriespelisretrofit.ui.model.datamappers.toFavorito
+import com.example.seriespelisretrofit.usecases.favoritos.GetFavoritosLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritosViewModel @Inject constructor() : ViewModel() {
+class FavoritosViewModel @Inject constructor(private val getFavoritosLocalUseCase: GetFavoritosLocalUseCase) :
+    ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
@@ -18,7 +23,11 @@ class FavoritosViewModel @Inject constructor() : ViewModel() {
     private var selectedItem = mutableListOf<FavoritoUI>()
 
     fun getFavoritos() {
-        TODO()
+        viewModelScope.launch {
+            _favoriteList.value = getFavoritosLocalUseCase.getSeriesLocal()
+                .map { it.toFavorito() } + getFavoritosLocalUseCase.getPeliculasLocal()
+                .map { it.toFavorito() }
+        }
     }
 
     fun delFavorito(favorito: FavoritoUI) {
@@ -32,8 +41,7 @@ class FavoritosViewModel @Inject constructor() : ViewModel() {
     fun seleccionaFavorito(favorito: FavoritoUI) {
         if (isSelected(favorito)) {
             selectedItem.remove(favorito)
-        }
-        else {
+        } else {
             selectedItem.add(favorito)
         }
     }
@@ -46,7 +54,7 @@ class FavoritosViewModel @Inject constructor() : ViewModel() {
         selectedItem.contains(favorito) ?: selectedItem.add(favorito)
     }
 
-    fun getSelectedItemSize() : Int{
+    fun getSelectedItemSize(): Int {
         return selectedItem.size
     }
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriespelisretrofit.ui.model.CapituloUI
 import com.example.seriespelisretrofit.usecases.temporadas.GetTemporadaUseCase
-import com.example.seriespelisretrofit.utils.NetworkResult
+import com.example.seriespelisretrofit.data.remote.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

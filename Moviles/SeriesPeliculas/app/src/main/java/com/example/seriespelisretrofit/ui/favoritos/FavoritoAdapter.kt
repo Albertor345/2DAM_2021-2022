@@ -5,13 +5,16 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.seriespelisretrofit.R
 import com.example.seriespelisretrofit.databinding.FavoritoBinding
 import com.example.seriespelisretrofit.ui.model.FavoritoUI
+import com.example.seriespelisretrofit.utils.Constants
 import java.util.*
 
 class FavoritoAdapter(
@@ -54,19 +57,29 @@ class FavoritoAdapter(
         private val binding = FavoritoBinding.bind(itemView)
 
         fun bind(item: FavoritoUI) {
-
-            itemView.setOnLongClickListener {
-                if (!selectedMode) {
-                    selectedMode = true
-                    actions.onStartSelectMode()
-                    item.selected = true
-                    binding.selected.isChecked = true
-                    //pintar aqui el background del itemview holder
-                    notifyItemChanged(adapterPosition)
-                }
-                true
-            }
             with(binding) {
+                if (item.tipo == Constants.PELICULA_TYPE) {
+                    type.text = Constants.PELICULA_TYPE
+                    type.setTextColor(ContextCompat.getColor(context, R.color.naranja_chungo))
+                } else {
+                    type.setTextColor(ContextCompat.getColor(context, R.color.morado_raruno))
+                }
+                poster.load(item.imagePath)
+                name.text = item.name
+
+
+                itemView.setOnLongClickListener {
+                    if (!selectedMode) {
+                        selectedMode = true
+                        actions.onStartSelectMode()
+                        item.selected = true
+                        binding.selected.isChecked = true
+                        //pintar aqui el background del itemview holder
+                        notifyItemChanged(adapterPosition)
+                    }
+                    true
+                }
+
                 selected.setOnClickListener {
                     if (selectedMode) {
                         if (binding.selected.isChecked) {
@@ -92,6 +105,7 @@ class FavoritoAdapter(
                     itemView.setBackgroundColor(Color.WHITE)
                     binding.selected.isChecked = false
                 }
+
             }
         }
     }

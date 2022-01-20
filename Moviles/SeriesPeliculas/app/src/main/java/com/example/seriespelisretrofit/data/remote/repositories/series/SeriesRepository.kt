@@ -6,9 +6,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SeriesRepository @Inject constructor(private val seriesDataSource: SeriesDataSource) {
-    suspend fun getSeries(query: String, page: Int) =
+    suspend fun getSeries(query: String) =
         withContext(Dispatchers.IO)
-        { seriesDataSource.getSeries(query, page) }
+        { seriesDataSource.getSeries(query) }
 
     suspend fun getSerie(id: Int) =
         withContext(Dispatchers.IO)

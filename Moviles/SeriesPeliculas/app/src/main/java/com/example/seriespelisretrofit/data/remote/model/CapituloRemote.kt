@@ -11,7 +11,7 @@ data class CapituloRemote(
     @SerializedName("guest_stars")
     val guestStars: List<Any>?,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("name")
     val name: String?,
     @SerializedName("overview")

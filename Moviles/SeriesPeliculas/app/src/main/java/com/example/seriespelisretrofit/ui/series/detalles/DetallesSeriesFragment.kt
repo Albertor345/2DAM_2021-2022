@@ -21,6 +21,7 @@ class DetallesSeriesFragment : Fragment() {
     private var _binding: DetallesSerieFragmentBinding? = null
     private lateinit var adapter: SeasonAdapter
     private val binding get() = _binding!!
+    private lateinit var menuItem: MenuItem
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +47,26 @@ class DetallesSeriesFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.detalles_serie_menu, menu)
+        menuItem = menu.findItem(R.id.serieFavorita)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.serieFavorita -> {
+                changeFavStatus(item)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun changeFavStatus(menuItem: MenuItem) {
+        if (!viewModel.currentSerie.value!!.favorito) {
+            menuItem.setIcon(R.drawable.ic_baseline_favorite_24)
+            viewModel.addToFavorito(viewModel.currentSerie.value!!)
+        } else {
+            menuItem.setIcon(R.drawable.ic_baseline_favorite_border_24)
+            viewModel.removeFavorito(viewModel.currentSerie.value!!)
+        }
     }
 
     private fun configAdapter() {
@@ -60,7 +81,7 @@ class DetallesSeriesFragment : Fragment() {
     private fun detalles(item: TemporadaUI) {
         findNavController().navigate(
             DetallesSeriesFragmentDirections.actionDetallesSeriesFragmentToDetallesSeasonFragment(
-                item.idSerie!!, item.seasonNumber!!
+                item.idSerie, item.seasonNumber!!
             )
         )
     }
@@ -77,9 +98,15 @@ class DetallesSeriesFragment : Fragment() {
 
     private fun loadSerie(it: SerieUI) {
         with(binding) {
-            title.text = "it.name"
+            title.text = it.name
             overview.text = it.overview
             imagen.load(it.posterPath)
+            if (it.favorito) {
+                menuItem.setIcon(R.drawable.ic_baseline_favorite_24)
+            } else {
+                menuItem.setIcon(R.drawable.ic_baseline_favorite_border_24)
+            }
+
         }
     }
 

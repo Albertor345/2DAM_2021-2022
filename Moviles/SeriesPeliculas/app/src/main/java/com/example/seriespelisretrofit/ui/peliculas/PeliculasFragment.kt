@@ -2,8 +2,8 @@ package com.example.seriespelisretrofit.ui.peliculas
 
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -27,9 +27,17 @@ class PeliculasFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = PeliculasFragmentBinding.inflate(inflater, container, false)
-        observers()
         configAdapter()
-        getPeliculas(getString(R.string.firstPeliculasCallQuery))
+        observers()
+        if (viewModel.currentFilms.value != null) {
+            if (viewModel.currentFilms.value?.isEmpty() == true) {
+                getPeliculas(getString(R.string.firstPeliculasCallQuery))
+            } else {
+                adapter.submitList(viewModel.currentFilms.value)
+            }
+        } else {
+            getPeliculas(getString(R.string.firstPeliculasCallQuery))
+        }
         return binding.root
     }
 
@@ -40,24 +48,26 @@ class PeliculasFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.peliculas_fragment_menu, menu)
+        val queryTextListener: SearchView.OnQueryTextListener =
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String): Boolean {
+                    getPeliculas(newText)
+                    return false
+                }
+
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return false
+                }
+            }
+        val actionSearch = menu.findItem(R.id.search).actionView as SearchView
+        actionSearch.setOnQueryTextListener(queryTextListener)
+        return super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.search -> {
-                val actionSearch = item.actionView as SearchView
-
-                actionSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(p0: String?): Boolean {
-                        p0?.let {getPeliculas(it)}
-                        return true
-                    }
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        newText?.let {getPeliculas(it)}
-                        return true
-                    }
-                })
+                println("pulsado boton search")
             }
             else -> false
         }

@@ -4,6 +4,6 @@ import com.example.seriespelisretrofit.data.remote.repositories.series.SeriesRep
 import javax.inject.Inject
 
 class GetSeriesUseCase @Inject constructor(private val repository: SeriesRepository) {
-    suspend fun getSeries(query: String, page: Int) = repository.getSeries(query, page)
+    suspend fun getSeries(query: String) = repository.getSeries(query)
     suspend fun getSerie(id: Int) = repository.getSerie(id)
 }

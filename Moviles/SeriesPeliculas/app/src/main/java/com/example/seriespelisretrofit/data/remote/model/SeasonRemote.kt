@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class SeasonRemote(
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("air_date")
-    val airDate: Any?,
+    val airDate: String?,
     @SerializedName("episode_count")
     val episodeCount: Int?,
     @SerializedName("name")

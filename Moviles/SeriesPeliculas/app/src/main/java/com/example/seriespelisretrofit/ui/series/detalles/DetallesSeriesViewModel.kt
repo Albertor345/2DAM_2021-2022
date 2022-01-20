@@ -4,15 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.seriespelisretrofit.data.local.LocalResult
+import com.example.seriespelisretrofit.data.remote.NetworkResult
 import com.example.seriespelisretrofit.ui.model.SerieUI
+import com.example.seriespelisretrofit.usecases.favoritos.AddSerieToFavoritosUseCase
+import com.example.seriespelisretrofit.usecases.favoritos.DeleteFromFavoritosUseCase
+import com.example.seriespelisretrofit.usecases.favoritos.GetFavoritosLocalUseCase
 import com.example.seriespelisretrofit.usecases.series.GetSeriesUseCase
-import com.example.seriespelisretrofit.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetallesSeriesViewModel @Inject constructor(private val getSeriesUseCase: GetSeriesUseCase) :
+class DetallesSeriesViewModel @Inject constructor(
+    private val getSeriesUseCase: GetSeriesUseCase,
+    private val addSerieToFavoritosUseCase: AddSerieToFavoritosUseCase,
+    private val getFavoritosLocalUseCase: GetFavoritosLocalUseCase,
+    private val deleteFromFavoritosUseCase: DeleteFromFavoritosUseCase
+) :
     ViewModel() {
 
     private val _error = MutableLiveData<String>()
@@ -27,11 +36,43 @@ class DetallesSeriesViewModel @Inject constructor(private val getSeriesUseCase: 
             viewModelScope.launch {
                 when (val result = getSeriesUseCase.getSerie(id)) {
                     is NetworkResult.Error -> _error.value = result.message!!
-                    is NetworkResult.Success -> _currentSerie.value = result.data!!
+                    is NetworkResult.Success -> {
+                        val serie: SerieUI = result.data!!
+                        serie.favorito = getFavoritosLocalUseCase.getSerieLocal(id) != null
+                        _currentSerie.value = result.data!!
+                    }
                 }
             }
         } catch (ex: Exception) {
             _error.value = ex.toString()
+        }
+    }
+
+    fun addToFavorito(serie: SerieUI) {
+        viewModelScope.launch {
+            try {
+                when (val result = addSerieToFavoritosUseCase.addToFavoritos(serie)) {
+                    is LocalResult.Success -> _error.value = result.data!!
+                    is LocalResult.Error -> _error.value = result.error!!
+                }
+            } catch (ex: java.lang.Exception) {
+                _error.value = ex.toString()
+            }
+
+        }
+    }
+
+    fun removeFavorito(serie: SerieUI) {
+        viewModelScope.launch {
+            try {
+                when (val result =
+                    deleteFromFavoritosUseCase.deleteSerieFavoritos(serie)) {
+                    is LocalResult.Success -> _error.value = result.data!!
+                    is LocalResult.Error -> _error.value = result.error!!
+                }
+            } catch (ex: java.lang.Exception) {
+                _error.value = ex.toString()
+            }
         }
     }
 }

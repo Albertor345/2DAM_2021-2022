@@ -2,6 +2,7 @@ package com.example.seriespelisretrofit.ui.series
 
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,7 +30,15 @@ class SeriesFragment : Fragment() {
         _binding = SeriesFragmentBinding.inflate(inflater, container, false)
         observers()
         setListeners()
-        getSeries()
+        if (viewModel.currentSeries.value != null) {
+            if (viewModel.currentSeries.value?.isEmpty() == true) {
+                getSeries(getString(R.string.firstPeliculasCallQuery))
+            } else {
+                adapter.submitList(viewModel.currentSeries.value)
+            }
+        } else {
+            getSeries(getString(R.string.firstPeliculasCallQuery))
+        }
         return binding.root
     }
 
@@ -40,6 +49,19 @@ class SeriesFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.series_fragment_menu, menu)
+        val queryTextListener: SearchView.OnQueryTextListener =
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String): Boolean {
+                    getSeries(newText)
+                    return false
+                }
+
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return false
+                }
+            }
+        val actionSearch = menu.findItem(R.id.searchSeries).actionView as SearchView
+        actionSearch.setOnQueryTextListener(queryTextListener)
     }
 
     private fun observers() {
@@ -69,8 +91,8 @@ class SeriesFragment : Fragment() {
         )
     }
 
-    private fun getSeries() {
-        viewModel.getSeries(getString(R.string.firstPeliculasCallQuery), currentPage)
+    private fun getSeries(query: String) {
+        viewModel.getSeries(query)
     }
 
 }

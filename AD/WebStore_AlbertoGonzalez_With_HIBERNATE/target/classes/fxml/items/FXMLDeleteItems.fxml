@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="fx.controllers.items.FXMLDeleteItemsController"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <Label layoutX="215.0" layoutY="68.0" text="Delete Items" textFill="#000000c9">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Label>
+        <Label layoutX="142.0" layoutY="104.0" text="Please, select the item you want to remove"
+               textFill="#000000be">
+            <font>
+                <Font size="13.0"/>
+            </font>
+        </Label>
+        <Button layoutX="47.0" layoutY="329.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="25.0"
+                prefWidth="519.0" text="DELETE" textFill="#a41818">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Button>
+        <ListView fx:id="listViewItems" layoutX="47.0" layoutY="123.0" prefHeight="200.0" prefWidth="519.0"/>
+    </children>
+</AnchorPane>

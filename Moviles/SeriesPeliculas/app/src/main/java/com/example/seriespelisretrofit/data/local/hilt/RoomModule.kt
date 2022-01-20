@@ -3,6 +3,7 @@ package com.example.seriespelisretrofit.data.local.hilt
 import android.content.Context
 import androidx.room.Room
 import com.example.seriespelisretrofit.data.local.RoomDatabaseConfig
+import com.example.seriespelisretrofit.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +20,7 @@ object RoomModule {
     fun provideDatabase(
         @ApplicationContext context: Context,
     ) =
-        Room.databaseBuilder(context, RoomDatabaseConfig::class.java, "database")
+        Room.databaseBuilder(context, RoomDatabaseConfig::class.java, Constants.DATABASE_NAME)
             .fallbackToDestructiveMigration()
             .build()
 

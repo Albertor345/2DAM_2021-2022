@@ -52,7 +52,6 @@ class FavoritoAdapter(
         bind(item)
     }
 
-
     inner class ItemViewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = FavoritoBinding.bind(itemView)
@@ -102,7 +101,6 @@ class FavoritoAdapter(
                 if (actions.isItemSelected(item)) {
                     itemView.setBackgroundColor(Color.GREEN)
                     binding.checkBox.isChecked = true
-                    //selected.visibility = View.VISIBLE
                 } else {
                     itemView.setBackgroundColor(Color.WHITE)
                     binding.checkBox.isChecked = false

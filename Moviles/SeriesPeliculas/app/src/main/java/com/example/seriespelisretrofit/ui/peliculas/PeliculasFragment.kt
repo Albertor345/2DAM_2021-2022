@@ -19,7 +19,6 @@ class PeliculasFragment : Fragment() {
     private lateinit var adapter: PeliculaAdapter
     private val binding get() = _binding!!
 
-    private var currentPage = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,

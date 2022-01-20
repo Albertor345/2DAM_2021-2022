@@ -23,7 +23,7 @@ fun PeliculaUI.toPeliculaEntity(): PeliculaEntity =
     PeliculaEntity(id, backdropPath, originalTitle, posterPath, overview, releaseDate, title)
 
 fun PeliculaUI.toFavorito(): FavoritoUI =
-    FavoritoUI(id, "pelicula", false, Constants.IMAGE_PATH + posterPath, title)
+    FavoritoUI(id, Constants.PELICULA_TYPE, false, Constants.IMAGE_PATH + posterPath, title)
 
 fun SerieUI.toFavorito(): FavoritoUI =
-    FavoritoUI(id, "serie", false, Constants.IMAGE_PATH + posterPath, name)
+    FavoritoUI(id, Constants.SERIE_TYPE, false, Constants.IMAGE_PATH + posterPath, name)

@@ -63,7 +63,7 @@ class FavoritosFragment : Fragment() {
             } else {
                 imageView.load(
                     Drawable.createFromStream(
-                        requireContext().assets.open("images/cajita_con_estrellas.png"),
+                        requireContext().assets.open(Constants.EMPTY_DATA_IMAGE),
                         null
                     )
                 )
@@ -80,14 +80,14 @@ class FavoritosFragment : Fragment() {
             override fun onStartSelectMode() {
                 (requireActivity() as MainActivity).startSupportActionMode(callback)?.let {
                     actionMode = it
-                    it.title = "0 selected"
+                    it.title = "${viewModel.getSelectedItemSize()} ${Constants.SELECTED_ITEMS}"
                 }
             }
 
             override fun itemHasClicked(favorito: FavoritoUI) {
                 viewModel.seleccionaFavorito(favorito)
                 actionMode.title =
-                    "${viewModel.getSelectedItemSize()} items selected"
+                    "${viewModel.getSelectedItemSize()} ${Constants.SELECTED_ITEMS}"
             }
 
             override fun isItemSelected(favorito: FavoritoUI): Boolean =

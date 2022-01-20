@@ -19,7 +19,6 @@ class SeriesFragment : Fragment() {
     private lateinit var adapter: SerieAdapter
     private val binding get() = _binding!!
 
-    private val currentPage = 1
 
 
     override fun onCreateView(

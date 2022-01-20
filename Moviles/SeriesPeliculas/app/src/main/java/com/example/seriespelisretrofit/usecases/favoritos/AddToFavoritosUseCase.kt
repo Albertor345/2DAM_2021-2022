@@ -7,10 +7,11 @@ import com.example.seriespelisretrofit.ui.model.datamappers.toPeliculaEntity
 import com.example.seriespelisretrofit.ui.model.datamappers.toSerieWithTemporadas
 import javax.inject.Inject
 
-class DeleteFromFavoritosUseCase @Inject constructor(private val favoritosLocalRepository: FavoritosLocalRepository) {
-    suspend fun deleteSerieFavoritos(serie: SerieUI) =
-        favoritosLocalRepository.deleteSerie(serie.toSerieWithTemporadas())
+class AddToFavoritosUseCase @Inject constructor(val repository: FavoritosLocalRepository) {
+    suspend fun addSerieToFavoritos(serie: SerieUI) =
+        repository.insertSerie(serie.toSerieWithTemporadas())
 
-    suspend fun deletePeliculaFavoritos(pelicula: PeliculaUI) =
-        favoritosLocalRepository.deletePelicula(pelicula.toPeliculaEntity())
+    suspend fun addPeliculaToFavoritos(pelicula: PeliculaUI) =
+        repository.insertPelicula(pelicula.toPeliculaEntity())
+
 }

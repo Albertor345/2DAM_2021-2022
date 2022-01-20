@@ -7,12 +7,14 @@ import android.widget.Toast
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import coil.load
 import com.example.seriespelisretrofit.R
 import com.example.seriespelisretrofit.databinding.FavoritosFragmentBinding
 import com.example.seriespelisretrofit.ui.main.MainActivity
 import com.example.seriespelisretrofit.ui.model.FavoritoUI
+import com.example.seriespelisretrofit.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -78,19 +80,36 @@ class FavoritosFragment : Fragment() {
             override fun onStartSelectMode() {
                 (requireActivity() as MainActivity).startSupportActionMode(callback)?.let {
                     actionMode = it
-                    it.title = "1 selected"
+                    it.title = "0 selected"
                 }
             }
 
             override fun itemHasClicked(favorito: FavoritoUI) {
-                viewModel.addItemSelected(favorito)
+                viewModel.seleccionaFavorito(favorito)
                 actionMode.title =
                     "${viewModel.getSelectedItemSize()} items selected"
-                viewModel.seleccionaFavorito(favorito)
             }
 
             override fun isItemSelected(favorito: FavoritoUI): Boolean =
                 viewModel.isSelected(favorito)
+
+            override fun detalles(favorito: FavoritoUI) {
+                if (favorito.tipo == Constants.PELICULA_TYPE) {
+                    findNavController().navigate(
+                        FavoritosFragmentDirections.actionFavoritosFragmentToDetallesPeliculasFragment(
+                            favorito.id,
+                            favorito.tipo
+                        )
+                    )
+                } else {
+                    findNavController().navigate(
+                        FavoritosFragmentDirections.actionFavoritosFragmentToDetallesSeriesFragment(
+                            favorito.id,
+                            favorito.tipo
+                        )
+                    )
+                }
+            }
 
         })
         binding.recyclerViewFavoritos.adapter = adapter

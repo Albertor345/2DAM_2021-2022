@@ -28,6 +28,7 @@ class FavoritoAdapter(
         fun onStartSelectMode()
         fun itemHasClicked(favorito: FavoritoUI)
         fun isItemSelected(favorito: FavoritoUI): Boolean
+        fun detalles(favorito: FavoritoUI)
 
     }
 
@@ -62,27 +63,28 @@ class FavoritoAdapter(
                     type.text = Constants.PELICULA_TYPE
                     type.setTextColor(ContextCompat.getColor(context, R.color.naranja_chungo))
                 } else {
+                    type.text = Constants.SERIE_TYPE
                     type.setTextColor(ContextCompat.getColor(context, R.color.morado_raruno))
                 }
                 poster.load(item.imagePath)
                 name.text = item.name
 
+                itemView.setOnClickListener {
+                    actions.detalles(item)
+                }
 
                 itemView.setOnLongClickListener {
                     if (!selectedMode) {
                         selectedMode = true
                         actions.onStartSelectMode()
-                        item.selected = true
-                        binding.selected.isChecked = true
-                        //pintar aqui el background del itemview holder
-                        notifyItemChanged(adapterPosition)
+                        notifyDataSetChanged()
                     }
                     true
                 }
 
-                selected.setOnClickListener {
+                checkBox.setOnClickListener {
                     if (selectedMode) {
-                        if (binding.selected.isChecked) {
+                        if (binding.checkBox.isChecked) {
                             itemView.setBackgroundColor(Color.GREEN)
                         } else {
                             itemView.setBackgroundColor(Color.WHITE)
@@ -92,18 +94,18 @@ class FavoritoAdapter(
                 }
 
                 if (selectedMode)
-                    selected.visibility = View.VISIBLE
+                    checkBox.visibility = View.VISIBLE
                 else {
-                    selected.visibility = View.GONE
+                    checkBox.visibility = View.GONE
                 }
 
                 if (actions.isItemSelected(item)) {
                     itemView.setBackgroundColor(Color.GREEN)
-                    binding.selected.isChecked = true
+                    binding.checkBox.isChecked = true
                     //selected.visibility = View.VISIBLE
                 } else {
                     itemView.setBackgroundColor(Color.WHITE)
-                    binding.selected.isChecked = false
+                    binding.checkBox.isChecked = false
                 }
 
             }

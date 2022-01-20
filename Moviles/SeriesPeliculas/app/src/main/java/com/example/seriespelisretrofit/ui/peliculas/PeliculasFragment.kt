@@ -64,16 +64,6 @@ class PeliculasFragment : Fragment() {
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.search -> {
-                println("pulsado boton search")
-            }
-            else -> false
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun observers() {
         viewModel.error.observe(this, {
             Toast.makeText(this.requireContext(), it, Toast.LENGTH_LONG).show()

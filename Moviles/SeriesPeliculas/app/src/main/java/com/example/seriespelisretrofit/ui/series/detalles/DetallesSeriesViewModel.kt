@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.seriespelisretrofit.data.local.LocalResult
 import com.example.seriespelisretrofit.data.remote.NetworkResult
 import com.example.seriespelisretrofit.ui.model.SerieUI
-import com.example.seriespelisretrofit.usecases.favoritos.AddSerieToFavoritosUseCase
+import com.example.seriespelisretrofit.usecases.favoritos.AddToFavoritosUseCase
 import com.example.seriespelisretrofit.usecases.favoritos.DeleteFromFavoritosUseCase
 import com.example.seriespelisretrofit.usecases.favoritos.GetFavoritosLocalUseCase
 import com.example.seriespelisretrofit.usecases.series.GetSeriesUseCase
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetallesSeriesViewModel @Inject constructor(
     private val getSeriesUseCase: GetSeriesUseCase,
-    private val addSerieToFavoritosUseCase: AddSerieToFavoritosUseCase,
+    private val addToFavoritosUseCase: AddToFavoritosUseCase,
     private val getFavoritosLocalUseCase: GetFavoritosLocalUseCase,
     private val deleteFromFavoritosUseCase: DeleteFromFavoritosUseCase
 ) :
@@ -51,7 +51,7 @@ class DetallesSeriesViewModel @Inject constructor(
     fun addToFavorito(serie: SerieUI) {
         viewModelScope.launch {
             try {
-                when (val result = addSerieToFavoritosUseCase.addToFavoritos(serie)) {
+                when (val result = addToFavoritosUseCase.addSerieToFavoritos(serie)) {
                     is LocalResult.Success -> _error.value = result.data!!
                     is LocalResult.Error -> _error.value = result.error!!
                 }

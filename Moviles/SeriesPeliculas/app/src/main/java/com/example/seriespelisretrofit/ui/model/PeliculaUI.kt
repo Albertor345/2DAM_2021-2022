@@ -8,5 +8,5 @@ data class PeliculaUI(
     val overview: String?,
     val releaseDate: String?,
     val title: String?,
-    val favorito: Boolean
+    var favorito: Boolean
 )

@@ -7,15 +7,20 @@ import android.widget.Toast
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import coil.load
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.FavoritosFragmentBinding
 import com.example.seriespeliculasflows.ui.main.MainActivity
-import com.example.seriespeliculasflows.ui.model.FavoritoUI
+import com.example.seriespeliculasflows.ui.model.ItemUI
 import com.example.seriespeliculasflows.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FavoritosFragment : Fragment() {
@@ -48,22 +53,34 @@ class FavoritosFragment : Fragment() {
     }
 
     private fun observers() {
-        viewModel.error.observe(this, {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-        })
-        viewModel.favoriteList.observe(this, {
-            emptyData(it)
-            adapter.submitList(it)
-        })
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiError.collect {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    // binding.loading.visibility = if (it.isLoading) View.VISIBLE else View.GONE
+                    it.items.let { favoritos ->
+                        emptyData(favoritos)
+                        adapter.submitList(favoritos)
+                    }
+                }
+            }
+        }
     }
 
     private fun getFavoritos() {
-        viewModel.getFavoritos()
+        viewModel.handleEvent(FavoritosContract.Event.GetFavoritos, null)
     }
 
-    private fun emptyData(favoritos: List<FavoritoUI>) {
+    private fun emptyData(items: List<ItemUI>) {
         with(binding) {
-            if (favoritos.isNotEmpty()) {
+            if (items.isNotEmpty()) {
                 emptyDataLayout.visibility = View.GONE
             } else {
                 imageView.load(
@@ -80,7 +97,7 @@ class FavoritosFragment : Fragment() {
     private fun configAdapter() {
 
         adapter = FavoritoAdapter(this.requireContext(), object : FavoritoAdapter.FavoritoActions {
-            override fun onDelete(favorito: FavoritoUI) = viewModel.delFavorito(favorito)
+            override fun onDelete(item: ItemUI) = viewModel.delFavorito(item)
 
             override fun onStartSelectMode() {
                 (requireActivity() as MainActivity).startSupportActionMode(callback)?.let {
@@ -89,28 +106,25 @@ class FavoritosFragment : Fragment() {
                 }
             }
 
-            override fun itemHasClicked(favorito: FavoritoUI) {
-                viewModel.handleEvent(FavoritosContract.Event.SeleccionarFavorito, favorito)
+            override fun itemHasClicked(item: ItemUI) {
+                viewModel.handleEvent(FavoritosContract.Event.SeleccionarFavorito, item)
                 actionMode.title =
                     "${viewModel.getSelectedItemSize()} ${Constants.SELECTED_ITEMS}"
             }
 
-            override fun isItemSelected(favorito: FavoritoUI): Boolean =
-                viewModel.handleEvent(FavoritosContract.Event.ItemIsSelected, favorito)
+            override fun isItemSelected(item: ItemUI): Boolean =
+                viewModel.handleEvent(FavoritosContract.Event.ItemIsSelected, item)
 
-            override fun detalles(favorito: FavoritoUI) {
-                if (favorito.tipo == Constants.PELICULA_TYPE) {
-                    findNavController().navigate(
+            override fun detalles(item: ItemUI) {
+                when (item) {
+                    is ItemUI.PeliculaUI -> findNavController().navigate(
                         FavoritosFragmentDirections.actionFavoritosFragmentToDetallesPeliculasFragment(
-                            favorito.id,
-                            favorito.tipo
+                            item.id
                         )
                     )
-                } else {
-                    findNavController().navigate(
+                    is ItemUI.SerieUI -> findNavController().navigate(
                         FavoritosFragmentDirections.actionFavoritosFragmentToDetallesSeriesFragment(
-                            favorito.id,
-                            favorito.tipo
+                            item.id
                         )
                     )
                 }

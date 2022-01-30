@@ -2,8 +2,8 @@ package com.example.seriespeliculasflows.data.remote.model.datamappers
 
 import com.example.seriespeliculasflows.data.remote.model.*
 import com.example.seriespeliculasflows.ui.model.CapituloUI
-import com.example.seriespeliculasflows.ui.model.PeliculaUI
-import com.example.seriespeliculasflows.ui.model.SerieUI
+import com.example.seriespeliculasflows.ui.model.ItemUI.PeliculaUI
+import com.example.seriespeliculasflows.ui.model.ItemUI.SerieUI
 import com.example.seriespeliculasflows.ui.model.TemporadaUI
 import com.example.seriespeliculasflows.utils.Constants
 
@@ -13,8 +13,13 @@ fun PeliculasResultRemote.toListPeliculaUI(): List<PeliculaUI> =
 
 fun PeliculaRemote.toPeliculaUI(): PeliculaUI =
     PeliculaUI(
-        id, backdropPath, originalTitle,
-        Constants.IMAGE_PATH + posterPath, overview, releaseDate, title, false
+        id,
+        title,
+        originalTitle,
+        Constants.IMAGE_PATH + posterPath,
+        overview, releaseDate,
+        false,
+        false
     )
 
 fun SeriesResultRemoteRemote.toListSeriesUI(): List<SerieUI> =
@@ -22,13 +27,16 @@ fun SeriesResultRemoteRemote.toListSeriesUI(): List<SerieUI> =
 
 fun SerieRemote.toSerieUI(): SerieUI =
     SerieUI(
-        firstAirDate,
         id,
         name,
         originalName,
+        Constants.IMAGE_PATH + posterPath,
         overview,
-        Constants.IMAGE_PATH + posterPath, false,
-        seasons?.map { it.toTemporadaUI(id) })
+        firstAirDate,
+        false,
+        seasons?.map { it.toTemporadaUI(id) },
+        false
+    )
 
 fun SeasonRemote.toTemporadaUI(idSerie: Int): TemporadaUI =
     TemporadaUI(

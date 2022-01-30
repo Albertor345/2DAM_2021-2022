@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
-import com.example.seriespeliculasflows.ui.model.SerieUI
 import com.example.seriespeliculasflows.usecases.favoritos.AddToFavoritosUseCase
 import com.example.seriespeliculasflows.usecases.favoritos.DeleteFromFavoritosUseCase
 import com.example.seriespeliculasflows.usecases.favoritos.GetFavoritosLocalUseCase

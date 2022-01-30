@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
-import com.example.seriespeliculasflows.ui.model.PeliculaUI
 import com.example.seriespeliculasflows.usecases.peliculas.GetPeliculasUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

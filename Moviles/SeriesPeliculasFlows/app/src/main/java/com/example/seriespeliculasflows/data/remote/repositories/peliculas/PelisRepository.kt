@@ -3,7 +3,6 @@ package com.example.seriespeliculasflows.data.remote.repositories.peliculas
 import com.example.seriespeliculasflows.data.local.repositories.favoritos.FavoritosLocalRepository
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
 import com.example.seriespeliculasflows.data.remote.sources.api.pelis.PelisDataSource
-import com.example.seriespeliculasflows.ui.model.PeliculaUI
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.FavoritoBinding
-import com.example.seriespeliculasflows.ui.model.FavoritoUI
+import com.example.seriespeliculasflows.ui.model.ItemUI
 import com.example.seriespeliculasflows.utils.Constants
 import java.util.*
 
@@ -21,14 +21,14 @@ class FavoritoAdapter(
     val context: Context,
     val actions: FavoritoActions
 ) :
-    ListAdapter<FavoritoUI, FavoritoAdapter.ItemViewholder>(DiffCallback()) {
+    ListAdapter<ItemUI, FavoritoAdapter.ItemViewholder>(DiffCallback()) {
 
     interface FavoritoActions {
-        fun onDelete(favorito: FavoritoUI)
+        fun onDelete(item: ItemUI)
         fun onStartSelectMode()
-        fun itemHasClicked(favorito: FavoritoUI)
-        fun isItemSelected(favorito: FavoritoUI): Boolean
-        fun detalles(favorito: FavoritoUI)
+        fun itemHasClicked(item: ItemUI)
+        fun isItemSelected(item: ItemUI): Boolean
+        fun detalles(item: ItemUI)
 
     }
 
@@ -56,7 +56,7 @@ class FavoritoAdapter(
 
         private val binding = FavoritoBinding.bind(itemView)
 
-        fun bind(item: FavoritoUI) {
+        fun bind(item: ItemUI) {
             with(binding) {
                 if (item.tipo == Constants.PELICULA_TYPE) {
                     type.text = Constants.PELICULA_TYPE
@@ -110,12 +110,12 @@ class FavoritoAdapter(
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<FavoritoUI>() {
-        override fun areItemsTheSame(oldItem: FavoritoUI, newItem: FavoritoUI): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<ItemUI>() {
+        override fun areItemsTheSame(oldItem: ItemUI, newItem: ItemUI): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: FavoritoUI, newItem: FavoritoUI): Boolean {
+        override fun areContentsTheSame(oldItem: ItemUI, newItem: ItemUI): Boolean {
             return oldItem == newItem
         }
     }

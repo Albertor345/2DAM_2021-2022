@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
 import com.example.seriespeliculasflows.ui.detallesPeliculas.DetallesPeliculasContract.DetallesPeliculasScreenStatus
-import com.example.seriespeliculasflows.ui.model.PeliculaUI
 import com.example.seriespeliculasflows.usecases.favoritos.AddToFavoritosUseCase
 import com.example.seriespeliculasflows.usecases.favoritos.DeleteFromFavoritosUseCase
 import com.example.seriespeliculasflows.usecases.peliculas.GetPeliculaUseCase
@@ -68,7 +67,7 @@ class DetallesPeliculasViewModel @Inject constructor(
                         is DataAccessResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is DataAccessResult.Success -> _uiState.update {
                             it.copy(mensaje = result.data.let { affectedRows ->
-                                if (affectedRows!!.toInt() == 1) Constants.SUCCESS_ADDING_PELICULA else {
+                                if (affectedRows!!.toInt() == 1) Constants.SUCCESS_ADDING_FAVORITO else {
                                     ""
                                 }
                             }, pelicula = pelicula.copy(favorito = true), isLoading = false)
@@ -80,7 +79,7 @@ class DetallesPeliculasViewModel @Inject constructor(
 
     fun removeFavorito(pelicula: PeliculaUI) {
         viewModelScope.launch {
-            deleteFromFavoritosUseCase.deletePeliculaFavoritos(pelicula)
+            deleteFromFavoritosUseCase.deleteFromFavorito(pelicula)
                 .catch(action = { _uiError.send(it.message ?: "") })
                 .collect { result ->
                     when (result) {

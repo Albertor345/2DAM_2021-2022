@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.SerieBinding
-import com.example.seriespeliculasflows.ui.model.SerieUI
 
 class SerieAdapter(val actions: SerieAdapterActions) :
     ListAdapter<SerieUI, SerieAdapter.SerieViewHolder>(DiffCallback()) {

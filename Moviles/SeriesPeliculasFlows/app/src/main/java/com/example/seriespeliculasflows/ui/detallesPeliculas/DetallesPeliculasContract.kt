@@ -1,8 +1,5 @@
 package com.example.seriespeliculasflows.ui.detallesPeliculas
 
-import com.example.seriespeliculasflows.ui.model.FavoritoUI
-import com.example.seriespeliculasflows.ui.model.PeliculaUI
-
 
 interface DetallesPeliculasContract {
 

@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.DetallesPeliculaFragmentBinding
-import com.example.seriespeliculasflows.ui.model.PeliculaUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

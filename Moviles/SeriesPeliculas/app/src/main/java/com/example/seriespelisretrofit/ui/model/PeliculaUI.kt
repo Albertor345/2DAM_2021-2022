@@ -2,11 +2,11 @@ package com.example.seriespelisretrofit.ui.model
 
 data class PeliculaUI(
     val id: Int,
-    val backdropPath: String?,
+    val title: String?,
     val originalTitle: String?,
     val posterPath: String?,
+    val backdropPath: String?,
     val overview: String?,
     val releaseDate: String?,
-    val title: String?,
     var favorito: Boolean
 )

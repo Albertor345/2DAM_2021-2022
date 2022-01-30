@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.PeliculaBinding
-import com.example.seriespeliculasflows.ui.model.PeliculaUI
 
 class PeliculaAdapter(val actions: PeliculaAdapterActions) :
     ListAdapter<PeliculaUI, PeliculaAdapter.PeliculaViewHolder>(DiffCallback()) {

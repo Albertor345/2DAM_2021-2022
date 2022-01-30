@@ -1,16 +1,12 @@
 package com.example.seriespeliculasflows.ui.favoritos
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
 import com.example.seriespeliculasflows.data.remote.repositories.peliculas.PelisRepository
 import com.example.seriespeliculasflows.data.remote.repositories.series.SeriesRepository
 import com.example.seriespeliculasflows.ui.favoritos.FavoritosContract.FavoritosScreenStatus
-import com.example.seriespeliculasflows.ui.model.FavoritoUI
-import com.example.seriespeliculasflows.ui.model.PeliculaUI
-import com.example.seriespeliculasflows.ui.model.SerieUI
+import com.example.seriespeliculasflows.ui.model.ItemUI
 import com.example.seriespeliculasflows.usecases.favoritos.DeleteFromFavoritosUseCase
 import com.example.seriespeliculasflows.usecases.favoritos.GetFavoritosLocalUseCase
 import com.example.seriespeliculasflows.utils.Constants
@@ -37,15 +33,13 @@ class FavoritosViewModel @Inject constructor(
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
-    private var selectedItem = mutableListOf<FavoritoUI>()
 
-
-    fun handleEvent(event: FavoritosContract.Event, favorito: FavoritoUI?) {
+    fun handleEvent(event: FavoritosContract.Event, item: ItemUI?) {
         when (event) {
-            FavoritosContract.Event.FetchFavoritos -> getFavoritos()
-            FavoritosContract.Event.DeleteFavorito -> favorito?.let { delFavorito(it) }
-            FavoritosContract.Event.SeleccionarFavorito -> favorito?.let { seleccionaFavorito(it) }
-            FavoritosContract.Event.ItemIsSelected -> favorito?.let { isSelected(it) }
+            FavoritosContract.Event.GetFavoritos -> getFavoritos()
+            FavoritosContract.Event.DeleteFavorito -> item?.let { delFavorito(it) }
+            FavoritosContract.Event.SeleccionarFavorito -> item?.let { seleccionaFavorito(it) }
+            FavoritosContract.Event.ItemIsSelected -> item?.let { isSelected(it) }
         }
     }
 
@@ -58,7 +52,7 @@ class FavoritosViewModel @Inject constructor(
                         is DataAccessResult.Error -> _uiState.update { it.copy(error = result.message) }
                         is DataAccessResult.Success -> _uiState.update {
                             it.copy(
-                                favoritos = result.data ?: emptyList(), isLoading = false
+                                items = result.data ?: emptyList(), isLoading = false
                             )
                         }
                         is DataAccessResult.Loading -> _uiState.update { it.copy(isLoading = true) }
@@ -67,45 +61,45 @@ class FavoritosViewModel @Inject constructor(
         }
     }
 
-    fun delFavorito(favorito: FavoritoUI) {
+    fun delFavorito(item: ItemUI) {
         viewModelScope.launch {
-            if (favorito.tipo == Constants.PELICULA_TYPE) {
-                lateinit var pelicula: PeliculaUI
-                when (val result = repository.getPelicula(favorito.id)) {
-                    is DataAccessResult.Success -> {
-                        pelicula = result.data!!
-                        deleteFromFavoritosUseCase.deletePeliculaFavoritos(pelicula)
+            deleteFromFavoritosUseCase.deleteFromFavorito(item)
+                .catch(action = { _uiError.send(it.message ?: "") })
+                .collect { result ->
+                    when (result) {
+                        is DataAccessResult.Error -> _uiState.update { it.copy(error = result.message) }
+                        is DataAccessResult.Success -> _uiState.update {
+                            it.copy(
+                                error = Constants.SUCCESS_REMOVING_FAVORITO, isLoading = false
+                            )
+                        }
+                        is DataAccessResult.Loading -> _uiState.update { it.copy(isLoading = true) }
                     }
-                    is DataAccessResult.Error -> _error.value = result.message!!
                 }
-            } else {
-                lateinit var serie: SerieUI
-                when (val result = repositorySeries.getSerie(favorito.id)) {
-                    is DataAccessResult.Success -> {
-                        serie = result.data!!
-                        deleteFromFavoritosUseCase.deleteSerieFavoritos(serie)
+        }
+    }
 
-                    }
-                    is DataAccessResult.Error -> _error.value = result.message!!
-                }
+    fun seleccionaFavorito(item: ItemUI) {
+        if (isSelected(item)) {
+            _uiState.update {
+                it.copy(
+                    selectedItems = it.selectedItems.minus(item).toMutableList()
+                )
             }
-            getFavoritos()
-        }
-    }
-
-    fun seleccionaFavorito(favorito: FavoritoUI) {
-        if (isSelected(favorito)) {
-            selectedItem.remove(favorito)
         } else {
-            selectedItem.add(favorito)
+            _uiState.update {
+                it.copy(
+                    selectedItems = it.selectedItems.plus(item).toMutableList()
+                )
+            }
         }
     }
 
-    fun isSelected(favorito: FavoritoUI): Boolean {
-        return selectedItem.contains(favorito)
+    fun isSelected(item: ItemUI): Boolean {
+        return uiState.value.selectedItems.contains(item)
     }
 
     fun getSelectedItemSize(): Int {
-        return selectedItem.size
+        return uiState.value.selectedItems.size
     }
 }

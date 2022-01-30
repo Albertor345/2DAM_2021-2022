@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.DetallesSerieFragmentBinding
-import com.example.seriespeliculasflows.ui.model.SerieUI
 import com.example.seriespeliculasflows.ui.model.TemporadaUI
 import com.example.seriespeliculasflows.ui.detallesPeliculas.DetallesPeliculaFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint

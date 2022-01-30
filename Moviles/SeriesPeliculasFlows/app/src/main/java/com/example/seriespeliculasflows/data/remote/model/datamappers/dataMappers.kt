@@ -8,8 +8,8 @@ import com.example.seriespeliculasflows.ui.model.TemporadaUI
 import com.example.seriespeliculasflows.utils.Constants
 
 
-fun PeliculasResultRemote.toListPeliculaUI(): List<PeliculaUI>? =
-    peliculas?.map { it.toPeliculaUI() }
+fun PeliculasResultRemote.toListPeliculaUI(): List<PeliculaUI> =
+    peliculas?.let { it.map { it.toPeliculaUI() } } ?: emptyList()
 
 fun PeliculaRemote.toPeliculaUI(): PeliculaUI =
     PeliculaUI(

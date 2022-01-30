@@ -9,14 +9,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class PelisRepository @Inject constructor(private val pelisDataSource: PelisDataSource, private val repository: FavoritosLocalRepository) {
-    suspend fun getPeliculas(query: String) =
-        withContext(Dispatchers.IO)
-        { pelisDataSource.getPeliculas(query) }
+class PelisRepository @Inject constructor(
+    private val pelisDataSource: PelisDataSource,
+    private val repository: FavoritosLocalRepository
+) {
+    fun getPeliculas(query: String): Flow<DataAccessResult<List<PeliculaUI>>> {
+        return flow {
+            emit(DataAccessResult.Loading())
+            emit(pelisDataSource.getPeliculas(query))
+
+        }.flowOn(Dispatchers.IO)
+    }
 
     fun getPelicula(id: Int): Flow<DataAccessResult<PeliculaUI>> {
         return flow {

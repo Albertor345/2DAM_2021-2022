@@ -31,11 +31,11 @@ class DetallesPeliculasViewModel @Inject constructor(
     val uiError = _uiError.receiveAsFlow()
 
 
-
-    fun handleEvent(event: DetallesPeliculasContract.Event, pelicula: PeliculaUI?) {
-        when(event){
-            DetallesPeliculasContract.Event.AddFavorito -> TODO()
-            DetallesPeliculasContract.Event.DeleteFavorito -> TODO()
+    fun handleEvent(event: DetallesPeliculasContract.Event, id: Int?, pelicula: PeliculaUI?) {
+        when (event) {
+            DetallesPeliculasContract.Event.AddFavorito -> pelicula?.let { addToFavorito(pelicula) }
+            DetallesPeliculasContract.Event.DeleteFavorito -> pelicula?.let { removeFavorito(pelicula) }
+            DetallesPeliculasContract.Event.GetPelicula -> id?.let { getPelicula(id) }
         }
     }
 
@@ -71,7 +71,7 @@ class DetallesPeliculasViewModel @Inject constructor(
                                 if (affectedRows!!.toInt() == 1) Constants.SUCCESS_ADDING_PELICULA else {
                                     ""
                                 }
-                            }, isLoading = false)
+                            }, pelicula = pelicula.copy(favorito = true), isLoading = false)
                         }
                     }
                 }
@@ -93,7 +93,7 @@ class DetallesPeliculasViewModel @Inject constructor(
                                 if (affectedRows == 1) Constants.SUCCESS_REMOVING_PELICULA else {
                                     ""
                                 }
-                            }, isLoading = false)
+                            }, pelicula = pelicula.copy(favorito = false), isLoading = false)
                         }
                     }
                 }

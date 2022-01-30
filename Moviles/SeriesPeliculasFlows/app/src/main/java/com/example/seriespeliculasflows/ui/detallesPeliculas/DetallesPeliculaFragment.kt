@@ -59,34 +59,34 @@ class DetallesPeliculaFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun changeFavStatus(menuItem: MenuItem) {
-        if (!viewModel.currentFilm.value!!.favorito) {
-            menuItem.setIcon(R.drawable.ic_baseline_favorite_24)
-            viewModel.addToFavorito(viewModel.currentFilm.value!!)
-        } else {
-            menuItem.setIcon(R.drawable.ic_baseline_favorite_border_24)
-            viewModel.removeFavorito(viewModel.currentFilm.value!!)
-        }
-    }
-
     private fun observers() {
-        lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiError.collect {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
-        lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
-                   // binding.loading.visibility = if (it.isLoading) View.VISIBLE else View.GONE
+                    // binding.loading.visibility = if (it.isLoading) View.VISIBLE else View.GONE
                     it.pelicula?.let { pelicula -> loadPelicula(pelicula) }
-
                 }
             }
         }
+    }
+
+    private fun changeFavStatus(menuItem: MenuItem) {
+        viewModel.uiState.value.pelicula?.let {
+            if (!it.favorito) {
+                viewModel.handleEvent(DetallesPeliculasContract.Event.AddFavorito, null, it)
+            } else {
+                viewModel.handleEvent(DetallesPeliculasContract.Event.DeleteFavorito, null, it)
+            }
+        }
+
     }
 
     private fun loadPelicula(it: PeliculaUI) {
@@ -104,6 +104,7 @@ class DetallesPeliculaFragment : Fragment() {
 
 
     private fun getPelicula(id: Int) {
+        viewModel.handleEvent(DetallesPeliculasContract.Event.GetPelicula, id, null)
         viewModel.getPelicula(id)
     }
 }

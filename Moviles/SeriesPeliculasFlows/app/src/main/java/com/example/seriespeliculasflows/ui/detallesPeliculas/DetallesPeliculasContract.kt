@@ -9,6 +9,7 @@ interface DetallesPeliculasContract {
     sealed class Event {
         object AddFavorito : Event()
         object DeleteFavorito : Event()
+        object GetPelicula : Event()
 
     }
 

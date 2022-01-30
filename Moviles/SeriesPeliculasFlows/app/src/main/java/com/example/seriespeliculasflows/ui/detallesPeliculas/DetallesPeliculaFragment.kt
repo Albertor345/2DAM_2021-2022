@@ -5,12 +5,17 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.DetallesPeliculaFragmentBinding
 import com.example.seriespeliculasflows.ui.model.PeliculaUI
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetallesPeliculaFragment : Fragment() {
@@ -22,6 +27,7 @@ class DetallesPeliculaFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        observers()
     }
 
     override fun onCreateView(
@@ -30,7 +36,6 @@ class DetallesPeliculaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = DetallesPeliculaFragmentBinding.inflate(inflater, container, false)
-        observers()
         return binding.root
     }
 
@@ -65,12 +70,23 @@ class DetallesPeliculaFragment : Fragment() {
     }
 
     private fun observers() {
-        viewModel.error.observe(this, {
-            Toast.makeText(this.requireContext(), it, Toast.LENGTH_LONG).show()
-        })
-        viewModel.currentFilm.observe(this, {
-            loadPelicula(it)
-        })
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.uiError.collect {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.uiState.collect {
+                   // binding.loading.visibility = if (it.isLoading) View.VISIBLE else View.GONE
+                    it.pelicula?.let { pelicula -> loadPelicula(pelicula) }
+
+                }
+            }
+        }
     }
 
     private fun loadPelicula(it: PeliculaUI) {

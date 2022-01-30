@@ -30,6 +30,15 @@ class DetallesPeliculasViewModel @Inject constructor(
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
+
+
+    fun handleEvent(event: DetallesPeliculasContract.Event, pelicula: PeliculaUI?) {
+        when(event){
+            DetallesPeliculasContract.Event.AddFavorito -> TODO()
+            DetallesPeliculasContract.Event.DeleteFavorito -> TODO()
+        }
+    }
+
     fun getPelicula(id: Int) {
         viewModelScope.launch {
             getPelicula.getPelicula(id).catch(action = { _uiError.send(it.message ?: "") })

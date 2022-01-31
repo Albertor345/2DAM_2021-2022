@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
 import com.example.seriespeliculasflows.ui.detallesPeliculas.DetallesPeliculasContract.DetallesPeliculasScreenStatus
+import com.example.seriespeliculasflows.ui.model.ItemUI
 import com.example.seriespeliculasflows.usecases.favoritos.AddToFavoritosUseCase
 import com.example.seriespeliculasflows.usecases.favoritos.DeleteFromFavoritosUseCase
 import com.example.seriespeliculasflows.usecases.peliculas.GetPeliculaUseCase
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetallesPeliculasViewModel @Inject constructor(
-    private val getPelicula: GetPeliculaUseCase,
+    private val getPeliculaUseCase: GetPeliculaUseCase,
     private val addToFavoritosUseCase: AddToFavoritosUseCase,
     private val deleteFromFavoritosUseCase: DeleteFromFavoritosUseCase
 ) : ViewModel() {
@@ -30,17 +31,25 @@ class DetallesPeliculasViewModel @Inject constructor(
     val uiError = _uiError.receiveAsFlow()
 
 
-    fun handleEvent(event: DetallesPeliculasContract.Event, id: Int?, pelicula: PeliculaUI?) {
+    fun handleEvent(
+        event: DetallesPeliculasContract.Event,
+        id: Int?,
+        pelicula: ItemUI.PeliculaUI?
+    ) {
         when (event) {
             DetallesPeliculasContract.Event.AddFavorito -> pelicula?.let { addToFavorito(pelicula) }
-            DetallesPeliculasContract.Event.DeleteFavorito -> pelicula?.let { removeFavorito(pelicula) }
+            DetallesPeliculasContract.Event.DeleteFavorito -> pelicula?.let {
+                removeFavorito(
+                    pelicula
+                )
+            }
             DetallesPeliculasContract.Event.GetPelicula -> id?.let { getPelicula(id) }
         }
     }
 
     fun getPelicula(id: Int) {
         viewModelScope.launch {
-            getPelicula.getPelicula(id).catch(action = { _uiError.send(it.message ?: "") })
+            getPeliculaUseCase.getPelicula(id).catch(action = { _uiError.send(it.message ?: "") })
                 .collect { result ->
                     when (result) {
                         is DataAccessResult.Error -> _uiState.update {
@@ -55,7 +64,7 @@ class DetallesPeliculasViewModel @Inject constructor(
         }
     }
 
-    fun addToFavorito(pelicula: PeliculaUI) {
+    fun addToFavorito(pelicula: ItemUI.PeliculaUI) {
         viewModelScope.launch {
             addToFavoritosUseCase.addPeliculaToFavoritos(pelicula)
                 .catch(action = { _uiError.send(it.message ?: "") })
@@ -70,14 +79,14 @@ class DetallesPeliculasViewModel @Inject constructor(
                                 if (affectedRows!!.toInt() == 1) Constants.SUCCESS_ADDING_FAVORITO else {
                                     ""
                                 }
-                            }, pelicula = pelicula.copy(favorito = true), isLoading = false)
+                            }, pelicula = pelicula.apply { favorito = true }, isLoading = false)
                         }
                     }
                 }
         }
     }
 
-    fun removeFavorito(pelicula: PeliculaUI) {
+    fun removeFavorito(pelicula: ItemUI.PeliculaUI) {
         viewModelScope.launch {
             deleteFromFavoritosUseCase.deleteFromFavorito(pelicula)
                 .catch(action = { _uiError.send(it.message ?: "") })
@@ -87,12 +96,19 @@ class DetallesPeliculasViewModel @Inject constructor(
                             it.copy(error = result.message ?: "")
                         }
                         is DataAccessResult.Loading -> _uiState.update { it.copy(isLoading = true) }
-                        is DataAccessResult.Success -> _uiState.update {
-                            it.copy(mensaje = result.data.let { affectedRows ->
-                                if (affectedRows == 1) Constants.SUCCESS_REMOVING_PELICULA else {
-                                    ""
-                                }
-                            }, pelicula = pelicula.copy(favorito = false), isLoading = false)
+                        is DataAccessResult.Success -> {
+                            _uiState.update {
+                                it.copy(
+                                    mensaje = result.data.let { affectedRows ->
+                                        if (affectedRows == 1) Constants.SUCCESS_REMOVING_FAVORITO else {
+                                            ""
+                                        }
+                                    },
+                                    pelicula = pelicula.apply { favorito = false },
+                                    isLoading = false
+                                )
+                            }
+
                         }
                     }
                 }

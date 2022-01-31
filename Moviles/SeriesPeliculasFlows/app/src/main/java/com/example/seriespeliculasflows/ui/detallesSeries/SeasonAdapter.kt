@@ -38,7 +38,7 @@ class SeasonAdapter(val actions: SeasonAdapterActions) :
         fun bind(temporadaUI: TemporadaUI, position: Int) {
             with(binding) {
                 seasonNumber.text =
-                    "Temporada ${position + 1} capitulos: ${temporadaUI.episodeCount} ${temporadaUI.id}"
+                    "Temporada ${position + 1} Numero de capitulos: ${temporadaUI.episodeCount}"
             }
             itemView.setOnClickListener {
                 actions.detalles(temporadaUI)

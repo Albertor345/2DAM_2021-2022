@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.DetallesPeliculaFragmentBinding
+import com.example.seriespeliculasflows.ui.model.ItemUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -88,11 +89,11 @@ class DetallesPeliculaFragment : Fragment() {
 
     }
 
-    private fun loadPelicula(it: PeliculaUI) {
+    private fun loadPelicula(it: ItemUI.PeliculaUI) {
         with(binding) {
-            title.text = it.title
+            title.text = it.name
             overview.text = it.overview
-            imagen.load(it.posterPath)
+            imagen.load(it.imagePath)
             if (it.favorito) {
                 menuItem.setIcon(R.drawable.ic_baseline_favorite_24)
             } else {

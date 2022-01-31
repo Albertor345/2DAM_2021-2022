@@ -3,6 +3,7 @@ package com.example.seriespeliculasflows.data.remote.repositories.peliculas
 import com.example.seriespeliculasflows.data.local.repositories.favoritos.FavoritosLocalRepository
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
 import com.example.seriespeliculasflows.data.remote.sources.api.pelis.PelisDataSource
+import com.example.seriespeliculasflows.ui.model.ItemUI
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ class PelisRepository @Inject constructor(
     private val pelisDataSource: PelisDataSource,
     private val repository: FavoritosLocalRepository
 ) {
-    fun getPeliculas(query: String): Flow<DataAccessResult<List<PeliculaUI>>> {
+    fun getPeliculas(query: String): Flow<DataAccessResult<List<ItemUI.PeliculaUI>>> {
         return flow {
             emit(DataAccessResult.Loading())
             emit(pelisDataSource.getPeliculas(query))
@@ -23,7 +24,7 @@ class PelisRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    fun getPelicula(id: Int): Flow<DataAccessResult<PeliculaUI>> {
+    fun getPelicula(id: Int): Flow<DataAccessResult<ItemUI.PeliculaUI>> {
         return flow {
             emit(DataAccessResult.Loading())
             val pelicula = pelisDataSource.getPelicula(id)

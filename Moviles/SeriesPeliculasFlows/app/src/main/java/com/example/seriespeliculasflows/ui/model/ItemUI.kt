@@ -7,7 +7,7 @@ sealed class ItemUI(
     val imagePath: String?,
     val overview: String?,
     val releaseDate: String?,
-    val favorito: Boolean,
+    var favorito: Boolean,
     var seasons: List<TemporadaUI>?,
     var selected: Boolean
 ) {

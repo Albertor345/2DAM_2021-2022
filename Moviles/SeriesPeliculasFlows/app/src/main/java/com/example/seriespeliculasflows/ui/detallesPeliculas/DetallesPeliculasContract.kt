@@ -1,5 +1,7 @@
 package com.example.seriespeliculasflows.ui.detallesPeliculas
 
+import com.example.seriespeliculasflows.ui.model.ItemUI
+
 
 interface DetallesPeliculasContract {
 
@@ -11,7 +13,7 @@ interface DetallesPeliculasContract {
     }
 
     data class DetallesPeliculasScreenStatus(
-        val pelicula: PeliculaUI? = null,
+        val pelicula: ItemUI.PeliculaUI? = null,
         val isLoading : Boolean = false,
         val error: String? = null,
         val mensaje: String? = null

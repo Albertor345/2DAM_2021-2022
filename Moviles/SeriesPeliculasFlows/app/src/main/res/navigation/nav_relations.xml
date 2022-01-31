@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_relations"
+    app:startDestination="@id/favoritosFragment">
+
+    <fragment
+        android:id="@+id/seriesFragment"
+        android:name="com.example.seriespeliculasflows.ui.series.SeriesFragment"
+        android:label="SeriesFragment" >
+        <action
+            android:id="@+id/action_seriesFragment_to_detallesSeriesFragment"
+            app:destination="@id/detallesSeriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/peliculasFragment"
+        android:name="com.example.seriespeliculasflows.ui.peliculas.PeliculasFragment"
+        android:label="PeliculasFragment" >
+        <action
+            android:id="@+id/action_peliculasFragment_to_detallesPeliculasFragment"
+            app:destination="@id/detallesPeliculasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallesSeriesFragment"
+        android:name="com.example.seriespeliculasflows.ui.detallesSeries.DetallesSeriesFragment"
+        android:label="DetallesSeriesFragment">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_detallesSeriesFragment_to_detallesSeasonFragment"
+            app:destination="@id/detallesSeasonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallesPeliculasFragment"
+        android:name="com.example.seriespeliculasflows.ui.detallesPeliculas.DetallesPeliculaFragment"
+        android:label="DetallesPeliculasFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritosFragment"
+        android:name="com.example.seriespeliculasflows.ui.favoritos.FavoritosFragment"
+        android:label="FavoritosFragment" >
+        <action
+            android:id="@+id/action_favoritosFragment_to_detallesSeriesFragment"
+            app:destination="@id/detallesSeriesFragment" />
+        <action
+            android:id="@+id/action_favoritosFragment_to_detallesPeliculasFragment"
+            app:destination="@id/detallesPeliculasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallesSeasonFragment"
+        android:name="com.example.seriespeliculasflows.ui.seasons.DetallesSeasonFragment"
+        android:label="detalles_season_fragment"
+        tools:layout="@layout/detalles_season_fragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="seasonNumber"
+            app:argType="integer" />
+    </fragment>
+</navigation>

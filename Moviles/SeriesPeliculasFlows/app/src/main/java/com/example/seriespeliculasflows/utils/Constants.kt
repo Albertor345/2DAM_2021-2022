@@ -1,6 +1,9 @@
 package com.example.seriespeliculasflows.utils
 
 object Constants {
+    const val SERIE_TYPE: String = "Serie"
+    const val PELICULA_TYPE: String = "Pelicula"
+
     const val BASE_URL = "https://api.themoviedb.org/3/"
     const val IMAGE_PATH = "https://image.tmdb.org/t/p/w500"
 

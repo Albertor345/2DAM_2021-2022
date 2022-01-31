@@ -35,5 +35,13 @@ class PelisRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    fun getPeliculasUpcoming(): Flow<DataAccessResult<List<ItemUI.PeliculaUI>>> {
+        return flow {
+            emit(DataAccessResult.Loading())
+            emit(pelisDataSource.getPeliculasUpcoming())
+
+        }.flowOn(Dispatchers.IO)
+    }
+
 
 }

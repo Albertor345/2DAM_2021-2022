@@ -12,6 +12,9 @@ interface PelisCalls {
     @GET("movie/{movie_id}")
     suspend fun getPelicula(@Path("movie_id") id: Int): Response<PeliculaRemote>
 
+    @GET("movie/upcoming")
+    suspend fun getPeliculasUpcoming(): Response<PeliculasResultRemote>
+
     @GET("search/movie")
     suspend fun getPeliculas(
         @Query("query") query: String

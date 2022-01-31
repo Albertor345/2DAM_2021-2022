@@ -14,6 +14,11 @@ class PelisDataSource @Inject constructor(private val pelisCalls: PelisCalls) : 
         transform = PeliculasResultRemote::toListPeliculaUI
     )
 
+    suspend fun getPeliculasUpcoming() = safeApiCall(
+        apiCall = { pelisCalls.getPeliculasUpcoming() },
+        transform = PeliculasResultRemote::toListPeliculaUI
+    )
+
     suspend fun getPelicula(id: Int) = safeApiCall(
         apiCall = { pelisCalls.getPelicula(id) },
         transform = PeliculaRemote::toPeliculaUI

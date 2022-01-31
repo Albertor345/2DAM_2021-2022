@@ -7,9 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.example.seriespeliculasflows.databinding.DetallesSeasonFragmentBinding
+import com.example.seriespeliculasflows.ui.model.CapituloUI
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetallesSeasonFragment : Fragment() {
@@ -45,11 +51,22 @@ class DetallesSeasonFragment : Fragment() {
     }
 
     private fun observers() {
-        viewModel.error.observe(this, {
-            Toast.makeText(this.requireContext(), it, Toast.LENGTH_LONG).show()
-        })
-        viewModel.capitulos.observe(this, {
-            adapter.submitList(it)
-        })
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiError.collect {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    // binding.loading.visibility = if (it.isLoading) View.VISIBLE else View.GONE
+                    it.season?.let { it.capitulos.let { adapter.submitList(it) } }
+                        ?: emptyList<CapituloUI>()
+                }
+            }
+        }
     }
 }

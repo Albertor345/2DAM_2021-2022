@@ -22,6 +22,14 @@ class SeriesRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getTopRatedSeries(): Flow<DataAccessResult<List<ItemUI.SerieUI>>> {
+        return flow {
+            emit(DataAccessResult.Loading())
+            emit(seriesDataSource.getTopRatedSeries())
+
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     suspend fun getSerie(id: Int): Flow<DataAccessResult<ItemUI.SerieUI>> {
         return flow {

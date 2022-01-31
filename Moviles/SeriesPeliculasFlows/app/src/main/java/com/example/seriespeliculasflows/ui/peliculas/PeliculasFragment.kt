@@ -6,10 +6,16 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.PeliculasFragmentBinding
+import com.example.seriespeliculasflows.ui.model.ItemUI
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PeliculasFragment : Fragment() {
@@ -27,15 +33,7 @@ class PeliculasFragment : Fragment() {
         _binding = PeliculasFragmentBinding.inflate(inflater, container, false)
         configAdapter()
         observers()
-        if (viewModel.currentFilms.value != null) {
-            if (viewModel.currentFilms.value?.isEmpty() == true) {
-                getPeliculas(getString(R.string.firstPeliculasCallQuery))
-            } else {
-                adapter.submitList(viewModel.currentFilms.value)
-            }
-        } else {
-            getPeliculas(getString(R.string.firstPeliculasCallQuery))
-        }
+        viewModel.handleEvent(PeliculasContract.Event.GetPeliculasUpcoming, null)
         return binding.root
     }
 
@@ -63,34 +61,43 @@ class PeliculasFragment : Fragment() {
     }
 
     private fun observers() {
-        viewModel.error.observe(this, {
-            Toast.makeText(this.requireContext(), it, Toast.LENGTH_LONG).show()
-        })
-        viewModel.currentFilms.observe(this, {
-            adapter.submitList(it)
-        })
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiError.collect {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    // binding.loading.visibility = if (it.isLoading) View.VISIBLE else View.GONE
+                    it.items.let { adapter.submitList(it) }
+                }
+            }
+        }
     }
 
     private fun configAdapter() {
         adapter = PeliculaAdapter(object : PeliculaAdapter.PeliculaAdapterActions {
-            override fun detalles(item: PeliculaUI) {
+            override fun detalles(item: ItemUI.PeliculaUI) {
                 this@PeliculasFragment.detalles(item)
             }
         })
         binding.recyclerViewPeliculas.adapter = adapter
     }
 
-    private fun detalles(item: PeliculaUI) {
+    private fun detalles(item: ItemUI.PeliculaUI) {
         findNavController().navigate(
             PeliculasFragmentDirections.actionPeliculasFragmentToDetallesPeliculasFragment(
-                item.id,
-                null
+                item.id
             )
         )
     }
 
     private fun getPeliculas(query: String) {
-        viewModel.getPeliculas(query)
+        viewModel.handleEvent(PeliculasContract.Event.GetPeliculasQuery, query)
     }
 
 }

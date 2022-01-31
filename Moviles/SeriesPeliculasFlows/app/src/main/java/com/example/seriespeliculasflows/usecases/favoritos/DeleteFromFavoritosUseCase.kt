@@ -5,9 +5,6 @@ import com.example.seriespeliculasflows.ui.model.ItemUI
 import javax.inject.Inject
 
 class DeleteFromFavoritosUseCase @Inject constructor(private val favoritosLocalRepository: FavoritosLocalRepository) {
-    suspend fun deleteSerieFavoritos(serie: SerieUI) =
-        favoritosLocalRepository.deleteSerie(serie.toSerieWithTemporadas())
-
     fun deleteFromFavorito(item: ItemUI) =
         favoritosLocalRepository.deleteFromFavorito(item)
 }

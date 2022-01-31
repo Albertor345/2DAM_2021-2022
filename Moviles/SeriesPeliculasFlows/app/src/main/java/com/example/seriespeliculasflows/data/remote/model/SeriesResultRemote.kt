@@ -3,7 +3,7 @@ package com.example.seriespeliculasflows.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class SeriesResultRemoteRemote(
+data class SeriesResultRemote(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")

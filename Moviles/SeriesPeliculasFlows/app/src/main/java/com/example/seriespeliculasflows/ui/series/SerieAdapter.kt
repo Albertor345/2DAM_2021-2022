@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.SerieBinding
+import com.example.seriespeliculasflows.ui.model.ItemUI
 
 class SerieAdapter(val actions: SerieAdapterActions) :
-    ListAdapter<SerieUI, SerieAdapter.SerieViewHolder>(DiffCallback()) {
+    ListAdapter<ItemUI.SerieUI, SerieAdapter.SerieViewHolder>(DiffCallback()) {
 
     interface SerieAdapterActions {
-        fun detalles(item: SerieUI)
+        fun detalles(item: ItemUI.SerieUI)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SerieViewHolder {
@@ -35,10 +36,10 @@ class SerieAdapter(val actions: SerieAdapterActions) :
 
     inner class SerieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = SerieBinding.bind(view)
-        fun bind(serieUI: SerieUI) {
+        fun bind(serieUI: ItemUI.SerieUI) {
             with(binding) {
                 title.text = serieUI.name
-                image.load(serieUI.posterPath)
+                image.load(serieUI.imagePath)
             }
             itemView.setOnClickListener {
                 actions.detalles(serieUI)
@@ -47,12 +48,12 @@ class SerieAdapter(val actions: SerieAdapterActions) :
 
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<SerieUI>() {
-        override fun areItemsTheSame(oldItem: SerieUI, newItem: SerieUI): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<ItemUI.SerieUI>() {
+        override fun areItemsTheSame(oldItem: ItemUI.SerieUI, newItem: ItemUI.SerieUI): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: SerieUI, newItem: SerieUI): Boolean {
+        override fun areContentsTheSame(oldItem: ItemUI.SerieUI, newItem: ItemUI.SerieUI): Boolean {
             return oldItem == newItem
         }
     }

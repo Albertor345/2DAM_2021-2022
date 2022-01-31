@@ -1,7 +1,7 @@
 package com.example.seriespeliculasflows.data.remote.sources.api.series
 
 import com.example.seriespeliculasflows.data.remote.model.SerieRemote
-import com.example.seriespeliculasflows.data.remote.model.SeriesResultRemoteRemote
+import com.example.seriespeliculasflows.data.remote.model.SeriesResultRemote
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,5 +15,8 @@ interface SeriesCalls {
     @GET("search/tv")
     suspend fun getSeries(
         @Query("query") query: String
-    ): Response<SeriesResultRemoteRemote>
+    ): Response<SeriesResultRemote>
+
+    @GET("tv/top_rated")
+    suspend fun getTopRatedSeries(): Response<SeriesResultRemote>
 }

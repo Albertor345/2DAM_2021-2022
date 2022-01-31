@@ -18,7 +18,7 @@ interface FavoritosContract {
         val selectedItems: MutableList<ItemUI> = mutableListOf(),
         val isLoading : Boolean = false,
         val error: String? = null,
-        val isSelected: Boolean = false
+        val isSelectionModeEnabled: Boolean = false
 
     )
 }

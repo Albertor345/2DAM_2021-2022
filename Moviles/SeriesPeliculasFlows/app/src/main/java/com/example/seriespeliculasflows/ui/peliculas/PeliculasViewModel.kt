@@ -1,35 +1,71 @@
 package com.example.seriespeliculasflows.ui.peliculas
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
+import com.example.seriespeliculasflows.usecases.peliculas.GetPeliculasTrendingUseCase
 import com.example.seriespeliculasflows.usecases.peliculas.GetPeliculasUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PeliculasViewModel @Inject constructor(private val getPeliculas: GetPeliculasUseCase) :
+class PeliculasViewModel @Inject constructor(
+    private val getPeliculasUseCase: GetPeliculasUseCase,
+    private val getPeliculasTrendingUseCase: GetPeliculasTrendingUseCase
+) :
     ViewModel() {
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> get() = _error
+    private val _uiState: MutableStateFlow<PeliculasContract.PeliculasScreenStatus> by lazy {
+        MutableStateFlow(PeliculasContract.PeliculasScreenStatus())
+    }
+    val uiState: StateFlow<PeliculasContract.PeliculasScreenStatus> = _uiState
 
-    private val _currentFilms = MutableLiveData<List<PeliculaUI>>()
-    val currentFilms: LiveData<List<PeliculaUI>> get() = _currentFilms
+    private val _uiError = Channel<String>()
+    val uiError = _uiError.receiveAsFlow()
+
+    fun handleEvent(event: PeliculasContract.Event, query: String?) {
+        when (event) {
+            PeliculasContract.Event.GetPeliculasQuery -> getPeliculas(query!!)
+            PeliculasContract.Event.GetPeliculasUpcoming -> getPeliculasUpcoming()
+        }
+    }
 
     fun getPeliculas(query: String) {
-        try {
-            viewModelScope.launch {
-                when (val result = getPeliculas.getPeliculas(query)) {
-                    is DataAccessResult.Error -> _error.value = result.message!!
-                    is DataAccessResult.Success -> _currentFilms.value = result.data!!
+        viewModelScope.launch {
+            getPeliculasUseCase.getPeliculas(query)
+                .catch(action = { _uiError.send(it.message ?: "") })
+                .collect { result ->
+                    when (result) {
+                        is DataAccessResult.Error -> _uiState.update {
+                            it.copy(error = result.message ?: "")
+                        }
+                        is DataAccessResult.Loading -> _uiState.update { it.copy(isLoading = true) }
+                        is DataAccessResult.Success -> _uiState.update {
+                            it.copy(items = result.data.orEmpty(), isLoading = false)
+                        }
+                    }
                 }
-            }
-        } catch (ex: Exception) {
-            _error.value = ex.toString()
+        }
+    }
+
+    private fun getPeliculasUpcoming() {
+        viewModelScope.launch {
+            getPeliculasTrendingUseCase.getPeliculasUpcoming()
+                .catch(action = { _uiError.send(it.message ?: "") })
+                .collect { result ->
+                    when (result) {
+                        is DataAccessResult.Error -> _uiState.update {
+                            it.copy(error = result.message ?: "")
+                        }
+                        is DataAccessResult.Loading -> _uiState.update { it.copy(isLoading = true) }
+                        is DataAccessResult.Success -> _uiState.update {
+                            it.copy(items = result.data.orEmpty(), isLoading = false)
+                        }
+                    }
+                }
         }
     }
 }

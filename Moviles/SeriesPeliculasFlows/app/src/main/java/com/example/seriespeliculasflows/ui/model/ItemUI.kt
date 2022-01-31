@@ -21,7 +21,17 @@ sealed class ItemUI(
         favorito: Boolean,
         selected: Boolean
     ) :
-        ItemUI(id, name, originalName, imagePath, overview, releaseDate, favorito, null, selected)
+        ItemUI(id, name, originalName, imagePath, overview, releaseDate, favorito, null, selected){
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return javaClass.hashCode()
+        }
+    }
 
     class SerieUI(
         id: Int,
@@ -34,5 +44,15 @@ sealed class ItemUI(
         seasons: List<TemporadaUI>?,
         selected: Boolean
     ) :
-        ItemUI(id, name, originalName, imagePath, overview, releaseDate, favorito, seasons, selected)
+        ItemUI(id, name, originalName, imagePath, overview, releaseDate, favorito, seasons, selected){
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return javaClass.hashCode()
+        }
+    }
 }

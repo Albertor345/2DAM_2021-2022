@@ -22,7 +22,7 @@ fun PeliculaRemote.toPeliculaUI(): PeliculaUI =
         false
     )
 
-fun SeriesResultRemoteRemote.toListSeriesUI(): List<SerieUI> =
+fun SeriesResultRemote.toListSeriesUI(): List<SerieUI> =
     series!!.map { it.toSerieUI() }
 
 fun SerieRemote.toSerieUI(): SerieUI =

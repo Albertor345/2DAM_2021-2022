@@ -4,13 +4,7 @@ import androidx.room.*
 import com.example.seriespeliculasflows.data.local.model.*
 import com.example.seriespeliculasflows.data.local.model.datamappers.toPeliculaUI
 import com.example.seriespeliculasflows.data.local.model.datamappers.toSerieUI
-import com.example.seriespeliculasflows.data.remote.DataAccessResult
 import com.example.seriespeliculasflows.ui.model.ItemUI
-import com.example.seriespeliculasflows.utils.Constants
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 @Dao
 interface DaoFavoritos {
@@ -30,7 +24,7 @@ interface DaoFavoritos {
 
 
     @Insert()
-    fun insertPelicula(pelicula: PeliculaEntity): Flow<DataAccessResult<Long>>
+    fun insertPelicula(pelicula: PeliculaEntity): Long
 
     @Insert()
     suspend fun insertSerie(serie: SerieEntity): Long
@@ -43,7 +37,7 @@ interface DaoFavoritos {
 
 
     @Delete
-    fun deletePelicula(pelicula: PeliculaEntity): Flow<DataAccessResult<Int>>
+    fun deletePelicula(pelicula: PeliculaEntity): Int
 
     @Delete
     suspend fun deleteSerie(serie: SerieEntity): Int
@@ -56,31 +50,22 @@ interface DaoFavoritos {
 
 
     @Transaction
-    fun insertSerieWithTemporadas(serie: SerieWithTemporadas): Flow<DataAccessResult<Int>> {
-        return flow {
-            insertSerie(serie.serie)
-            serie.temporadas?.map { insertTemporada(it.temporada) }
-            serie.temporadas?.map { it.capitulos?.map { capitulo -> insertCapitulo(capitulo) } }
-            emit(DataAccessResult.Success(1))
-        }.flowOn(Dispatchers.IO)
+    suspend fun insertSerieWithTemporadas(serie: SerieWithTemporadas): Long {
+        val id: Long = insertSerie(serie.serie)
+        serie.temporadas?.map { insertTemporada(it.temporada) }
+        serie.temporadas?.map { it.capitulos?.map { capitulo -> insertCapitulo(capitulo) } }
+        return id
     }
 
     @Transaction
-    fun deleteSerieWithTemporadas(serie: SerieWithTemporadas): Flow<DataAccessResult<Int>> {
-        return flow {
-            serie.temporadas?.map { it.capitulos?.map { capitulo -> deleteCapitulos(capitulo) } }
-            serie.temporadas?.map { deleteTemporadas(it.temporada) }
-            deleteSerie(serie.serie)
-            emit(DataAccessResult.Success(1))
-        }.flowOn(Dispatchers.IO)
+    suspend fun deleteSerieWithTemporadas(serie: SerieWithTemporadas): Int {
+        serie.temporadas?.map { it.capitulos?.map { capitulo -> deleteCapitulos(capitulo) } }
+        serie.temporadas?.map { deleteTemporadas(it.temporada) }
+        return deleteSerie(serie.serie)
     }
 
     @Transaction
-    fun getFavoritos(): Flow<DataAccessResult<List<ItemUI>>> {
-        return flow {
-            emit(DataAccessResult.Success(
-                getPeliculas().map { it.toPeliculaUI() } + getSeries().map { it.toSerieUI() }
-            ))
-        }.flowOn(Dispatchers.IO)
+    suspend fun getFavoritos(): List<ItemUI> {
+        return getPeliculas().map { it.toPeliculaUI() } + getSeries().map { it.toSerieUI() }
     }
 }

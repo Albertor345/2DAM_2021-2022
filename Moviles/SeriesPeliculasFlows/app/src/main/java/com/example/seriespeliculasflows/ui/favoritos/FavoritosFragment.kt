@@ -113,7 +113,7 @@ class FavoritosFragment : Fragment() {
             }
 
             override fun isItemSelected(item: ItemUI): Boolean =
-                viewModel.handleEvent(FavoritosContract.Event.ItemIsSelected, item)
+                viewModel.isSelected(item)
 
             override fun detalles(item: ItemUI) {
                 when (item) {

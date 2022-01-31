@@ -58,7 +58,7 @@ class FavoritoAdapter(
 
         fun bind(item: ItemUI) {
             with(binding) {
-                if (item.tipo == Constants.PELICULA_TYPE) {
+                if (item is ItemUI.PeliculaUI) {
                     type.text = Constants.PELICULA_TYPE
                     type.setTextColor(ContextCompat.getColor(context, R.color.naranja_chungo))
                 } else {

@@ -6,10 +6,16 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.SeriesFragmentBinding
+import com.example.seriespeliculasflows.ui.model.ItemUI
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SeriesFragment : Fragment() {
@@ -27,15 +33,7 @@ class SeriesFragment : Fragment() {
         _binding = SeriesFragmentBinding.inflate(inflater, container, false)
         observers()
         setListeners()
-        if (viewModel.currentSeries.value != null) {
-            if (viewModel.currentSeries.value?.isEmpty() == true) {
-                getSeries(getString(R.string.firstPeliculasCallQuery))
-            } else {
-                adapter.submitList(viewModel.currentSeries.value)
-            }
-        } else {
-            getSeries(getString(R.string.firstPeliculasCallQuery))
-        }
+        viewModel.handleEvent(SeriesContract.Event.GetTopRatedSeries, null)
         return binding.root
     }
 
@@ -49,11 +47,11 @@ class SeriesFragment : Fragment() {
         val queryTextListener: SearchView.OnQueryTextListener =
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String): Boolean {
-                    getSeries(newText)
                     return false
                 }
 
                 override fun onQueryTextSubmit(query: String): Boolean {
+                    getSeries(query)
                     return false
                 }
             }
@@ -62,34 +60,43 @@ class SeriesFragment : Fragment() {
     }
 
     private fun observers() {
-        viewModel.error.observe(this, {
-            Toast.makeText(this.requireContext(), it, Toast.LENGTH_LONG).show()
-        })
-        viewModel.currentSeries.observe(this, {
-            adapter.submitList(it)
-        })
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiError.collect {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    // binding.loading.visibility = if (it.isLoading) View.VISIBLE else View.GONE
+                    it.items.let { adapter.submitList(it) }
+                }
+            }
+        }
     }
 
     private fun setListeners() {
         adapter = SerieAdapter(object : SerieAdapter.SerieAdapterActions {
-            override fun detalles(item: SerieUI) {
+            override fun detalles(item: ItemUI.SerieUI) {
                 this@SeriesFragment.detalles(item)
             }
         })
         binding.recyclerViewSeries.adapter = adapter
     }
 
-    private fun detalles(item: SerieUI) {
+    private fun detalles(item: ItemUI.SerieUI) {
         findNavController().navigate(
             SeriesFragmentDirections.actionSeriesFragmentToDetallesSeriesFragment(
-                item.id,
-                null
+                item.id
             )
         )
     }
 
     private fun getSeries(query: String) {
-        viewModel.getSeries(query)
+        viewModel.handleEvent(SeriesContract.Event.GetSeriesQuery, query)
     }
 
 }

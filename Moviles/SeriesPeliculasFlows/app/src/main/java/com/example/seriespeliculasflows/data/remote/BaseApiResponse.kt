@@ -28,4 +28,5 @@ abstract class BaseApiResponse {
         DataAccessResult.Error(Constants.API_CALL_FAILED + errorMessage)
 
 
+
 }

@@ -59,11 +59,10 @@ class FavoritoAdapter(
         fun bind(item: ItemUI) {
             with(binding) {
                 if (item is ItemUI.PeliculaUI) {
-                    type.text = Constants.PELICULA_TYPE
-                    type.setTextColor(ContextCompat.getColor(context, R.color.naranja_chungo))
+                    border.setBackgroundResource(R.drawable.border_pelicula)
                 } else {
-                    type.text = Constants.SERIE_TYPE
-                    type.setTextColor(ContextCompat.getColor(context, R.color.morado_raruno))
+                    border.setBackgroundResource(R.drawable.border_serie)
+
                 }
                 poster.load(item.imagePath)
                 name.text = item.name

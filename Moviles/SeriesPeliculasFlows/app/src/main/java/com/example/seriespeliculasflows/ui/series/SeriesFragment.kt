@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.SeriesFragmentBinding
 import com.example.seriespeliculasflows.ui.model.ItemUI
+import com.example.seriespeliculasflows.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class SeriesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = SeriesFragmentBinding.inflate(inflater, container, false)
         observers()
         setListeners()

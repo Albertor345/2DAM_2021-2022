@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.PeliculasFragmentBinding
 import com.example.seriespeliculasflows.ui.model.ItemUI
+import com.example.seriespeliculasflows.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -42,6 +43,7 @@ class PeliculasFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.peliculas_fragment_menu, menu)
         val queryTextListener: SearchView.OnQueryTextListener =
@@ -57,6 +59,7 @@ class PeliculasFragment : Fragment() {
             }
         val actionSearch = menu.findItem(R.id.search).actionView as SearchView
         actionSearch.setOnQueryTextListener(queryTextListener)
+
         return super.onCreateOptionsMenu(menu, inflater)
     }
 

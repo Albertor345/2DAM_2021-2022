@@ -43,7 +43,6 @@ class PeliculasFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.peliculas_fragment_menu, menu)
         val queryTextListener: SearchView.OnQueryTextListener =

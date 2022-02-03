@@ -3,7 +3,7 @@ package com.example.seriespeliculasflows.ui.peliculas
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriespeliculasflows.data.remote.DataAccessResult
-import com.example.seriespeliculasflows.usecases.peliculas.GetPeliculasTrendingUseCase
+import com.example.seriespeliculasflows.usecases.peliculas.GetPeliculasInitUseCase
 import com.example.seriespeliculasflows.usecases.peliculas.GetPeliculasUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PeliculasViewModel @Inject constructor(
     private val getPeliculasUseCase: GetPeliculasUseCase,
-    private val getPeliculasTrendingUseCase: GetPeliculasTrendingUseCase
+    private val getPeliculasInitUseCase: GetPeliculasInitUseCase
 ) :
     ViewModel() {
 
@@ -26,10 +26,10 @@ class PeliculasViewModel @Inject constructor(
     private val _uiError = Channel<String>()
     val uiError = _uiError.receiveAsFlow()
 
-    fun handleEvent(event: PeliculasContract.Event, query: String?) {
+    fun handleEvent(event: PeliculasContract.Event, query: String?, update: Boolean?) {
         when (event) {
             PeliculasContract.Event.GetPeliculasQuery -> getPeliculas(query!!)
-            PeliculasContract.Event.GetPeliculasUpcoming -> getPeliculasUpcoming()
+            PeliculasContract.Event.GetPeliculasUpcoming -> getPeliculasUpcoming(update!!)
         }
     }
 
@@ -51,9 +51,9 @@ class PeliculasViewModel @Inject constructor(
         }
     }
 
-    private fun getPeliculasUpcoming() {
+    private fun getPeliculasUpcoming(update: Boolean) {
         viewModelScope.launch {
-            getPeliculasTrendingUseCase.getPeliculasUpcoming()
+            getPeliculasInitUseCase.getPeliculasInit(update)
                 .catch(action = { _uiError.send(it.message ?: "") })
                 .collect { result ->
                     when (result) {

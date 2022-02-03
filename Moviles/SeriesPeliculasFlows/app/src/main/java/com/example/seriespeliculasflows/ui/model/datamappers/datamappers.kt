@@ -12,7 +12,7 @@ fun SerieUI.toSerieWithTemporadas(): SerieWithTemporadas =
     SerieWithTemporadas(toSerieEntity(), seasons?.map { it.toTemporadaWithCapitulos() })
 
 fun SerieUI.toSerieEntity(): SerieEntity =
-    SerieEntity(releaseDate, id, name, originalName, overview, imagePath)
+    SerieEntity(releaseDate, id, name, originalName, overview, imagePath, favorito)
 
 fun TemporadaUI.toTemporadaWithCapitulos(): TemporadaWithCapitulos =
     TemporadaWithCapitulos(toTemporadaEntity(), capitulos?.map { it.toCapituloEntity(id) })
@@ -24,4 +24,4 @@ fun CapituloUI.toCapituloEntity(idTemporada: Int): CapituloEntity =
     CapituloEntity(episodeNumber, id, name, idTemporada)
 
 fun PeliculaUI.toPeliculaEntity(): PeliculaEntity =
-    PeliculaEntity(id, name, originalName, imagePath, overview, releaseDate, name)
+    PeliculaEntity(id, name, originalName, imagePath, overview, releaseDate, name, favorito)

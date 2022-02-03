@@ -66,7 +66,7 @@ class DetallesPeliculasViewModel @Inject constructor(
 
     fun addToFavorito(pelicula: ItemUI.PeliculaUI) {
         viewModelScope.launch {
-            addToFavoritosUseCase.addPeliculaToFavoritos(pelicula)
+            addToFavoritosUseCase.addPeliculaToFavoritos(pelicula.apply { favorito = true })
                 .catch(action = { _uiError.send(it.message ?: "") })
                 .collect { result ->
                     when (result) {
@@ -79,7 +79,7 @@ class DetallesPeliculasViewModel @Inject constructor(
                                 if (affectedRows!!.toInt() == 1) Constants.SUCCESS_ADDING_FAVORITO else {
                                     ""
                                 }
-                            }, pelicula = pelicula.apply { favorito = true }, isLoading = false)
+                            }, isLoading = false)
                         }
                     }
                 }
@@ -88,7 +88,7 @@ class DetallesPeliculasViewModel @Inject constructor(
 
     fun removeFavorito(pelicula: ItemUI.PeliculaUI) {
         viewModelScope.launch {
-            deleteFromFavoritosUseCase.deleteFromFavorito(pelicula)
+            deleteFromFavoritosUseCase.deleteFromFavorito(pelicula.apply { favorito = false })
                 .catch(action = { _uiError.send(it.message ?: "") })
                 .collect { result ->
                     when (result) {
@@ -103,9 +103,7 @@ class DetallesPeliculasViewModel @Inject constructor(
                                         if (affectedRows == 1) Constants.SUCCESS_REMOVING_FAVORITO else {
                                             ""
                                         }
-                                    },
-                                    pelicula = pelicula.apply { favorito = false },
-                                    isLoading = false
+                                    }, isLoading = false
                                 )
                             }
 

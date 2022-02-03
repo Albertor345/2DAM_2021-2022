@@ -14,7 +14,7 @@ fun SerieWithTemporadas.toSerieUI(): SerieUI {
 }
 
 fun SerieEntity.toSerieUI(): SerieUI =
-    SerieUI(id, name, originalName, Constants.IMAGE_PATH + posterPath, overview,firstAirDate, favorito = false, emptyList(), selected = false)
+    SerieUI(id, name, originalName, Constants.IMAGE_PATH + posterPath, overview,firstAirDate, favorito, emptyList(), selected = false)
 
 fun TemporadaWithCapitulos.toTemporadaUI(): TemporadaUI {
     val temporada = temporada.toTemporadaUI()
@@ -39,4 +39,4 @@ fun CapituloEntity.toCapituloUI(): CapituloUI =
     CapituloUI(episodeNumber, id, name)
 
 fun PeliculaEntity.toPeliculaUI(): PeliculaUI =
-    PeliculaUI(id, title, originalTitle, Constants.IMAGE_PATH + posterPath, overview, releaseDate, favorito = false, selected = false)
+    PeliculaUI(id, title, originalTitle, Constants.IMAGE_PATH + posterPath, overview, releaseDate, favorito, selected = false)

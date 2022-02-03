@@ -5,16 +5,17 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.seriespeliculasflows.R
+import com.example.seriespeliculasflows.data.remote.DataAccessResult
 import com.example.seriespeliculasflows.databinding.FavoritoBinding
 import com.example.seriespeliculasflows.ui.model.ItemUI
-import com.example.seriespeliculasflows.utils.Constants
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import java.util.*
 
 class FavoritoAdapter(
@@ -66,7 +67,7 @@ class FavoritoAdapter(
                 }
                 poster.load(item.imagePath)
                 name.text = item.name
-
+                description.text = item.overview
                 itemView.setOnClickListener {
                     actions.detalles(item)
                 }

@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.PeliculasFragmentBinding
 import com.example.seriespeliculasflows.ui.model.ItemUI
-import com.example.seriespeliculasflows.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,9 +31,9 @@ class PeliculasFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = PeliculasFragmentBinding.inflate(inflater, container, false)
-        configAdapter()
+        setListeners()
         observers()
-        viewModel.handleEvent(PeliculasContract.Event.GetPeliculasUpcoming, null)
+        viewModel.handleEvent(PeliculasContract.Event.GetPeliculasUpcoming, null, false)
         return binding.root
     }
 
@@ -48,11 +47,11 @@ class PeliculasFragment : Fragment() {
         val queryTextListener: SearchView.OnQueryTextListener =
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String): Boolean {
-                    getPeliculas(newText)
                     return false
                 }
 
                 override fun onQueryTextSubmit(query: String): Boolean {
+                    getPeliculas(query)
                     return false
                 }
             }
@@ -81,12 +80,15 @@ class PeliculasFragment : Fragment() {
         }
     }
 
-    private fun configAdapter() {
+    private fun setListeners() {
         adapter = PeliculaAdapter(object : PeliculaAdapter.PeliculaAdapterActions {
             override fun detalles(item: ItemUI.PeliculaUI) {
                 this@PeliculasFragment.detalles(item)
             }
         })
+        binding.updateButton.setOnClickListener {
+            updateUpcomingFilms()
+        }
         binding.recyclerViewPeliculas.adapter = adapter
     }
 
@@ -98,8 +100,13 @@ class PeliculasFragment : Fragment() {
         )
     }
 
+    private fun updateUpcomingFilms() {
+        viewModel.handleEvent(PeliculasContract.Event.GetPeliculasUpcoming, null, true)
+    }
+
+
     private fun getPeliculas(query: String) {
-        viewModel.handleEvent(PeliculasContract.Event.GetPeliculasQuery, query)
+        viewModel.handleEvent(PeliculasContract.Event.GetPeliculasQuery, query, false)
     }
 
 }

@@ -40,6 +40,7 @@ class PeliculaAdapter(val actions: PeliculaAdapterActions) :
             with(binding) {
                 title.text = peliculaUI.name
                 image.load(peliculaUI.imagePath)
+                description.text = peliculaUI.overview
             }
             itemView.setOnClickListener {
                 actions.detalles(peliculaUI)

@@ -7,4 +7,10 @@
     <string name="peliculas">Peliculas</string>
     <string name="series">Series</string>
     <string name="favoritos">Favoritos</string>
+    <string name="favoritos_fragment_title">Lista de Favoritos</string>
+    <string name="peliculas_fragment_title">Buscar Peliculas</string>
+    <string name="detalles_pelicula_fragment_title">Detalles de ${item}</string>
+    <string name="detalles_serie_fragment_title">Detalles de {item}</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="upcoming">Upcoming</string>
 </resources>

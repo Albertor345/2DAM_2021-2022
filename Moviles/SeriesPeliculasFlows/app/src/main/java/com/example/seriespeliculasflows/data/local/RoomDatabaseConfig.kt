@@ -7,16 +7,16 @@ import com.example.seriespeliculasflows.data.local.model.CapituloEntity
 import com.example.seriespeliculasflows.data.local.model.PeliculaEntity
 import com.example.seriespeliculasflows.data.local.model.SerieEntity
 import com.example.seriespeliculasflows.data.local.model.TemporadaEntity
-import com.example.seriespeliculasflows.data.local.repositories.favoritos.DaoFavoritos
+import com.example.seriespeliculasflows.data.local.repositories.favoritos.DaoLocal
 import com.example.seriespeliculasflows.utils.Converters
 
 @Database(
     entities = [SerieEntity::class, CapituloEntity::class, PeliculaEntity::class, TemporadaEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class RoomDatabaseConfig : RoomDatabase() {
-    abstract fun daoFavoritos(): DaoFavoritos
+    abstract fun daoFavoritos(): DaoLocal
 
 }

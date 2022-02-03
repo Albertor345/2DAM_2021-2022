@@ -12,5 +12,6 @@ data class PeliculaEntity(
     val posterPath: String?,
     val overview: String?,
     val releaseDate: String?,
-    val title: String?
+    val title: String?,
+    val favorito: Boolean
 )

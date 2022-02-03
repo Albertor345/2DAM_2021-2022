@@ -11,6 +11,12 @@ import com.example.seriespeliculasflows.R
 import com.example.seriespeliculasflows.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+import androidx.navigation.NavDestination
+
+import androidx.annotation.NonNull
+import androidx.navigation.NavController.OnDestinationChangedListener
+
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

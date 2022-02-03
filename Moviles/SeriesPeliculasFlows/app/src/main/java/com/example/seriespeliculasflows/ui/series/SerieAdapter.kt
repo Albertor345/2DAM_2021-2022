@@ -40,6 +40,7 @@ class SerieAdapter(val actions: SerieAdapterActions) :
             with(binding) {
                 title.text = serieUI.name
                 image.load(serieUI.imagePath)
+                description.text = serieUI.overview
             }
             itemView.setOnClickListener {
                 actions.detalles(serieUI)

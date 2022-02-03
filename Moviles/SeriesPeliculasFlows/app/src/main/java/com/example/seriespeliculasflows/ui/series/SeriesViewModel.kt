@@ -27,10 +27,10 @@ class SeriesViewModel @Inject constructor(
     val uiError = _uiError.receiveAsFlow()
 
 
-    fun handleEvent(event: SeriesContract.Event, query: String?) {
+    fun handleEvent(event: SeriesContract.Event, query: String?, update: Boolean?) {
         when (event) {
             SeriesContract.Event.GetSeriesQuery -> getSeries(query!!)
-            SeriesContract.Event.GetTopRatedSeries -> getTopRatedSeries()
+            SeriesContract.Event.GetTopRatedSeries -> getTopRatedSeries(update!!)
         }
     }
 
@@ -52,9 +52,9 @@ class SeriesViewModel @Inject constructor(
         }
     }
 
-    fun getTopRatedSeries() {
+    fun getTopRatedSeries(update: Boolean) {
         viewModelScope.launch {
-            getTopRatedSeriesUseCase.getTopRatedSeries()
+            getTopRatedSeriesUseCase.getSeriesInit(update)
                 .catch(action = { _uiError.send(it.message ?: "") })
                 .collect { result ->
                     when (result) {

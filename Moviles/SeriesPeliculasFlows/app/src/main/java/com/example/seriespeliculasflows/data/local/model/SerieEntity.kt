@@ -11,5 +11,6 @@ data class SerieEntity(
     val name: String?,
     val originalName: String?,
     val overview: String?,
-    val posterPath: String?
+    val posterPath: String?,
+    val favorito: Boolean
 )

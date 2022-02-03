@@ -4,5 +4,5 @@ import com.example.seriespeliculasflows.data.remote.repositories.series.SeriesRe
 import javax.inject.Inject
 
 class GetTopRatedSeriesUseCase @Inject constructor(private val repository: SeriesRepository) {
-    suspend fun getTopRatedSeries() = repository.getTopRatedSeries()
+    suspend fun getSeriesInit(update: Boolean) = repository.getSeriesInit(update)
 }

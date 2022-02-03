@@ -34,7 +34,7 @@ class SeriesFragment : Fragment() {
         _binding = SeriesFragmentBinding.inflate(inflater, container, false)
         observers()
         setListeners()
-        viewModel.handleEvent(SeriesContract.Event.GetTopRatedSeries, null)
+        viewModel.handleEvent(SeriesContract.Event.GetTopRatedSeries, null, false)
         return binding.root
     }
 
@@ -85,6 +85,9 @@ class SeriesFragment : Fragment() {
                 this@SeriesFragment.detalles(item)
             }
         })
+        binding.updateButton.setOnClickListener{
+            updateTopRatedSeries()
+        }
         binding.recyclerViewSeries.adapter = adapter
     }
 
@@ -96,8 +99,12 @@ class SeriesFragment : Fragment() {
         )
     }
 
+    private fun updateTopRatedSeries(){
+        viewModel.handleEvent(SeriesContract.Event.GetTopRatedSeries, null, true)
+    }
+
     private fun getSeries(query: String) {
-        viewModel.handleEvent(SeriesContract.Event.GetSeriesQuery, query)
+        viewModel.handleEvent(SeriesContract.Event.GetSeriesQuery, query, false)
     }
 
 }

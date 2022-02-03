@@ -3,6 +3,6 @@ package com.example.seriespeliculasflows.usecases.peliculas
 import com.example.seriespeliculasflows.data.remote.repositories.peliculas.PelisRepository
 import javax.inject.Inject
 
-class GetPeliculasTrendingUseCase @Inject constructor(private val repository: PelisRepository) {
-    fun getPeliculasUpcoming() = repository.getPeliculasUpcoming()
+class GetPeliculasInitUseCase @Inject constructor(private val repository: PelisRepository) {
+    fun getPeliculasInit(update: Boolean) = repository.getPeliculasInit(update)
 }

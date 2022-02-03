@@ -66,10 +66,8 @@ class DetallesSeriesViewModel @Inject constructor(
     }
 
     fun addToFavorito(serie: ItemUI.SerieUI) {
-
-
         viewModelScope.launch {
-            addToFavoritosUseCase.addSerieToFavoritos(serie)
+            addToFavoritosUseCase.addSerieToFavoritos(serie.apply { favorito = true })
                 .catch(action = { _uiError.send(it.message ?: "") })
                 .collect { result ->
                     when (result) {
@@ -82,7 +80,7 @@ class DetallesSeriesViewModel @Inject constructor(
                                 if (affectedRows!!.toInt() == 1) Constants.SUCCESS_ADDING_FAVORITO else {
                                     ""
                                 }
-                            }, serie = serie.apply { favorito = true }, isLoading = false)
+                            }, isLoading = false)
                         }
                     }
                 }
@@ -91,7 +89,7 @@ class DetallesSeriesViewModel @Inject constructor(
 
     fun removeFavorito(serie: ItemUI.SerieUI) {
         viewModelScope.launch {
-            deleteFromFavoritosUseCase.deleteFromFavorito(serie)
+            deleteFromFavoritosUseCase.deleteFromFavorito(serie.apply { favorito = false })
                 .catch(action = { _uiError.send(it.message ?: "") })
                 .collect { result ->
                     when (result) {
@@ -106,9 +104,7 @@ class DetallesSeriesViewModel @Inject constructor(
                                         if (affectedRows == 1) Constants.SUCCESS_REMOVING_FAVORITO else {
                                             ""
                                         }
-                                    },
-                                    serie = serie.apply { favorito = false },
-                                    isLoading = false
+                                    }, isLoading = false
                                 )
                             }
 

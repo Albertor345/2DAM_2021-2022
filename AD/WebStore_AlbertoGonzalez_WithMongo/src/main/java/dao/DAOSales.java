@@ -5,25 +5,24 @@
  */
 package dao;
 
-import model.Sale;
+import model.Purchase;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface DAOSales {
 
-    Sale get(Sale sale);
+    Purchase get(Purchase purchase);
      
-    List<Sale> getAll();
+    List<Purchase> getAll();
 
-    List<Sale> getAllOrderedBy(boolean orderBy);
+    List<Purchase> getAllOrderedBy(boolean orderBy);
 
-    List<Sale> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate);
+    List<Purchase> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate);
      
-    boolean add(Sale t);
+    boolean add(Purchase t);
      
-    boolean update(Sale t);
+    boolean update(Purchase t);
      
-    boolean delete(Sale t);
+    boolean delete(Purchase t);
 }

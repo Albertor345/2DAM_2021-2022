@@ -6,10 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Sale;
+import model.Purchase;
 
 import java.net.URL;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,7 +19,7 @@ public class FXMLSalesListController implements Initializable {
     FXMLPrincipalController principalController;
     Alert alert;
     @FXML
-    private TableView<Sale> tableViewSales;
+    private TableView<Purchase> tableViewSales;
     @FXML
     private TableColumn tableColumnItem;
     @FXML
@@ -69,21 +68,21 @@ public class FXMLSalesListController implements Initializable {
         }
     }
 
-    public void load(List<Sale> sales) {
+    public void load(List<Purchase> purchases) {
         if (principalController.isAdmin()) {
             loadPurchasesList(principalController.getServicesSales().getAll());
         } else {
-            loadPurchasesList(sales.stream()
+            loadPurchasesList(purchases.stream()
                     .filter(purchase -> purchase.getCustomer().getId() == principalController.getUser().getId())
                     .collect(Collectors.toList()));
         }
     }
 
-    public void loadPurchasesList(List<Sale> sales) {
+    public void loadPurchasesList(List<Purchase> purchases) {
         if (!tableViewSales.getItems().isEmpty()) {
             tableViewSales.getItems().clear();
         }
-        tableViewSales.getItems().addAll(sales);
+        tableViewSales.getItems().addAll(purchases);
     }
 
     public void setPrincipal(FXMLPrincipalController principal) {

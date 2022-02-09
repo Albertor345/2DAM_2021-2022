@@ -14,7 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import model.Customer;
 import model.Item;
-import model.Sale;
+import model.Purchase;
 
 import java.net.URL;
 import java.util.List;
@@ -38,13 +38,13 @@ public class FXMLAddSaleController implements Initializable {
         Item item = itemBox.getSelectionModel().getSelectedItem();
         Customer customer = customerBox.getSelectionModel().getSelectedItem();
         if (item != null && customer != null) {
-            Sale sale = Sale.builder()
+            Purchase purchase = Purchase.builder()
                     .id(principalController.getServicesSales().getAll().size())
                     .customer(customer)
                     .item(item)
                     .date(dateBox.getValue()).build();
 
-            if (principalController.getServicesSales().add(sale)) {
+            if (principalController.getServicesSales().add(purchase)) {
                 alert("Success", "Purchase added successfully", Alert.AlertType.INFORMATION);
                 clear();
             } else {

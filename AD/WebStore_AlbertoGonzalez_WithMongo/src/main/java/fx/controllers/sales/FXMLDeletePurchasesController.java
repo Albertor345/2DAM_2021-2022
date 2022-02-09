@@ -10,7 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
-import model.Sale;
+import model.Purchase;
 
 import java.net.URL;
 import java.util.List;
@@ -21,15 +21,15 @@ public class FXMLDeletePurchasesController implements Initializable {
     private FXMLPrincipalController principalController;
     private Alert alert;
     @FXML
-    private ListView<Sale> purchaseBox;
+    private ListView<Purchase> purchaseBox;
 
     @FXML
     private void deletePurchase() {
-        Sale sale = purchaseBox.getSelectionModel().getSelectedItem();
-        if (sale != null) {
-            if (principalController.getServicesSales().delete(sale)) {
+        Purchase purchase = purchaseBox.getSelectionModel().getSelectedItem();
+        if (purchase != null) {
+            if (principalController.getServicesSales().delete(purchase)) {
                 alert("Success", "Purchase deleted", Alert.AlertType.WARNING);
-                purchaseBox.getItems().remove(sale);
+                purchaseBox.getItems().remove(purchase);
                 purchaseBox.refresh();
             } else {
                 alert("Error", "This purchase has data related to it, and therefore, cannot be deleted", Alert.AlertType.WARNING);
@@ -37,11 +37,11 @@ public class FXMLDeletePurchasesController implements Initializable {
         }
     }
 
-    public void loadPurchases(List<Sale> saleList) {
+    public void loadPurchases(List<Purchase> purchaseList) {
         if (!purchaseBox.getItems().isEmpty()) {
             purchaseBox.getItems().clear();
         }
-        purchaseBox.getItems().addAll(saleList);
+        purchaseBox.getItems().addAll(purchaseList);
     }
 
     public void setPrincipalController(FXMLPrincipalController principalController) {

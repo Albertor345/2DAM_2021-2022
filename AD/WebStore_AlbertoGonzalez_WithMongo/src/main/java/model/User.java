@@ -18,15 +18,9 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "users", schema = "alberto_WebStore", catalog = "")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String dni;
     private String name;
     private String password;
-    @OneToOne(mappedBy = "user" ,fetch = FetchType.EAGER)
-    @NotFound(action = NotFoundAction.IGNORE)
-    private Customer customer;
 }

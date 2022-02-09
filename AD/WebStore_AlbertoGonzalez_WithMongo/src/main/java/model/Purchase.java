@@ -9,12 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.List;
 
 @NamedQueries({
         @NamedQuery(
@@ -43,33 +42,18 @@ import java.util.Collection;
 @Setter
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "sales", schema = "alberto_WebStore", catalog = "")
-public class Sale {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Purchase {
     private int id;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_customer", referencedColumnName = "id")
     private Customer customer;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_item", referencedColumnName = "id")
-    private Item item;
-
+    private String item;
     private LocalDate date;
+    private List<Review> reviews;
 
-    @OneToMany(mappedBy = "sale", orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    public Collection<Review> reviews;
-
-    public Sale() {
-    }
+    public Purchase() {}
 
     @Override
     public String toString() {
-        return "Purchase ID: " + id + " Customer[ ID: " + customer.getId() + " Name: " + customer.getName() + "] Item[ ID: " + item.getId() + " Name: " + item.getName() + "] Date: " + date + "\n";
+        return "Purchase ID: " + id + " Customer[" + customer.getName() + "]" + item + " Date: " + date + "\n";
     }
 
     @Override
@@ -90,7 +74,7 @@ public class Sale {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Sale other = (Sale) obj;
+        final Purchase other = (Purchase) obj;
         if (this.id != other.id) {
             return false;
         }

@@ -8,7 +8,7 @@ package services.impl.hibernate;
 import dao.DAOItems;
 import dao.DAOSales;
 import model.Item;
-import model.Sale;
+import model.Purchase;
 import services.ServicesItems;
 
 import javax.inject.Inject;
@@ -70,7 +70,7 @@ public class ServicesItemsHibernateImpl implements ServicesItems {
 
     @Override
     public boolean checkItemPurchases(Item item) {
-        List<Sale> purchaseList = daoSales.getAll();
+        List<Purchase> purchaseList = daoSales.getAll();
         return purchaseList.stream()
                 .map(purchase -> purchase.getItem().getId())
                 .anyMatch(itemID -> item.getId() == itemID);

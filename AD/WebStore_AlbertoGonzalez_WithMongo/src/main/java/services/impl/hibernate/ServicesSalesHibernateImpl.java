@@ -6,12 +6,11 @@
 package services.impl.hibernate;
 
 import dao.DAOSales;
-import model.Sale;
+import model.Purchase;
 import services.ServicesSales;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class ServicesSalesHibernateImpl implements ServicesSales {
@@ -23,37 +22,37 @@ public class ServicesSalesHibernateImpl implements ServicesSales {
         this.daoSales = daoSales;
     }
 
-    public boolean add(Sale purchase) {
+    public boolean add(Purchase purchase) {
         return daoSales.add(purchase);
     }
 
     @Override
-    public boolean delete(Sale purchase) {
+    public boolean delete(Purchase purchase) {
         return daoSales.delete(purchase);
     }
 
     @Override
-    public boolean update(Sale purchase) {
+    public boolean update(Purchase purchase) {
         return false;
     }
 
     @Override
-    public List<Sale> getAll() {
+    public List<Purchase> getAll() {
         return daoSales.getAll();
     }
 
     @Override
-    public List<Sale> getAllOrderedBy(boolean orderBy) {
+    public List<Purchase> getAllOrderedBy(boolean orderBy) {
         return daoSales.getAllOrderedBy(orderBy);
     }
 
     @Override
-    public List<Sale> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate) {
+    public List<Purchase> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate) {
         return daoSales.getAllOrderedByDate(initialDate, finalDate);
     }
 
     @Override
-    public Sale get(int id) {
+    public Purchase get(int id) {
         return null;
     }
 

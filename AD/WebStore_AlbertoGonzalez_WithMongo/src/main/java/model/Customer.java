@@ -9,10 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,31 +29,15 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "customers", schema = "alberto_WebStore", catalog = "")
 public class Customer {
-    @Id
-    private int id;
+    private String dni;
     private String name;
-    private String phone;
-    private String address;
-
-
-    @OneToMany(mappedBy = "customer")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Review> reviews;
-
-    @OneToMany(mappedBy = "customer")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Sale> sales;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private User user;
+    private Address address;
+    private List<Purchase> purchases;
 
     @Override
     public String toString() {
-        return name + " " + phone + " " + address;
+        return name + " " + address;
     }
 
     @Override

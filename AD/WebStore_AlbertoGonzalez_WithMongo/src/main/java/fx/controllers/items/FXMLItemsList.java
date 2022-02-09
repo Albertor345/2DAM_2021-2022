@@ -147,7 +147,6 @@ public class FXMLItemsList implements Initializable {
             log.error(e.getMessage(), e);
             alert("Error", "error pre-loading review data", Alert.AlertType.ERROR);
         }
-
     }
 
     private void alert(String titulo, String texto, Alert.AlertType type) {
@@ -166,7 +165,6 @@ public class FXMLItemsList implements Initializable {
         tableColumnCompany.setCellValueFactory(new PropertyValueFactory<>("company"));
         tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-
         tableColumnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         tableColumnRating.setCellValueFactory(new PropertyValueFactory<>("rating"));
         tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -180,6 +178,5 @@ public class FXMLItemsList implements Initializable {
         stage.setScene(new Scene(stageBorderPane));
         stage.setResizable(false);
         preload();
-
     }
 }

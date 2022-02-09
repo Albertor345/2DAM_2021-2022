@@ -3,7 +3,7 @@ package dao.impl.hibernate;
 import configuration.HibernateConfig;
 import dao.DAOSales;
 import lombok.extern.log4j.Log4j2;
-import model.Sale;
+import model.Purchase;
 import org.hibernate.Session;
 
 import javax.inject.Inject;
@@ -21,55 +21,55 @@ public class DAOSalesHibernateImpl implements DAOSales {
     }
 
     @Override
-    public Sale get(Sale sale) {
+    public Purchase get(Purchase purchase) {
         /*Constantes.SELECT_PURCHASE_QUERY*/
-        return sale;
+        return purchase;
     }
 
     @Override
-    public List<Sale> getAll() {
-        List<Sale> sales = new ArrayList<>();
+    public List<Purchase> getAll() {
+        List<Purchase> purchases = new ArrayList<>();
         try (Session session = hibernateConfig.getSession()) {
-            sales = session.createNamedQuery("getAllSales", Sale.class).getResultList();
+            purchases = session.createNamedQuery("getAllSales", Purchase.class).getResultList();
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-        return sales;
+        return purchases;
     }
 
     @Override
-    public List<Sale> getAllOrderedBy(boolean order) {
-        List<Sale> sales = new ArrayList<>();
+    public List<Purchase> getAllOrderedBy(boolean order) {
+        List<Purchase> purchases = new ArrayList<>();
         String orderBy = order ? "Item" : "Customer";
         String query = "getAllSalesOrderBy" + orderBy;
         try (Session session = hibernateConfig.getSession()) {
-            sales = session.createNamedQuery(query, Sale.class)
+            purchases = session.createNamedQuery(query, Purchase.class)
                     .getResultList();
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-        return sales;
+        return purchases;
     }
 
     @Override
-    public List<Sale> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate) {
-        List<Sale> sales = new ArrayList<>();
+    public List<Purchase> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate) {
+        List<Purchase> purchases = new ArrayList<>();
         try (Session session = hibernateConfig.getSession()) {
-            sales = session.createNamedQuery("getAllSalesOrderByDate", Sale.class)
+            purchases = session.createNamedQuery("getAllSalesOrderByDate", Purchase.class)
                     .setParameter("initDate", initialDate)
                     .setParameter("finalDate", finalDate)
                     .getResultList();
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-        return sales;
+        return purchases;
     }
 
     @Override
-    public boolean add(Sale sale) {
+    public boolean add(Purchase purchase) {
         try (Session session = hibernateConfig.getSession()) {
             session.beginTransaction();
-            session.save(sale);
+            session.save(purchase);
             session.getTransaction().commit();
             return true;
         } catch (Exception ex) {
@@ -79,14 +79,14 @@ public class DAOSalesHibernateImpl implements DAOSales {
     }
 
     @Override
-    public boolean update(Sale sale) {
+    public boolean update(Purchase purchase) {
         /*Constantes.UPDATE_PURCHASE_QUERY*/
         return false;
 
     }
 
     @Override
-    public boolean delete(Sale sale) {
+    public boolean delete(Purchase purchase) {
         /*Constantes.DELETE_PURCHASE_QUERY*/
         return false;
 

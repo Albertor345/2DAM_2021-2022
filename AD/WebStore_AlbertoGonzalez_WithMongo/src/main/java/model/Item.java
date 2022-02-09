@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -39,22 +38,14 @@ import java.util.Objects;
 @Getter
 @Setter
 @AllArgsConstructor
-@Entity
-@Table(name = "items", schema = "alberto_WebStore", catalog = "")
 public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String company;
     private double price;
+    private List<Purchase> purchases;
 
-    @OneToMany(mappedBy = "item", orphanRemoval = true)
-    private List<Sale> sales;
-
-    public Item() {
-
-    }
+    public Item() {}
 
     @Override
     public boolean equals(Object o) {

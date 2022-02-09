@@ -11,7 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import model.Customer;
-import model.Sale;
+import model.Purchase;
 import model.Review;
 
 import java.net.URL;
@@ -25,7 +25,7 @@ public class FXMLAddReviewController implements Initializable {
     @FXML
     private ListView<Customer> customerList;
     @FXML
-    private ListView<Sale> saleList;
+    private ListView<Purchase> saleList;
     @FXML
     private ComboBox<Integer> ratingBox;
     @FXML
@@ -52,7 +52,7 @@ public class FXMLAddReviewController implements Initializable {
                     .title(titleBox.getText())
                     .rating(ratingBox.getSelectionModel().getSelectedItem())
                     .review(textBox.getText())
-                    .sale(saleList.getSelectionModel().getSelectedItem())
+                    .purchase(saleList.getSelectionModel().getSelectedItem())
                     .customer(customerList.getSelectionModel().getSelectedItem())
                     .date(LocalDate.now()).build();
 

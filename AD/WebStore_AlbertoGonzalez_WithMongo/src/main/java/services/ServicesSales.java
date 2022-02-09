@@ -1,24 +1,23 @@
 package services;
 
-import model.Sale;
+import model.Purchase;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface ServicesSales {
 
-    boolean add(Sale purchase);
+    boolean add(Purchase purchase);
 
-    boolean delete(Sale purchase);
+    boolean delete(Purchase purchase);
 
-    boolean update(Sale purchase);
+    boolean update(Purchase purchase);
 
-    List<Sale> getAll();
+    List<Purchase> getAll();
 
-    List<Sale> getAllOrderedBy(boolean orderBy);
+    List<Purchase> getAllOrderedBy(boolean orderBy);
 
-    List<Sale> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate);
+    List<Purchase> getAllOrderedByDate(LocalDate initialDate, LocalDate finalDate);
 
-    Sale get(int id);
+    Purchase get(int id);
 }

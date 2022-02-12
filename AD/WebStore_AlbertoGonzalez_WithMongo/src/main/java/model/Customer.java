@@ -9,31 +9,54 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.Document;
 
-import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-@NamedQueries({
-        @NamedQuery(
-                name = "getAllCustomers",
-                query = "from Customer"
-        ),
-        @NamedQuery(
-                name = "getCustomer",
-                query = "from Customer c where c.id = :id"
-        )
-})
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Customer {
-    private String dni;
+    private String _id;
     private String name;
     private Address address;
     private List<Purchase> purchases;
+
+    public static Document customerToDocument(Customer c) {
+        Document d = new Document().append("_id", c.get_id())
+                .append("name", c.getName())
+                .append("contact_info", new Document()
+                        .append("address", c.getAddress().getAddress())
+                        .append("phone", c.getAddress().getPhone()));
+        if (c.getPurchases() != null) {
+            d.append("purchases", c.getPurchases().stream()
+                    .map(Purchase::purchaseToDocument));
+        }
+        return d;
+    }
+
+    public static Customer documentToCustomer(Document d) {
+        Customer c = Customer.builder()
+                ._id(d.getString("_id"))
+                .name(d.getString("name"))
+                .address(Address.builder()
+                        .phone(d.get("contact_info", Document.class).getString("phone"))
+                        .address(d.get("contact_info", Document.class).getString("address"))
+                        .build())
+                .build();
+
+        if (d.containsKey("purchases")) {
+            c.setPurchases(d.getList("purchases", Document.class).stream().map(
+                            Purchase::documentToPurchase)
+                    .collect(Collectors.toList()));
+
+        }
+        return c;
+    }
 
     @Override
     public String toString() {
@@ -58,7 +81,7 @@ public class Customer {
             return false;
         }
         final Customer other = (Customer) obj;
-        if (this.id != other.id) {
+        if (this._id != other._id) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {

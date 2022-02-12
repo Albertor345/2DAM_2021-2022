@@ -24,24 +24,28 @@ public class FXMLDeleteItemsController implements Initializable {
     private void deleteItem(ActionEvent actionEvent) {
         Item item = listViewItems.getSelectionModel().getSelectedItem();
         if (item != null) {
-            if (!principalController.getServicesItems().checkItemPurchases(item)) {
-                principalController.getServicesItems().delete(item);
-                listViewItems.getItems().remove(item);
-                listViewItems.refresh();
-            } else {
-                alert.setContentText("This item has purchases related to it, do you want to continue?");
-                Optional<ButtonType> decision = alert.showAndWait();
-                if (decision.get().equals(ButtonType.OK)) {
-                    if (principalController.getServicesItems().deleteAllPurchasesFromAnItem(item)) {
-                        listViewItems.getItems().remove(item);
-                        listViewItems.refresh();
-                        alert("Success", "The item has been deleted alongside its related purchases", Alert.AlertType.INFORMATION);
-                    } else {
-                        alert("Error", "The item has reviews or there's been an unexpected problem", Alert.AlertType.ERROR);
-                    }
+            if (principalController.getServicesItems().checkIfItemHasReviews(item)) {
+                if (principalController.getServicesItems().checkIfItemHasPurchases(item)) {
+                    principalController.getServicesItems().delete(item);
+                    listViewItems.getItems().remove(item);
+                    listViewItems.refresh();
                 } else {
-                    alert("Aborted", "Task aborted", Alert.AlertType.INFORMATION);
+                    alert.setContentText("This item has purchases related to it, do you want to continue?");
+                    Optional<ButtonType> decision = alert.showAndWait();
+                    if (decision.get().equals(ButtonType.OK)) {
+                        if (principalController.getServicesItems().deleteAllPurchasesFromAnItem(item)) {
+                            listViewItems.getItems().remove(item);
+                            listViewItems.refresh();
+                            alert("Success", "The item has been deleted alongside its related purchases", Alert.AlertType.INFORMATION);
+                        } else {
+                            alert("Error", "There has been an unexpected problem", Alert.AlertType.ERROR);
+                        }
+                    } else {
+                        alert("Aborted", "Task aborted", Alert.AlertType.INFORMATION);
+                    }
                 }
+            } else {
+                alert("Warning", "This item has reviews and cannot be deleted", Alert.AlertType.WARNING);
             }
         } else {
             alert("Warning", "Choose an item first", Alert.AlertType.WARNING);

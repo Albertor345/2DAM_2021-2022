@@ -11,8 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import model.Customer;
+import model.Item;
 import model.Purchase;
 import model.Review;
+import org.bson.types.ObjectId;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -25,7 +27,7 @@ public class FXMLAddReviewController implements Initializable {
     @FXML
     private ListView<Customer> customerList;
     @FXML
-    private ListView<Purchase> saleList;
+    private ListView<Purchase> purchasesList;
     @FXML
     private ComboBox<Integer> ratingBox;
     @FXML
@@ -39,27 +41,25 @@ public class FXMLAddReviewController implements Initializable {
     public void loadPurchasesFromCustomer(MouseEvent mouseEvent) {
         Customer selectedCustomer = customerList.getSelectionModel().getSelectedItem();
         if (selectedCustomer != null) {
-            saleList.getItems().clear();
-            saleList.getItems().addAll(principal.getServicesSales().getAll()
-                    .stream().filter(purchase -> purchase.getCustomer().getId() == selectedCustomer.getId())
-                    .collect(Collectors.toList()));
+            purchasesList.getItems().clear();
+            purchasesList.getItems().addAll(selectedCustomer.getPurchases());
         }
     }
 
     public void addReview() {
-        if (saleList.getSelectionModel().getSelectedItem() != null && customerList.getSelectionModel().getSelectedItem() != null) {
+        if (purchasesList.getSelectionModel().getSelectedItem() != null && customerList.getSelectionModel().getSelectedItem() != null) {
             Review review = Review.builder()
                     .title(titleBox.getText())
-                    .rating(ratingBox.getSelectionModel().getSelectedItem())
+                    .rate(ratingBox.getSelectionModel().getSelectedItem())
                     .review(textBox.getText())
-                    .purchase(saleList.getSelectionModel().getSelectedItem())
-                    .customer(customerList.getSelectionModel().getSelectedItem())
+                    .purchaseID(purchasesList.getSelectionModel().getSelectedItem().get_id())
+                    .customerDNI(customerList.getSelectionModel().getSelectedItem().get_id())
                     .date(LocalDate.now()).build();
 
-             if(principal.getServicesReviews().add(review)){
-                 alert("Success", "Review added", Alert.AlertType.CONFIRMATION);
-                 clear();
-             }
+            if (principal.getServicesItems().addReview(review, Item.builder()._id(new ObjectId(purchasesList.getSelectionModel().getSelectedItem().getItemID())).build())) {
+                alert("Success", "Review added", Alert.AlertType.CONFIRMATION);
+                clear();
+            }
 
         } else {
             alert("Warning", "Select a purchase from a Customer first", Alert.AlertType.WARNING);
@@ -67,7 +67,7 @@ public class FXMLAddReviewController implements Initializable {
     }
 
     private void clear() {
-        saleList.getSelectionModel().clearSelection();
+        purchasesList.getSelectionModel().clearSelection();
         customerList.getSelectionModel().clearSelection();
         ratingBox.getSelectionModel().clearSelection();
         textBox.clear();
@@ -81,7 +81,7 @@ public class FXMLAddReviewController implements Initializable {
         } else {
             this.customerList.getItems().addAll(
                     customerList.stream()
-                            .filter(customer -> customer.getId() == principal.getUser().getId()).collect(Collectors.toList()));
+                            .filter(customer -> customer.get_id().equals(principal.getUser().get_id())).collect(Collectors.toList()));
         }
     }
 

@@ -17,6 +17,7 @@ import model.Review;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class FXMLdeleteReviewController implements Initializable {
 
@@ -40,14 +41,14 @@ public class FXMLdeleteReviewController implements Initializable {
         if (!listViewReviews.getItems().isEmpty()) {
             listViewReviews.getItems().clear();
         }
-        listViewReviews.getItems().addAll(principal.getServicesReviews().getReviewsByCustomer(customer));
+        listViewReviews.getItems().addAll(customer.getPurchases().stream().map(purchase -> purchase.getReview()).collect(Collectors.toList()));
     }
 
     @FXML
     private void deleteReview() {
         Review review = listViewReviews.getSelectionModel().getSelectedItem();
         if (review != null) {
-            if (principal.getServicesReviews().delete(review)) {
+            if (principal.getServicesItems().deleteReview(review)) {
                 listViewReviews.getItems().remove(review);
                 alert("Success", "Review Deleted Successfully", Alert.AlertType.CONFIRMATION);
             } else {

@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.User;
-import services.impl.hibernate.ServicesCustomersHibernateImpl;
+import services.impl.mongo.ServicesCustomersMongoImpl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,15 +27,15 @@ public class FXMLLoginController implements Initializable {
 
 
     public void clickLogin() {
-        User user = ((ServicesCustomersHibernateImpl) principal.getServicesCustomers()).login(
+        User user = ((ServicesCustomersMongoImpl) principal.getServicesCustomers()).login(
                 User.builder()
-                        .id(-1)
+                        ._id("-1")
                         .name(fxUser.getText())
                         .password(passBox.getText())
                         .build()
         );
-        if (user.getId() != -1) {
-            int isAdmin = user.getCustomer() == null ? 0 : 1;
+        if (!user.get_id().equals("-1")) {
+            int isAdmin = user.getUser_type().equals("admin") ? 0 : 1;
             principal.setUser(user);
             switch (isAdmin) {
                 case 0:

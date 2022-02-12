@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="urlDB">mongodb://informatica.iesquevedo.es:2323</entry>
+    <entry key="dbName">AlbertoWebStore</entry>
+</properties>

@@ -6,6 +6,8 @@
 package dao;
 
 import model.Item;
+import model.Purchase;
+import model.Review;
 
 import java.util.List;
 
@@ -23,6 +25,18 @@ public interface DAOItems {
 
     List<Item> getAll();
 
-    List<Object[]> getItemData(Item item);
+    String getItemData(Item item);
+
+    boolean checkIfItemHasReviews(Item item);
+
+    boolean checkIfItemHasPurchases(Item item);
+
+    boolean addPurchase(Purchase purchase);
+
+    boolean addReview(Review review, Item item);
+
+    boolean deletePurchase(Purchase purchase);
+
+    boolean deleteReview(Review review);
 }
 

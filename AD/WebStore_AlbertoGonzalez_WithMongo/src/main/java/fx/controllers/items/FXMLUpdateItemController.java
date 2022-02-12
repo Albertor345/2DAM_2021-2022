@@ -32,9 +32,9 @@ public class FXMLUpdateItemController implements Initializable {
         try {
             if (oldItem != null) {
                 Item newItem = Item.builder()
-                        .id(oldItem.getId())
+                        ._id(oldItem.get_id())
                         .name(textFieldName.getText())
-                        .price(Double.parseDouble(textFieldPrice.getText()))
+                        .price(Integer.parseInt(textFieldPrice.getText()))
                         .company(textFieldCompany.getText())
                         .build();
                 if (principalController.getServicesItems().update(newItem)) {

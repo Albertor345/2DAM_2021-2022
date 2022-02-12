@@ -1,7 +1,6 @@
 package fx.controllers.items;
 
 import fx.controllers.FXMLPrincipalController;
-import fx.controllers.reviews.FXMLReviewDataController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,14 +20,28 @@ import model.Review;
 
 import javax.inject.Inject;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Log4j2
 public class FXMLItemsList implements Initializable {
-
     @FXML
     private Button clearButton;
+    @FXML
+    private Label labelMinRate;
+    @FXML
+    private Label labelMinDate;
+    @FXML
+    private ComboBox<Integer> comboBoxMinRate;
+    @FXML
+    private RadioButton radioButtonDate;
+    @FXML
+    private RadioButton radioButtonRate;
+    @FXML
+    private DatePicker datePickerMinDate;
     @FXML
     private TableView<Review> tableViewReviews;
     @FXML
@@ -41,10 +54,6 @@ public class FXMLItemsList implements Initializable {
     private RadioButton radioButtonAsc;
     @FXML
     private RadioButton radioButtonDesc;
-    @FXML
-    private RadioButton radioButtonRating;
-    @FXML
-    private RadioButton radioButtonDate;
     @FXML
     private TextField textFieldItemData;
     @FXML
@@ -71,36 +80,106 @@ public class FXMLItemsList implements Initializable {
 
     @FXML
     private void showReviewData(MouseEvent actionEvent) {
-        stageBorderPane.setCenter(reviewData);
-        stage.setOnCloseRequest(event -> {});
-        stage.setOnShown(event -> {
-            reviewDataController.addReview(tableViewReviews.getSelectionModel().getSelectedItem());
-            reviewDataController.setPrincipal(principal);
-            reviewDataController.setStage(stage);
-        });
-        stage.show();
+        if (tableViewReviews.getSelectionModel().getSelectedItem() != null) {
+            stageBorderPane.setCenter(reviewData);
+            stage.setOnCloseRequest(event -> {
+            });
+            stage.setOnShown(event -> {
+                reviewDataController.addReview(tableViewReviews.getSelectionModel().getSelectedItem());
+                reviewDataController.setPrincipal(principal);
+                reviewDataController.setStage(stage);
+            });
+            stage.show();
+        }
+
+    }
+
+
+    @FXML
+    private void orderByRate(ActionEvent actionEvent) {
+        if (comboBoxMinRate.getSelectionModel().getSelectedItem() != null) {
+            if (radioButtonDesc.getToggleGroup().selectedToggleProperty().getValue() == null) {
+                radioButtonAsc.setSelected(true);
+            }
+            tableViewReviews.getItems().clear();
+            if (radioButtonAsc.isSelected()) {
+                tableViewReviews.getItems().addAll(principal.getServicesItems().get(tableViewItems.getSelectionModel().getSelectedItem())
+                        .getReviews().stream()
+                        .filter(review -> review.getRate() >= (comboBoxMinRate.getSelectionModel().getSelectedItem() != null ? comboBoxMinRate.getSelectionModel().getSelectedItem() : 0))
+                        .sorted(Comparator.comparing(Review::getRate))
+                        .collect(Collectors.toList()));
+            } else {
+                tableViewReviews.getItems().addAll(principal.getServicesItems().get(tableViewItems.getSelectionModel().getSelectedItem())
+                        .getReviews().stream()
+                        .filter(review -> review.getRate() >= (comboBoxMinRate.getSelectionModel().getSelectedItem() != null ? comboBoxMinRate.getSelectionModel().getSelectedItem() : 0))
+                        .sorted(Comparator.comparing(Review::getRate).reversed())
+                        .collect(Collectors.toList()));
+            }
+
+
+        }
     }
 
     @FXML
-    private void orderAsc(ActionEvent actionEvent) {
-        if (radioButtonDate.getToggleGroup().selectedToggleProperty().getValue() == null) {
-            radioButtonRating.setSelected(true);
+    private void orderByDate(ActionEvent actionEvent) {
+        if (radioButtonDesc.getToggleGroup().selectedToggleProperty().getValue() == null) {
+            radioButtonAsc.setSelected(true);
         }
         tableViewReviews.getItems().clear();
-        tableViewReviews.getItems().addAll(principal.getServicesReviews().orderBy(
-                tableViewItems.getSelectionModel().getSelectedItem(),
-                radioButtonAsc.isSelected(),
-                radioButtonRating.isSelected()));
+        if (radioButtonAsc.isSelected()) {
+            tableViewReviews.getItems().addAll(principal.getServicesItems().get(tableViewItems.getSelectionModel().getSelectedItem())
+                    .getReviews().stream()
+                    .filter(review -> review.getDate().isAfter(datePickerMinDate.getValue() != null ? datePickerMinDate.getValue() : LocalDate.now()))
+                    .sorted((review, t1) -> review.getDate().isBefore(t1.getDate()) ? 1 : 0)
+                    .collect(Collectors.toList()));
+        } else {
+            tableViewReviews.getItems().addAll(principal.getServicesItems().get(tableViewItems.getSelectionModel().getSelectedItem())
+                    .getReviews().stream()
+                    .filter(review -> review.getDate().isAfter(datePickerMinDate.getValue() != null ? datePickerMinDate.getValue() : LocalDate.now()))
+                    .sorted((review, t1) -> review.getDate().isBefore(t1.getDate()) ? 0 : 1)
+                    .collect(Collectors.toList()));
+        }
+
+
+    }
+
+    @FXML
+    private void hideRate(ActionEvent actionEvent) {
+        labelMinRate.setDisable(false);
+        comboBoxMinRate.setDisable(false);
+        labelMinDate.setDisable(true);
+        datePickerMinDate.setDisable(true);
+    }
+
+    @FXML
+    private void hideDate(ActionEvent actionEvent) {
+        labelMinDate.setDisable(false);
+        datePickerMinDate.setDisable(false);
+        labelMinRate.setDisable(true);
+        comboBoxMinRate.setDisable(true);
+    }
+
+    @FXML
+    private void hideCardinals(ActionEvent actionEvent) {
+        radioButtonAsc.setDisable(false);
+        radioButtonDesc.setDisable(false);
+        if (radioButtonRate.isSelected()) {
+            hideRate(actionEvent);
+        } else {
+            hideDate(actionEvent);
+        }
     }
 
     @FXML
     private void loadItemData(MouseEvent mouseEvent) {
         Item item = tableViewItems.getSelectionModel().getSelectedItem();
         if (item != null) {
+            radioButtonRate.setDisable(false);
+            radioButtonDate.setDisable(false);
             loadReviewsByItem(new ActionEvent());
             loadData(item);
         } else {
-            alert("Month required", "Select a Month from the combo box to proceed", Alert.AlertType.WARNING);
+            alert("Item required", "Select a Month from the combo box to proceed", Alert.AlertType.WARNING);
         }
     }
 
@@ -114,8 +193,9 @@ public class FXMLItemsList implements Initializable {
         if (item != null) {
             tableViewReviews.setDisable(false);
             tableViewReviews.getItems().clear();
-            tableViewReviews.getItems().addAll(
-                    principal.getServicesReviews().getReviewsByItem(item));
+            if (item.getReviews() != null) {
+                tableViewReviews.getItems().addAll(item.getReviews());
+            }
         } else {
             alert("Item required", "Select an Item from the list to proceed", Alert.AlertType.WARNING);
             tableViewReviews.setDisable(true);
@@ -127,7 +207,16 @@ public class FXMLItemsList implements Initializable {
         tableViewItems.getSelectionModel().clearSelection();
         textFieldItemData.clear();
         tableViewReviews.getItems().clear();
-
+        comboBoxMinRate.getSelectionModel().clearSelection();
+        datePickerMinDate.setValue(null);
+        radioButtonRate.setDisable(true);
+        radioButtonDate.setDisable(true);
+        radioButtonAsc.setDisable(true);
+        radioButtonDesc.setDisable(true);
+        labelMinRate.setDisable(true);
+        comboBoxMinRate.setDisable(true);
+        labelMinDate.setDisable(true);
+        datePickerMinDate.setDisable(true);
     }
 
     public void loadList(List<Item> items) {
@@ -140,7 +229,7 @@ public class FXMLItemsList implements Initializable {
     private void preload() {
         try {
             if (reviewData == null) {
-                reviewData = fxmlLoaderReviewData.load(getClass().getResourceAsStream("/fxml/reviews/FXMLReviewData.fxml"));
+                reviewData = fxmlLoaderReviewData.load(getClass().getResourceAsStream("/fxml/items/FXMLReviewData.fxml"));
                 reviewDataController = fxmlLoaderReviewData.getController();
             }
         } catch (Exception e) {
@@ -166,7 +255,7 @@ public class FXMLItemsList implements Initializable {
         tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         tableColumnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        tableColumnRating.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        tableColumnRating.setCellValueFactory(new PropertyValueFactory<>("rate"));
         tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -177,6 +266,10 @@ public class FXMLItemsList implements Initializable {
         stageBorderPane = new BorderPane();
         stage.setScene(new Scene(stageBorderPane));
         stage.setResizable(false);
+
+        comboBoxMinRate.getItems().addAll(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
         preload();
     }
+
+
 }

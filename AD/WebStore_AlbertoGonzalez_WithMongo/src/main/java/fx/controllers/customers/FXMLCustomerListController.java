@@ -35,8 +35,8 @@ public class FXMLCustomerListController implements Initializable {
     private void loadCustomerData(MouseEvent mouseEvent) {
         Customer customer = tableViewCustomers.getSelectionModel().getSelectedItem();
         if (customer != null) {
-            textFieldPhone.setText(customer.getPhone());
-            textFieldAddress.setText(customer.getAddress());
+            textFieldPhone.setText(customer.getAddress().getPhone());
+            textFieldAddress.setText(customer.getAddress().getAddress());
         }
     }
 
@@ -59,7 +59,7 @@ public class FXMLCustomerListController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tableColumnId.setCellValueFactory(new PropertyValueFactory<>("_id"));
         tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 }

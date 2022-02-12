@@ -9,16 +9,17 @@ import fx.controllers.FXMLPrincipalController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import model.Address;
 import model.Customer;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class FXMLAddCustomerController implements Initializable {
 
+    @FXML
+    private TextField textFieldDni;
     @FXML
     private TextField nameBox;
     @FXML
@@ -33,19 +34,23 @@ public class FXMLAddCustomerController implements Initializable {
     @FXML
     private void addCustomer() {
         Customer customer = Customer.builder()
+                ._id(textFieldDni.getText())
                 .name(nameBox.getText())
-                .phone(phoneBox.getText())
-                .address(addressBox.getText())
+                .address(Address.builder()
+                        .phone(phoneBox.getText())
+                        .address(addressBox.getText())
+                        .build())
                 .build();
         if (principalController.getServicesCustomers().add(customer)) {
             alert("Success", "The customer has been added", Alert.AlertType.CONFIRMATION);
         } else {
-            alert("Invalid", "There's been an error while adding the customer, try it later", Alert.AlertType.ERROR);
+            alert("Invalid", "There's been an error while adding the customer, try again later", Alert.AlertType.ERROR);
         }
         clear();
     }
 
-    private void clear(){
+    private void clear() {
+        textFieldDni.clear();
         nameBox.clear();
         addressBox.clear();
         phoneBox.clear();

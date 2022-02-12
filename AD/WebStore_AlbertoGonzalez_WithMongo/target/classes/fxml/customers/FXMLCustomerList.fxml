@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="447.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controllers.customers.FXMLCustomerListController">
+   <children>
+      <TableView fx:id="tableViewCustomers" layoutX="29.0" layoutY="34.0" onMouseClicked="#loadCustomerData" prefHeight="338.0" prefWidth="299.0">
+        <columns>
+          <TableColumn fx:id="tableColumnId" prefWidth="142.0" text="Id" />
+          <TableColumn fx:id="tableColumnName" prefWidth="156.0" text="Name" />
+        </columns>
+      </TableView>
+      <TextField fx:id="textFieldPhone" layoutX="29.0" layoutY="396.0" prefHeight="25.0" prefWidth="136.0" />
+      <TextField fx:id="textFieldAddress" layoutX="192.0" layoutY="396.0" prefHeight="25.0" prefWidth="136.0" />
+      <Label layoutX="29.0" layoutY="379.0" text="Phone" />
+      <Label layoutX="192.0" layoutY="379.0" text="Address" />
+      <Label layoutX="150.0" layoutY="14.0" text="Customers" />
+   </children>
+</AnchorPane>

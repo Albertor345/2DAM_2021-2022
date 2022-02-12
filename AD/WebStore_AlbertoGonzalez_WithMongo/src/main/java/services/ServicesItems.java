@@ -1,6 +1,8 @@
 package services;
 
 import model.Item;
+import model.Purchase;
+import model.Review;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ public interface ServicesItems {
 
     boolean delete(Item item);
 
-    public boolean deleteAllPurchasesFromAnItem(Item item);
+    boolean deleteAllPurchasesFromAnItem(Item item);
 
     boolean update(Item item);
 
@@ -19,5 +21,15 @@ public interface ServicesItems {
 
     String getItemData(Item item);
 
-    boolean checkItemPurchases(Item item);
+    boolean checkIfItemHasReviews(Item item);
+
+    boolean checkIfItemHasPurchases(Item item);
+
+    boolean addPurchase(Purchase purchase);
+
+    boolean addReview(Review review, Item item);
+
+    boolean deletePurchase(Purchase purchase);
+
+    boolean deleteReview(Review review);
 }

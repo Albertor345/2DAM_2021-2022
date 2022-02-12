@@ -20,7 +20,7 @@ public class FXMLAddItemsController implements Initializable {
     @FXML
     private TextField textFieldPrice;
     @FXML
-    private ListView listViewItems;
+    private ListView<Item> listViewItems;
     @FXML
     private TextField textFieldCompany;
 
@@ -35,7 +35,7 @@ public class FXMLAddItemsController implements Initializable {
             Item item = Item.builder()
                     .name(textFieldName.getText())
                     .company(textFieldCompany.getText())
-                    .price(Double.parseDouble(textFieldPrice.getText()))
+                    .price(Integer.parseInt(textFieldPrice.getText()))
                     .build();
             if (principal.getServicesItems().add(item)) {
                 listViewItems.getItems().add(item);

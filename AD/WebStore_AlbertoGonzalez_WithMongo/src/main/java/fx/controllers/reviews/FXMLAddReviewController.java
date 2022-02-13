@@ -49,6 +49,7 @@ public class FXMLAddReviewController implements Initializable {
     public void addReview() {
         if (purchasesList.getSelectionModel().getSelectedItem() != null && customerList.getSelectionModel().getSelectedItem() != null) {
             Review review = Review.builder()
+                    ._id(new ObjectId())
                     .title(titleBox.getText())
                     .rate(ratingBox.getSelectionModel().getSelectedItem())
                     .review(textBox.getText())

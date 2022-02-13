@@ -33,7 +33,7 @@ public class Review {
 
     public static Document reviewToDocument(Review r) {
         return new Document()
-                .append("_id", r.get_id() != null ? r.get_id() : new ObjectId())
+                .append("_id", r.get_id())
                 .append("id_purchase", r.getPurchaseID())
                 .append("dni_customer", r.getCustomerDNI())
                 .append("title", r.getTitle())

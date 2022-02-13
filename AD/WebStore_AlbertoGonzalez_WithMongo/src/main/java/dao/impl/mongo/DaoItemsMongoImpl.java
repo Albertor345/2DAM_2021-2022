@@ -235,7 +235,7 @@ public class DaoItemsMongoImpl implements DAOItems {
             MongoCollection<Document> customersCollection = db.getCollection("Customers");
 
             customersCollection.updateOne(eq("purchases.id_purchase", review.getPurchaseID()), set("purchases.$.review", null));
-            itemsCollection.updateOne(eq("reviews._id", review.get_id()), pull("reviews", Review.reviewToDocument(review)));
+            itemsCollection.updateOne(eq("reviews.id_purchase", review.getPurchaseID()), pull("reviews", eq("_id", review.get_id())));
             return true;
         } catch (Exception e) {
             log.error(e);

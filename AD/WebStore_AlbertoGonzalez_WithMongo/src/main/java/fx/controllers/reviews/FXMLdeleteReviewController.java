@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import model.Customer;
+import model.Purchase;
 import model.Review;
 
 import java.net.URL;
@@ -41,7 +42,7 @@ public class FXMLdeleteReviewController implements Initializable {
         if (!listViewReviews.getItems().isEmpty()) {
             listViewReviews.getItems().clear();
         }
-        listViewReviews.getItems().addAll(customer.getPurchases().stream().map(purchase -> purchase.getReview()).collect(Collectors.toList()));
+        listViewReviews.getItems().addAll(customer.getPurchases().stream().filter(purchase -> purchase.getReview() != null).map(Purchase::getReview).collect(Collectors.toList()));
     }
 
     @FXML

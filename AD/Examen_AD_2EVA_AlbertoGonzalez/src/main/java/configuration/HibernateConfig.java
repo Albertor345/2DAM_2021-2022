@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 public class HibernateConfig {
     private static SessionFactory ourSessionFactory;
 
+
     public HibernateConfig() {
         try {
             if(ourSessionFactory == null) {

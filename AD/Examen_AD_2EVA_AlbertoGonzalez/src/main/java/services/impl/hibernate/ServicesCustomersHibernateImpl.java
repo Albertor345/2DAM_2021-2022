@@ -9,7 +9,6 @@ import dao.DAOCustomers;
 import dao.impl.hibernate.DaoCustomersHibernateImpl;
 import services.ServicesCustomers;
 
-import javax.inject.Inject;
 import java.util.List;
 
 public class ServicesCustomersHibernateImpl implements ServicesCustomers {
@@ -38,11 +37,12 @@ public class ServicesCustomersHibernateImpl implements ServicesCustomers {
 
     @Override
     public List<String> getAll() {
+        daoCustomers.getAll();
         return null;
     }
 
     @Override
     public void get() {
-
+        daoCustomers.get();
     }
 }

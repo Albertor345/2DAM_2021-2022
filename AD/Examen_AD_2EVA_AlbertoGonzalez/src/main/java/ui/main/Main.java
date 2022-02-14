@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         ServicesCustomers servicesCustomersMongo = new ServicesCustomersMongoImpl();
         servicesCustomersMongo.get();
+        servicesCustomersMongo.getAll();
 
         ServicesCustomers servicesCustomersHibernate = new ServicesCustomersHibernateImpl();
         servicesCustomersHibernate.get();

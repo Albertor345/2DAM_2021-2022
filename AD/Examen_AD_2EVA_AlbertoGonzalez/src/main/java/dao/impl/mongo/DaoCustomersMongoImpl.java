@@ -1,5 +1,6 @@
 package dao.impl.mongo;
 
+import configuration.Config;
 import dao.DAOCustomers;
 import lombok.extern.log4j.Log4j2;
 
@@ -7,13 +8,20 @@ import java.util.List;
 
 @Log4j2
 public class DaoCustomersMongoImpl implements DAOCustomers {
+    private Config config;
+
+    public DaoCustomersMongoImpl() {
+        config = new Config();
+    }
+
     @Override
     public void get() {
-
+        System.out.println(config);
     }
 
     @Override
     public List<String> getAll() {
+        System.out.println(config);
         return null;
     }
 

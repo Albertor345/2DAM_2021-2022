@@ -16,10 +16,12 @@ public class DaoCustomersHibernateImpl implements DAOCustomers {
 
     @Override
     public void get() {
+        System.out.println(hibernateConfig);
     }
 
     @Override
     public List<String> getAll() {
+        System.out.println(hibernateConfig);
         return null;
     }
 

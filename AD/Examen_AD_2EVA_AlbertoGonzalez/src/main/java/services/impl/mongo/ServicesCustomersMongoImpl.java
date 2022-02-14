@@ -9,7 +9,6 @@ import dao.DAOCustomers;
 import dao.impl.mongo.DaoCustomersMongoImpl;
 import services.ServicesCustomers;
 
-import javax.inject.Inject;
 import java.util.List;
 
 public class ServicesCustomersMongoImpl implements ServicesCustomers {
@@ -37,11 +36,11 @@ public class ServicesCustomersMongoImpl implements ServicesCustomers {
 
     @Override
     public List<String> getAll() {
-        return null;
+        return daoCustomers.getAll();
     }
 
     @Override
     public void get() {
-
+        daoCustomers.get();
     }
 }

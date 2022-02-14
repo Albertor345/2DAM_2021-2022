@@ -23,9 +23,11 @@ public class Config {
 
     public Config() {
         try {
-            properties = new Properties();
-            properties.loadFromXML(new FileInputStream("properties/settings.xml"));
-            System.out.println("config done");
+            if (properties == null) {
+                properties = new Properties();
+                properties.loadFromXML(new FileInputStream("properties/settings.xml"));
+                System.out.println("config done");
+            }
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }

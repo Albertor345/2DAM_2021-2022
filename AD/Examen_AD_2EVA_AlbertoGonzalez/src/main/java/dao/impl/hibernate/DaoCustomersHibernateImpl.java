@@ -4,18 +4,18 @@ import configuration.HibernateConfig;
 import dao.DAOCustomers;
 import lombok.extern.log4j.Log4j2;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @Log4j2
 public class DaoCustomersHibernateImpl implements DAOCustomers {
-    @Inject
     private HibernateConfig hibernateConfig;
 
+    public DaoCustomersHibernateImpl() {
+        this.hibernateConfig = new HibernateConfig();
+    }
 
     @Override
     public void get() {
-        hibernateConfig.getSession();
     }
 
     @Override

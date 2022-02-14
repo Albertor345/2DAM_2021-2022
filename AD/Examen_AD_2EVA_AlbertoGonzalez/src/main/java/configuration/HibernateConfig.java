@@ -13,17 +13,20 @@ public class HibernateConfig {
 
     public HibernateConfig() {
         try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
+            if(ourSessionFactory == null) {
+                Configuration configuration = new Configuration();
+                configuration.configure();
 
-            ourSessionFactory = configuration.buildSessionFactory();
-            System.out.println("hibernate config done");
+                ourSessionFactory = configuration.buildSessionFactory();
+                System.out.println("hibernate config done");
+            }
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);
         }
     }
 
     public  Session getSession() throws HibernateException {
+        System.out.println(ourSessionFactory);
         return ourSessionFactory.openSession();
     }
 }

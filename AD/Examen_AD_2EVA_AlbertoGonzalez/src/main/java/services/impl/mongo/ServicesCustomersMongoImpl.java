@@ -6,6 +6,7 @@
 package services.impl.mongo;
 
 import dao.DAOCustomers;
+import dao.impl.mongo.DaoCustomersMongoImpl;
 import services.ServicesCustomers;
 
 import javax.inject.Inject;
@@ -13,9 +14,11 @@ import java.util.List;
 
 public class ServicesCustomersMongoImpl implements ServicesCustomers {
 
-    @Inject
     private DAOCustomers daoCustomers;
 
+    public ServicesCustomersMongoImpl() {
+        this.daoCustomers = new DaoCustomersMongoImpl();
+    }
 
     @Override
     public boolean add() {

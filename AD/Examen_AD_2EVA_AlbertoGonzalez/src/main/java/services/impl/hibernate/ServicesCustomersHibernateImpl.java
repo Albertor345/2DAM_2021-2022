@@ -6,6 +6,7 @@
 package services.impl.hibernate;
 
 import dao.DAOCustomers;
+import dao.impl.hibernate.DaoCustomersHibernateImpl;
 import services.ServicesCustomers;
 
 import javax.inject.Inject;
@@ -13,9 +14,12 @@ import java.util.List;
 
 public class ServicesCustomersHibernateImpl implements ServicesCustomers {
 
-    @Inject
+
     private DAOCustomers daoCustomers;
 
+    public ServicesCustomersHibernateImpl() {
+        this.daoCustomers = new DaoCustomersHibernateImpl();
+    }
 
     @Override
     public boolean add() {

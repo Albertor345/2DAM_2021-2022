@@ -13,12 +13,11 @@ public class Main {
 
     public static void main(String[] args) {
         ServicesCustomers servicesCustomersMongo = new ServicesCustomersMongoImpl();
-        DAOCustomers daoCustomersMongo = new DaoCustomersMongoImpl();
-        daoCustomersMongo.get();
+        servicesCustomersMongo.get();
 
         ServicesCustomers servicesCustomersHibernate = new ServicesCustomersHibernateImpl();
-        DAOCustomers daoCustomersHibernate = new DaoCustomersHibernateImpl();
-        daoCustomersHibernate.get();
+        servicesCustomersHibernate.get();
+        servicesCustomersHibernate.getAll();
 
     }
 }

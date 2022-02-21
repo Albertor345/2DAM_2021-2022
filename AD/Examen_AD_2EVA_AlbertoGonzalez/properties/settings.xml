@@ -3,12 +3,6 @@
 
 <!--MongoDB-->
 <properties>
-    <entry key="urlDB">mongodb://informatica.iesquevedo.es:2323</entry>
-    <entry key="dbName">AlbertoWebStore</entry>
-
-<!--Hibernate-->
-    <entry key="db_user">root</entry>
-    <entry key="db_password">quevedo2dam</entry>
-    <entry key="db_driver">com.mysql.cj.jdbc.Driver</entry>
-    <entry key="urlDB">jdbc:mysql://dam2.mysql.iesquevedo.es:3335/alberto_WebStore</entry>
+    <entry key="urlDB">mongodb://root:root@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false</entry>
+    <entry key="dbName">Examen_AD_2EVA</entry>
 </properties>

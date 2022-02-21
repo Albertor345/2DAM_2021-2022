@@ -7,8 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Examen_AD_2EVA_AlbertoGonzalez" />
-        <module name="ProyectoFX_simple" />
+        <module name="Examen_AD_2eva_AlbertoGonzalez" />
       </profile>
     </annotationProcessing>
   </component>

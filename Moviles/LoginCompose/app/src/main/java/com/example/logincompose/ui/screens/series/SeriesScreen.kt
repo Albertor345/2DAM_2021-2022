@@ -53,7 +53,7 @@ fun SeriesScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = { onPopBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, "backIcon")
+                        Icon(Icons.Filled.ArrowBack, null)
                     }
                 },
                 actions = {
@@ -68,7 +68,7 @@ fun SeriesScreen(
                                 textState.value = TextFieldValue(" ")
                             }
                         ) {
-                            Icon(Icons.Filled.Search, contentDescription = "")
+                            Icon(Icons.Filled.Search, contentDescription = null)
                         }
                     }
 

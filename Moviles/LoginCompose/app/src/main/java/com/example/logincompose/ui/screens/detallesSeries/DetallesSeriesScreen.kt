@@ -19,10 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.logincompose.R
-import com.example.logincompose.ui.screens.detallesPeliculas.DetallesPeliculasContract
 
 @Composable
 fun DetallesSeriesScreen(
@@ -65,7 +63,7 @@ fun DetallesSeriesScreen(
             )
         },
     ) {
-        Column() {
+        Column {
             if (serie != null) {
                 Image(
                     painter = rememberImagePainter(serie.imagePath),

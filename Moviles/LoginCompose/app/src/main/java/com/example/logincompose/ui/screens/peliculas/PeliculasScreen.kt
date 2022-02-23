@@ -77,7 +77,7 @@ fun PeliculasScreen(
                 elevation = 10.dp
             )
         }) {
-        Column() {
+        Column {
             LazyColumn(modifier = Modifier.weight(15F)) {
                 items(uiState.value.items) { data ->
                     Card(
@@ -88,12 +88,12 @@ fun PeliculasScreen(
                             .height(200.dp)
                             .padding(5.dp)
                     ) {
-                        Row() {
+                        Row {
                             Image(
                                 painter = rememberImagePainter(data.imagePath),
                                 contentDescription = null
                             )
-                            Column() {
+                            Column {
                                 Text(
                                     text = requireNotNull(data.name),
                                     textAlign = TextAlign.Center,

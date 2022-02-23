@@ -73,7 +73,7 @@ fun FavoritosScreen(
             )
         },
         drawerContent = {
-            Column() {
+            Column{
                 Box(
                     modifier = Modifier
                         .height(50.dp)
@@ -95,7 +95,7 @@ fun FavoritosScreen(
                         selected = false,
                         onClick = { onNavigation(NavItem.Peliculas) },
                         icon = {
-                            Box() {
+                            Box {
                                 Image(
                                     bitmap = BitmapFactory.decodeStream(
                                         context.assets.open(
@@ -128,7 +128,7 @@ fun FavoritosScreen(
                         selected = false,
                         onClick = { onNavigation(NavItem.Series) },
                         icon = {
-                            Box() {
+                            Box {
                                 Image(
                                     bitmap = BitmapFactory.decodeStream(
                                         context.assets.open(
@@ -161,7 +161,7 @@ fun FavoritosScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         if (uiState.value.items.isNotEmpty()) {
-            LazyColumn() {
+            LazyColumn {
                 items(uiState.value.items) { data ->
                     Card(
                         modifier = Modifier
@@ -175,12 +175,12 @@ fun FavoritosScreen(
                                 color = if (data is ItemUI.PeliculaUI) Orange else Color.Magenta
                             )
                     ) {
-                        Row() {
+                        Row {
                             Image(
                                 painter = rememberImagePainter(data.imagePath),
                                 contentDescription = null
                             )
-                            Column() {
+                            Column {
                                 Text(
                                     text = requireNotNull(data.name),
                                     textAlign = TextAlign.Center,
@@ -209,8 +209,8 @@ fun FavoritosScreen(
                 }
             }
         } else {
-            Column() {
-                Box() {
+            Column {
+                Box {
                     Image(
                         bitmap = BitmapFactory.decodeStream(context.assets.open(stringResource(R.string.cajita_con_estrellas_route)))
                             .asImageBitmap(),

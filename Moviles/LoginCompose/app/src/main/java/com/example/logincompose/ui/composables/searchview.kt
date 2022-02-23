@@ -31,7 +31,7 @@ fun SearchView(
         leadingIcon = {
             Icon(
                 Icons.Default.Search,
-                contentDescription = ""
+                contentDescription = null
             )
         },
         trailingIcon = {
@@ -39,18 +39,18 @@ fun SearchView(
                 IconButton(
                     onClick = {
                         textState.value =
-                            TextFieldValue("") // Remove text from TextField when you press the 'X' icon
+                            TextFieldValue("")
                     }
                 ) {
                     Icon(
                         Icons.Default.Close,
-                        contentDescription = ""
+                        contentDescription = null
                     )
                 }
             }
         },
         singleLine = true,
-        shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
+        shape = RectangleShape,
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
             cursorColor = Color.White,

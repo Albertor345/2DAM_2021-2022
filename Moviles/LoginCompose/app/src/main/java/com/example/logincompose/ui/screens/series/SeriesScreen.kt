@@ -28,7 +28,6 @@ import coil.compose.rememberImagePainter
 import com.example.logincompose.R
 import com.example.logincompose.ui.composables.SearchView
 import com.example.logincompose.ui.model.ItemUI
-import com.example.logincompose.ui.navigation.NavItem
 import com.example.logincompose.ui.theme.Orange
 
 @Composable
@@ -78,7 +77,7 @@ fun SeriesScreen(
                 elevation = 10.dp
             )
         }) {
-        Column() {
+        Column {
             LazyColumn(modifier = Modifier.weight(15F)) {
                 items(uiState.value.items) { data ->
                     Card(
@@ -89,12 +88,12 @@ fun SeriesScreen(
                             .height(200.dp)
                             .padding(5.dp)
                     ) {
-                        Row() {
+                        Row {
                             Image(
                                 painter = rememberImagePainter(data.imagePath),
                                 contentDescription = null
                             )
-                            Column() {
+                            Column {
                                 Text(
                                     text = requireNotNull(data.name),
                                     textAlign = TextAlign.Center,

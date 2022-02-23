@@ -63,7 +63,7 @@ fun DetallesPeliculasScreen(
             )
         },
     ) {
-        Column() {
+        Column {
             if (pelicula != null) {
                 Image(
                     painter = rememberImagePainter(pelicula.imagePath),

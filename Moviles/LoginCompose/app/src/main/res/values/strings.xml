@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">FirstCompose</string>
+    <string name="app_name">LoginCompose</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="favoritos_screen_name">Listado de Favoritos</string>
+    <string name="empty_favoritos_list_message">Parece que no tienes favoritos aun... Explora la app!!</string>
+    <string name="series_drawer_label">series</string>
+    <string name="peliculas_drawer_label">peliculas</string>
+    <string name="peliculas_screen_name">Listado de Peliculas</string>
+    <string name="series_screen_name">Listado de Series</string>
+    <string name="drawer_top_title">Sitios</string>
+    <string name="upcoming_films_button_text">UPCOMING</string>
+    <string name="top_rated_button_text">TOP RATED</string>
+    <string name="cajita_con_estrellas_route">images/cajita_con_estrellas.png</string>
+    <string name="series_drawer_image_route">images/series-icon-png.png</string>
+    <string name="peliculas_drawer_image_route">images/movies-icon-png.png</string>
 </resources>

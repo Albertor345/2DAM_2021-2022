@@ -1,0 +1,16 @@
+[{
+  "_id": "00000002S",
+  "password": "root",
+  "user_type": "admin",
+  "name": "root"
+},{
+  "_id": "51924929E",
+  "name": "Esmeralda Caño",
+  "password": "Esmeralda Caño",
+  "user_type": "customer"
+},{
+  "_id": "079931T",
+  "name": "Alberto Gonzalez",
+  "password": "Alberto Gonzalez",
+  "user_type": "customer"
+}]

@@ -1,0 +1,67 @@
+[{
+  "_id": "51924929E",
+  "name": "Esmeralda Caño",
+  "contact_info": {
+    "address": "Cabo de Tarifa 82",
+    "phone": "624523829"
+  },
+  "purchases": [
+    {
+      "id_purchase": "0x1.75ab0af37a2a2p-1",
+      "dni_customer": "51924929E",
+      "id_item": "6207fb30b54a6559763d0396",
+      "name_item": "Windows 11",
+      "date": {
+        "$date": "2022-02-10T00:00:00Z"
+      }
+    },
+    {
+      "id_purchase": "6jY8n1g=",
+      "dni_customer": "51924929E",
+      "id_item": "6207fb5cb54a6559763d0398",
+      "name_item": "Mouse G502 SE Hero",
+      "date": null
+    }
+  ]
+},{
+  "_id": "079931T",
+  "name": "Alberto Gonzalez",
+  "contact_info": {
+    "address": "San Cipriano 92",
+    "phone": "637318276"
+  },
+  "purchases": [
+    {
+      "id_purchase": "0x1.0f604adfc5f31p-1",
+      "dni_customer": "079931T",
+      "id_item": "6207fb07b54a6559763d0390",
+      "name_item": "Headphones",
+      "date": {
+        "$date": "2022-02-04T00:00:00Z"
+      },
+      "review": {
+        "_id": {
+          "$oid": "62085caa24e8b644feea708c"
+        },
+        "id_purchase": "0x1.0f604adfc5f31p-1",
+        "dni_customer": "079931T",
+        "title": "Buenos cascos",
+        "description": "furulan bien",
+        "rate": 4,
+        "date": {
+          "$date": "2022-02-13T00:00:00Z"
+        }
+      }
+    },
+    {
+      "id_purchase": "l-AJlGg=",
+      "dni_customer": "079931T",
+      "id_item": "6207fb30b54a6559763d0396",
+      "name_item": "Windows 11",
+      "date": {
+        "$date": "2022-02-08T00:00:00Z"
+      },
+      "review": null
+    }
+  ]
+}]

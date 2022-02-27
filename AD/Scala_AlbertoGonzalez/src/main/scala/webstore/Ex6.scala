@@ -36,12 +36,4 @@ object Ex6 extends App {
     .filter($"user_type".equalTo("admin"))
     .show(false)
 
-   /* .select(col("*"), explode($"subjects").as("subject")).drop("subjects")
-    .withColumn("calls", $"subject.calls").withColumn("nombreAsig", $"subject.name")
-    .select(col("*"), element_at(reverse(array_sort($"calls")), 1).as("notas"))
-    .withColumn("con", col("notas.call.$numberInt").cast("Int"))
-    .withColumn("nota", col("notas.mark.$numberInt").cast("Int"))
-    .filter(col("nota").geq(5))
-    .stat.crosstab("nombreAsig", "con").show(false)*/
-
 }

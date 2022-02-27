@@ -27,6 +27,9 @@ object Ex6 extends App {
   def lookup(lookupMap: Map[String, (String, String, String)]) =
     udf((_id: String) => lookupMap.get(_id))
 
+
+  //This shows those USERS who are not a CUSTOMER, because in my model there cant be any customer who's not an user
+
   users
     .withColumn("lookup", lookup(lookupMap)($"_id"))
     .withColumn("CustomerName", $"lookup._1")
